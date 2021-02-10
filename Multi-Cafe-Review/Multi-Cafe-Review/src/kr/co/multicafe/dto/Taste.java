@@ -6,6 +6,7 @@ public class Taste {
 	private double sweet;
 	private double bitter;
 	private double sour;
+	
 	public int getTasteId() {
 		return tasteId;
 	}

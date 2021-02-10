@@ -4,7 +4,14 @@ public class Recent {
 	
 	private int recentId;
 	private String userId;
+	private int menuId;
 	
+	public int getMenuId() {
+		return menuId;
+	}
+	public void setMenuId(int menuId) {
+		this.menuId = menuId;
+	}
 	public int getRecentId() {
 		return recentId;
 	}
@@ -19,7 +26,7 @@ public class Recent {
 	}
 	@Override
 	public String toString() {
-		return "Recent [recentId=" + recentId + ", userId=" + userId + "]";
+		return "Recent [recentId=" + recentId + ", userId=" + userId + ", menuId=" + menuId + "]";
 	}
 
 }

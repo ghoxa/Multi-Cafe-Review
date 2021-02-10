@@ -9,6 +9,7 @@ public class Users {
 	private String address;
 	private int tasteId;
 	private int joinDate;
+	
 	@Override
 	public String toString() {
 		return "Users [userId=" + userId + ", pwd=" + pwd + ", phone=" + phone + ", email=" + email + ", address="

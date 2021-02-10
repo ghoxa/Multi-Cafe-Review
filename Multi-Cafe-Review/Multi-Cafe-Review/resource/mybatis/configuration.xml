@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="kr.co.multicafe.dto.Admin" alias="Admin"/>
+		<typeAlias type="kr.co.multicafe.dto.Cafe" alias="Cafe"/>
+		<typeAlias type="kr.co.multicafe.dto.Category" alias="Category"/>
+		<typeAlias type="kr.co.multicafe.dto.Likes" alias="Likes"/>
+		<typeAlias type="kr.co.multicafe.dto.Menu" alias="Menu"/>
+		<typeAlias type="kr.co.multicafe.dto.Recent" alias="Recent"/>
+		<typeAlias type="kr.co.multicafe.dto.Review" alias="Review"/>
+		<typeAlias type="kr.co.multicafe.dto.Taste" alias="Taste"/>
+		<typeAlias type="kr.co.multicafe.dto.Users" alias="Users"/>
+	</typeAliases>
+
+</configuration>
