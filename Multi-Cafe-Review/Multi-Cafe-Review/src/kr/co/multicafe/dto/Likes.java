@@ -4,6 +4,7 @@ public class Likes {
 	
 	private int likeId;
 	private String userId;
+	private int menuId;
 	
 	public int getLikeId() {
 		return likeId;

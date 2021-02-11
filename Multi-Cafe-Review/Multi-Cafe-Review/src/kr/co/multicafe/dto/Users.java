@@ -9,6 +9,9 @@ public class Users {
 	private String address;
 	private int tasteId;
 	private int joinDate;
+	private double sweet;
+	private double bitter;
+	private double sour;
 	
 	@Override
 	public String toString() {

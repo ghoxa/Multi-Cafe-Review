@@ -10,6 +10,9 @@ public class Review {
 	private String userId;
 	private int menuId;
 	private int tasteId;
+	private double sweet;
+	private double bitter;
+	private double sour;
 	
 	public int getReviewId() {
 		return reviewId;
