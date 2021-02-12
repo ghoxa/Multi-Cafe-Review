@@ -11,12 +11,44 @@ public class Menu {
 	private String image;
 	private int good;
 	private int click;
-	private boolean hot;
-	private boolean ice;
+	private int hot;
+	private int ice;
 	private int categoryId;
 	private int cafeId;
-	private int tasteId;
+	private double sweet;
+	private double bitter;
+	private double sour;
 	
+	public double getSweet() {
+		return sweet;
+	}
+	public void setSweet(double sweet) {
+		this.sweet = sweet;
+	}
+	public double getBitter() {
+		return bitter;
+	}
+	public void setBitter(double bitter) {
+		this.bitter = bitter;
+	}
+	public double getSour() {
+		return sour;
+	}
+	public void setSour(double sour) {
+		this.sour = sour;
+	}
+	public int getHot() {
+		return hot;
+	}
+	public void setHot(int hot) {
+		this.hot = hot;
+	}
+	public int getIce() {
+		return ice;
+	}
+	public void setIce(int ice) {
+		this.ice = ice;
+	}
 	public int getMenuId() {
 		return menuId;
 	}
@@ -71,18 +103,6 @@ public class Menu {
 	public void setClick(int click) {
 		this.click = click;
 	}
-	public boolean isHot() {
-		return hot;
-	}
-	public void setHot(boolean hot) {
-		this.hot = hot;
-	}
-	public boolean isIce() {
-		return ice;
-	}
-	public void setIce(boolean ice) {
-		this.ice = ice;
-	}
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -95,18 +115,12 @@ public class Menu {
 	public void setCafeId(int cafeId) {
 		this.cafeId = cafeId;
 	}
-	public int getTasteId() {
-		return tasteId;
-	}
-	public void setTasteId(int tasteId) {
-		this.tasteId = tasteId;
-	}
 	@Override
 	public String toString() {
 		return "Menu [menuId=" + menuId + ", name=" + name + ", price=" + price + ", description=" + description
 				+ ", grade=" + grade + ", keyword=" + keyword + ", image=" + image + ", good=" + good + ", click="
 				+ click + ", hot=" + hot + ", ice=" + ice + ", categoryId=" + categoryId + ", cafeId=" + cafeId
-				+ ", tasteId=" + tasteId + "]";
+				+ ", sweet=" + sweet + ", bitter=" + bitter + ", sour=" + sour + "]";
 	}
 
 }

@@ -1,5 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.multicafe.dao.MenuMapper">
-
+	<resultMap type="Menu" id="menu_resultMap">
+		<result column="menu_id" property="menuId"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="cafe_id" property="cafeId"/>
+	</resultMap>
+	
+	<insert id="insertMenu" parameterType="Menu">
+		insert into menu(menu_id, name, price, description, keyword, image, hot, ice, category_id, cafe_id)
+		values (menu_seq.nextval, #{name}, #{price}, #{description}, #{keyword}, #{image}, #{hot}, #{ice}, #{categoryId}, #{cafeId})
+	</insert>
+	
+	<update id="updateMenu" parameterType="Menu">
+		update menu set name=#{name}, price=#{price}, description=#{description}, keyword=#{keyword}, image=#{image}
+		where menu_id=#{menuId}
+	</update>
+	
+	<delete id="deleteMenu" parameterType="int">
+		delete from menu where menu_id=#{menuId}
+	</delete>
+	
+	<select id="getMenu" parameterType="int" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from menu
+		where menu_id=#{menuId}
+	</select>
+	
+	<select id="listViewMenuByCondition" parameterType="java.lang.String" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from menu
+		order by #{condition} desc
+	</select>
+	
+	<select id="listViewCafeMenuByCondition" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour from menu where cafe_id=#{cafeId})
+		order by #{condition} desc
+	</select>
+	
+	<select id="listViewCategoryMenuByCondition" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour from menu where category_id=#{categoryId})
+		order by #{condition} desc
+	</select>
+	
+	<select id="listViewCafeMenu" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from menu where cafe_id=#{cafeId}
+	</select>
+	
+	<select id="listViewCategoryMenu" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from menu where category_id=#{categoryId}
+	</select>
+	
+	<select id="listViewCafeMenuByCategory" parameterType="int" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from menu where cafe_id=#{cafeId} and category_id=#{categoryId}
+	</select>
+	
+	<select id="searchMenu" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from menu
+		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
+	</select>
+	
+	<select id="searchCafeMenu" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour from menu where cafe_id=#{cafeId})
+		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
+	</select>
+	
+	<update id="addGood" parameterType="int">
+		update menu set good=good+1 where menu_id=#{menuId}
+	</update>
+	
+	<update id="deleteGood" parameterType="int">
+		update menu set good=good-1 where menu_id=#{menuId}
+	</update>
+	
+	<update id="updateMenuTaste" parameterType="int">
+		update menu set (sweet, bitter, sour)=(select avg(sweet), avg(bitter), avg(sour) from review where menu_id=#{menuId}) where menu_id=#{menuId}
+	</update>
+	
+	<update id="updateMenuGrade" parameterType="int">
+		update menu set grade=(select avg(grade) from review where menu_id=#{menuId}) where menu_id=#{menuId}
+	</update>
 </mapper>
