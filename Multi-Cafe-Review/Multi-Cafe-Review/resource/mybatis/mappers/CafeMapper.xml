@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.multicafe.dao.CafeMapper">
+
+	<resultMap type="Cafe" id="cafe_resultMap">
+		<result column="cafe_id" property="cafeId"/>
+	</resultMap>
+	
+	<!-- ListView -->
+	<select id="listViewCafe" resultMap="cafe_resultMap">
+		select cafe_id, name from cafe
+	</select>
+	
+	<!-- Get -->
+	<select id="getCafe" parameterType="java.lang.Integer" resultMap="cafe_resultMap">
+		select cafe_id, name from cafe where cafe_id = #{cafeId}
+	</select>
+	
+	<!-- Insert -->
+	<insert id="insertCafe" parameterType="Cafe">
+		insert into cafe values(#{cafeId},#{name})
+	</insert>
+	
+	<!-- Delete -->	
+	<delete id="deleteCafe" parameterType="java.lang.Integer" >
+		delete from cafe where cafe_id = #{cafeId}
+	</delete>
+	
+	
+	
+</mapper>

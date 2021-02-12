@@ -7,7 +7,6 @@ public class Users {
 	private String phone;
 	private String email;
 	private String address;
-	private int tasteId;
 	private int joinDate;
 	private double sweet;
 	private double bitter;
@@ -16,7 +15,7 @@ public class Users {
 	@Override
 	public String toString() {
 		return "Users [userId=" + userId + ", pwd=" + pwd + ", phone=" + phone + ", email=" + email + ", address="
-				+ address + ", tasteId=" + tasteId + ", joinDate=" + joinDate + "]";
+				+ address + ", joinDate=" + joinDate + "]";
 	}
 	public String getUserId() {
 		return userId;
@@ -48,12 +47,7 @@ public class Users {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getTasteId() {
-		return tasteId;
-	}
-	public void setTasteId(int tasteId) {
-		this.tasteId = tasteId;
-	}
+
 	public int getJoinDate() {
 		return joinDate;
 	}

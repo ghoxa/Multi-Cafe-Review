@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.multicafe.dao.CategoryMapper">
+	<resultMap type="Category" id="category_resultMap">
+		<result column="category_id" property="categoryId"/>
+	</resultMap>
+
+	<!-- ListView -->
+	<select id="listViewCategory" resultMap="category_resultMap">
+		select category_id, name from category
+	</select>
+	
+	<!-- Get -->
+	<select id="getCategory" parameterType="java.lang.Integer" resultMap="category_resultMap">
+		select category_id, name from category where category_id = #{categoryId}
+	</select>
+	
+</mapper>

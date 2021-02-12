@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.multicafe.dao.UsersMapper">
+	<resultMap type="Users" id="users_resultMap">
+		<result column="user_id" property="userId"/>
+	</resultMap>
+	
+	<!-- Insert -->
+	<insert id="insertUser" parameterType="Users" >
+		insert into users values(#{userId},#{pwd},#{phone},#{email},#{address},#{tasteId},#{joinDate})
+	</insert>
+	
+	<!-- Update -->
+	<update id="updateUser" parameterType="Users">
+		update users set pwd=#{pwd}, phone=#{phone}, email=#{email}, address=#{address}, taste_id=#{tasteId}, join_date={joinDate} where user_id=#{userId}
+	</update>
+	
+	<!-- Delete -->	
+	<delete id="deleteUser" parameterType="java.lang.String" >
+		delete from users where user_id = #{userId}
+	</delete>
+</mapper>
