@@ -10,5 +10,5 @@ import kr.co.multicafe.dto.Category;
 @Mapper
 public interface CategoryMapper {
 	public List<Category> listViewCategory();
-	public Category getCategory(int category_id);
+	public Category getCategory(int categoryId);
 }

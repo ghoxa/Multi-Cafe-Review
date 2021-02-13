@@ -18,7 +18,7 @@
 	
 	<!-- Insert -->
 	<insert id="insertCafe" parameterType="Cafe">
-		insert into cafe values(#{cafeId},#{name})
+		insert into cafe(cafe_id,name) values(#{cafeId},#{name})
 	</insert>
 	
 	<!-- Delete -->	

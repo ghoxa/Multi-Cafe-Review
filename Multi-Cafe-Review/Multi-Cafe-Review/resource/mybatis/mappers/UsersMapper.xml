@@ -7,7 +7,7 @@
 	
 	<!-- Insert -->
 	<insert id="insertUser" parameterType="Users" >
-		insert into users values(#{userId},#{pwd},#{phone},#{email},#{address},#{tasteId},#{joinDate})
+		insert into users(user_id,pwd,phone,email,address,sweet,bitter,sour) values(#{userId},#{pwd},#{phone},#{email},#{address},#{joinDate},#{sweet},#{bitter},#{sour})
 	</insert>
 	
 	<!-- Update -->
