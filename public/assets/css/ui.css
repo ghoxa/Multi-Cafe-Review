@@ -916,6 +916,7 @@ a[class*=card]:hover .title {
 
 /* LARGE LIST STYLE PRODUCT ITEM */
 .card-product-list {
+  width: 15rem;
   margin-bottom: 20px;
 }
 .card-product-list .img-wrap {
@@ -1414,5 +1415,6 @@ a[class*=card]:hover .title {
   margin-right: 5px;
   display: block;
 }
+
 
 /*# sourceMappingURL=ui.css.map */

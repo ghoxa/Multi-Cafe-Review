@@ -481,7 +481,7 @@ mark,
 }
 
 .img-fluid {
-  max-width: 100%;
+  width: auto;
   height: auto;
 }
 
@@ -4345,7 +4345,22 @@ input[type=button].btn-block {
 .card {
   position: relative;
   display: flex;
-  flex-direction: column;
+  -ms-flex-direction:column;
+  flex-direction:column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.37rem;
+  width: 15rem;
+}
+
+.cardmypage {
+  position: relative;
+  display: flex;
+  -ms-flex-direction:column;
+  flex-direction:column;
   min-width: 0;
   word-wrap: break-word;
   background-color: #fff;
@@ -4353,6 +4368,7 @@ input[type=button].btn-block {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.37rem;
 }
+
 .card > hr {
   margin-right: 0;
   margin-left: 0;
@@ -4536,6 +4552,7 @@ input[type=button].btn-block {
     width: 100%;
   }
 }
+
 
 .accordion > .card {
   overflow: hidden;
@@ -10151,5 +10168,7 @@ h3 {
     border-color: #dee2e6;
   }
 }
-
+.cafeImg{
+  width: 100px;
+}
 /*# sourceMappingURL=bootstrap.css.map */
