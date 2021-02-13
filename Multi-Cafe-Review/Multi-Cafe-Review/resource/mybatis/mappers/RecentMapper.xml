@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.multicafe.dao.RecentMapper">
-	<resultMap type="Recent" id="recent_resultMap">
-		<result column="recent_id" property="recentId"/>
-		<result column="user_id" property="userId"/>
+	<resultMap type="Menu" id="menu_resultMap">
 		<result column="menu_id" property="menuId"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="cafe_id" property="cafeId"/>
 	</resultMap>
 	
 	<!-- ListView -->
-	<select id="listViewRecent" resultMap="likes_resultMap">
-		select from recent where user_id=#{userId}))
+	<select id="listViewRecent" parameterType="int" resultMap="menu_resultMap">
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
+		from recent r, menu m 
+		where r.menu_id=m.menu_id and r.user_id=#{userId}
 	</select>
 	
 	<!-- Insert -->
-	<insert id="insertRecent" parameterType="java.lang.Integer">
-		<selectKey keyProperty="recentId" resultType="Integer" order="BEFORE">
-			select recent_seq.nextval from dual
-		</selectKey>
-		insert into recent values(#{recentId}, #{userId}, #{menuId})
+	<insert id="insertRecent" parameterType="int">
+		insert into recent(recent_id, menu_id, user_id)
+		values (recent_seq.nextval, #{menuId}, #{userId})
 	</insert>
 </mapper>

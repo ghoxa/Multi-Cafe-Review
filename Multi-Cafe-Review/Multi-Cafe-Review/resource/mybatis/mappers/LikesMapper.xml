@@ -2,15 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.multicafe.dao.LikesMapper">
 
-	<resultMap type="Menu" id="likes_resultMap">
+	<resultMap type="Menu" id="menu_resultMap">
 		<result column="menu_id" property="menuId"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="cafe_id" property="cafeId"/>
 	</resultMap>
 	
 	<!-- ListView -->
-	<select id="listViewLike" parameterType="java.lang.Integer" resultMap="likes_resultMap">
+	<select id="listViewLike" parameterType="int" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
 		from likes l, menu m 
-		where l.menu_id=m.menu_id
+		where l.menu_id=m.menu_id and l.user_id=#{userId}
 	</select>
 	
 	<!-- Insert -->
