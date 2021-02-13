@@ -1,0 +1,47 @@
+h2 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 15px;
+    text-align: center;
+}
+
+.ratingForm {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+    border: 1px solid gray;
+    border-radius: 25px;
+    width: 50%;
+}
+
+.taste {
+    display: inline-flex;
+    margin-top: 10px;
+    padding: 20px;
+}
+
+.rating {
+    border : 2px solid black;
+}
+    
+.font {
+    font-weight: bold;
+    font-size: large;
+    padding: 0 15px;
+}
+
+.inputbox {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.head {
+    font-weight: bold;
+    font-size: large;
+}
+
+.content {
+    margin: 0 auto;
+    width: 50%;
+}
