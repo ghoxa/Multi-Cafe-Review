@@ -18,9 +18,16 @@ public class Likes {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	public int getMenuId() {
+		return menuId;
+	}
+	public void setMenuId(int menuId) {
+		this.menuId = menuId;
+	}
 	@Override
 	public String toString() {
-		return "Likes [likeId=" + likeId + ", userId=" + userId + "]";
+		return "Likes [likeId=" + likeId + ", userId=" + userId + ", menuId=" + menuId + "]";
 	}
+	
 
 }

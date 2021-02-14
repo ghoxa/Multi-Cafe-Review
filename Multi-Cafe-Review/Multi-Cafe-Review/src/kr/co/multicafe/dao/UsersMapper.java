@@ -1,6 +1,7 @@
 package kr.co.multicafe.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.co.multicafe.dto.Users;
 
@@ -9,4 +10,5 @@ public interface UsersMapper {
 	public int insertUser(Users user);
 	public int updateUser(Users user);
 	public int deleteUser(String userId);
+	public Users login(@Param("userId") String userId, @Param("pwd") int pwd);
 }

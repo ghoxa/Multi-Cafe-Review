@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import kr.co.multicafe.common.utils.UserUtil;
 import kr.co.multicafe.dto.Menu;
+import kr.co.multicafe.dto.Users;
 import kr.co.multicafe.service.MenuService;
 
 @RestController
@@ -87,18 +90,19 @@ public class MenuRestController {
 		return menuService.searchCafeMenu(cafeId, keyword);
 	}
 	
-	@PutMapping("/good")
-	public void updateGood(int menuId) {
-		menuService.updateGood(menuId);
+	@PutMapping("/{menuId}/good")
+	public void updateGood(@SessionAttribute("users") Users users, @PathVariable int menuId) {
+//		menuService.insertOrDeleteLike(UserUtil.getCurrentUserId(), menuId);
+		menuService.insertOrDeleteLike(users.getUserId(), menuId);
 	}
 	
-	@PutMapping("/taste")
-	public int updateMenuTaste(int menuId) {
+	@PutMapping("/{menuId}/taste")
+	public int updateMenuTaste(@PathVariable int menuId) {
 		return menuService.updateMenuTaste(menuId);
 	}
 	
-	@PutMapping("/grade")
-	public int updateMenuGrade(int menuId) {
+	@PutMapping("/{menuId}/grade")
+	public int updateMenuGrade(@PathVariable int menuId) {
 		return menuService.updateMenuGrade(menuId);
 	}
 

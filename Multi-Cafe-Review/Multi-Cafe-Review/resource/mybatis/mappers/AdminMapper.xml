@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.multicafe.dao.UsersMapper">
+	<resultMap type="Admin" id="admin_resultMap">
+		<result column="admin_id" property="adminId"/>
+	</resultMap>
+	
+	<select id="login" resultMap="admin_resultMap">
+		select admin_id, pwd
+		from admin
+		where admin_id=#{adminId} and pwd=#{pwd}
+	</select>
+</mapper>

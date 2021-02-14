@@ -15,6 +15,10 @@
 		where l.menu_id=m.menu_id and l.user_id=#{userId}
 	</select>
 	
+	<select id="getLike" resultType="Likes">
+		select like_id, user_id, menu_id from likes where user_id=#{userId} and menu_id=#{menuId}
+	</select>
+	
 	<!-- Insert -->
 	<insert id="insertLike" parameterType="Likes">
 		<selectKey keyProperty="likeId" resultType="Integer" order="BEFORE">

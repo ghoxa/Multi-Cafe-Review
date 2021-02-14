@@ -77,8 +77,12 @@
 		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
 	</select>
 	
-	<update id="updateGood" parameterType="int">
-		update menu set good=good+#{n} where menu_id=#{menuId}
+	<update id="addGood" parameterType="int">
+		update menu set good=good+1 where menu_id=#{menuId}
+	</update>
+	
+	<update id="minusGood" parameterType="int">
+		update menu set good=good-1 where menu_id=#{menuId}
 	</update>
 	
 	<update id="updateMenuTaste" parameterType="int">

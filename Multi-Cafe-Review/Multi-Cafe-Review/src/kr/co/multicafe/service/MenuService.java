@@ -6,15 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.multicafe.dao.LikesMapper;
 import kr.co.multicafe.dao.MenuMapper;
+import kr.co.multicafe.dto.Likes;
 import kr.co.multicafe.dto.Menu;
 
 @Service
 @Transactional
 public class MenuService {
-
+	
 	@Autowired
 	private MenuMapper menuMapper;
+	
+	@Autowired
+	private LikesMapper likesMapper;
 	
 	public int insertMenu(Menu menu) {
 		return menuMapper.insertMenu(menu);
@@ -68,16 +73,30 @@ public class MenuService {
 		return menuMapper.searchCafeMenu(cafeId, keyword);
 	}
 	
-	public void updateGood(int menuId) {
-		menuMapper.updateGood(menuId);
-	}
-	
 	public int updateMenuTaste(int menuId) {
 		return menuMapper.updateMenuTaste(menuId);
 	}
 	
 	public int updateMenuGrade(int menuId) {
 		return menuMapper.updateMenuGrade(menuId);
+	}
+
+	public List<Menu> listViewLike(String userId) {
+		return likesMapper.listViewLike(userId);
+	}
+	
+	@Transactional
+	public int insertOrDeleteLike(String userId, int menuId) {
+		Likes likes = likesMapper.getLike(userId, menuId);
+		if (likes == null) {
+			menuMapper.addGood(menuId);
+			likes.setUserId(userId);
+			likes.setMenuId(menuId);
+			return likesMapper.insertLike(likes);
+		} else {
+			menuMapper.minusGood(menuId);
+			return likesMapper.deleteLike(likes.getLikeId());
+		}
 	}
 	
 }

@@ -19,4 +19,10 @@
 	<delete id="deleteUser" parameterType="java.lang.String" >
 		delete from users where user_id = #{userId}
 	</delete>
+	
+	<select id="login" resultMap="users_resultMap">
+		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
+		from users
+		where user_id=#{userId} and pwd=#{pwd}
+	</select>
 </mapper>
