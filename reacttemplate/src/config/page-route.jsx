@@ -7,6 +7,8 @@ import Review from './../pages/review.jsx';
 import MyPage from './../pages/mypage.jsx';
 import WriteReview from '../pages/writereview.jsx';
 import Formpage from './../pages/formpage.jsx';
+import Admin_Insert from '../pages/admin_insert.jsx';
+import Admin_Update from '../pages/admin_update.jsx';
 
 const routes = [
   {
@@ -37,6 +39,14 @@ const routes = [
   {
     path: '/formpage',
     component: () => <Formpage />,
+  },
+  {
+    path: '/admin_insert',
+    component: () => <Admin_Insert />,
+  },
+  {
+    path: '/admin_update',
+    component: () => <Admin_Update />,
   },
 ];
 

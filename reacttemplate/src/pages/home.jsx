@@ -97,10 +97,14 @@ class Home extends React.Component {
                     <div className='card-body'>
                       <ul className='list-menu'>
                         <li>
-                          <a href='#'>메뉴 추가 </a>
+                          <Link to ="/admin_insert">
+                            메뉴 추가
+                          </Link>
                         </li>
                         <li>
-                          <a href='#'>메뉴 삭제 </a>
+                          <Link to ="/admin_update">
+                            메뉴 수정
+                          </Link>
                         </li>
                       </ul>
                     </div>

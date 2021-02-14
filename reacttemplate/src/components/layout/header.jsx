@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
 import cafeListJson from "./cafeList.json";
+import axios from "axios";
+import { ThemeProvider } from "react-bootstrap";
+
+const cafeList = "/api/cafe";
 
 class Header extends React.Component {
   constructor(props) {
@@ -13,8 +17,22 @@ class Header extends React.Component {
     };
   }
 
+  cafeLogoMount() {
+    Promise.all([axios.get(cafeList)])
+      .then(([res]) => {
+        this.setState({
+          Test: res.data,
+        });
+
+        console.log(this.state.Test);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
-    return (
+    return (      
       <div>
         <header className="section-header">
           <section className="header-main border-bottom">
@@ -85,8 +103,10 @@ class Header extends React.Component {
                   return (
                     <SwiperSlide>
                       <div>
-                        <img style={{width :100, height:100}}
-                          src={cafeListJson[i]["logoImg"]}
+                        <img
+                          className="rounded-circle"
+                          style={{ width: 100, height: 100 }}
+                          src={cafeListJson[i]["logoImg"]}               
                         />
                       </div>
                     </SwiperSlide>
