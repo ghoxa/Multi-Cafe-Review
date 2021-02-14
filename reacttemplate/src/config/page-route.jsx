@@ -4,9 +4,12 @@ import { Redirect } from 'react-router';
 import Home from './../pages/home.jsx';
 import Input from './../pages/input.jsx';
 import Review from './../pages/review.jsx';
-import MyPage from './../pages/mypage.jsx';
 import WriteReview from '../pages/writereview.jsx';
 import Formpage from './../pages/formpage.jsx';
+import MyReview from '../pages/myreview.jsx';
+import MyLike from '../pages/mylike.jsx';
+import MyRecent from '../pages/myrecent.jsx';
+import AdminPage from '../pages/adminpage.jsx';
 
 const routes = [
   {
@@ -27,10 +30,6 @@ const routes = [
     component: () => <Review />,
   },
   {
-    path: '/mypage',
-    component: () => <MyPage />,
-  },
-  {
     path: '/writereview',
     component: () => <WriteReview />,
   },
@@ -38,6 +37,23 @@ const routes = [
     path: '/formpage',
     component: () => <Formpage />,
   },
+  {
+    path: '/myreview',
+    component: () => <MyReview />,
+  },
+  {
+    path: '/mylike',
+    component: () => <MyLike />,
+  },
+  {
+    path: '/myrecent',
+    component: () => <MyRecent />,
+  },
+  {
+    path: '/adminpage',
+    component: () => <AdminPage />,
+  },
+
 ];
 
 export default routes;
