@@ -88,7 +88,7 @@ const data = [
 const options = {
   filterType: 'checkbox',
 };
-const TestUrl = 'https://www.everdevel.com/ReactJS/output-axios-data/jsonKey/';
+const TestUrl = '/api/cafe';
 class ReviewPage extends Component {
   // createListOfFiles() {
   //   let listOfFiles = [];
@@ -110,7 +110,7 @@ class ReviewPage extends Component {
     Promise.all([axios.get(TestUrl)])
       .then(([res]) => {
         this.setState({
-          Test: res.data.myDeviceData,
+          Test: res.data,
         });
 
         console.log(this.state.Test);
