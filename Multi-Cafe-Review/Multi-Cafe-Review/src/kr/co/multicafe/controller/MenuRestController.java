@@ -28,12 +28,12 @@ public class MenuRestController {
 	}
 	
 	@PutMapping
-	public int updateMenu(Menu menu) {
+	public int updateMenu(@RequestBody Menu menu) {
 		return menuService.updateMenu(menu);
 	}
 	
-	@DeleteMapping
-	public int deleteMenu(int menuId) {
+	@DeleteMapping("/{menuId}")
+	public int deleteMenu(@PathVariable int menuId) {
 		return menuService.deleteMenu(menuId);
 	}
 	
