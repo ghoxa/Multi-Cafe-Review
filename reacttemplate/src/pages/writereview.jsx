@@ -4,106 +4,167 @@ import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../Css/writeReview.module.css';
 import ReactStars from 'react-rating-stars-component';
+import axios from 'axios';
+
+const api = axios.create ({
+  baseURL: `https://localhost:3000/test`
+})
+
 
 class WriteReview extends Component {
   state = {
-    sweet: '',
-    sour: '',
-    bitter: '',
-    comment: '',
+    sweet: "",
+    sour: "",
+    bitter: "",
+    comment: "",
   };
 
-  handleChange = (e) => {
+  handleInputSweet = (rating) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      sweet: rating
     });
   };
-  /* 
-    handleSubmit = e => {
-        e.preventDefault();
-        this.props.onCreate(this.state);
-        this.setState({
-            comment:''
-        });
+
+  handleInputSour = (rating) => {
+    this.setState({
+      sour: rating
+    });
+  };
+
+  handleInputBitter = (rating) => {
+    this.setState({
+      bitter: rating
+    });
+  };
+
+  handleInputComment = (e) => {
+    this.setState({
+      comment: e.target.value
+    })
+  }
+  
+  handleSubmit = () => {
+    const { sweet, sour, bitter, comment } = this.state;
+    
+    if(sweet === "" || sour === "" || bitter === "" || comment === "") {
+      alert("모든 입력을 완료해 주세요")
+      return;
     }
-    */
+
+    axios.post('/posts', {
+      sweet: sweet,
+      sour: sour,
+      bitter: bitter,
+      comment: comment
+    });
+
+    
+    console.log(sweet);
+    console.log(sour);
+    console.log(bitter);
+    console.log(comment);
+    
+    alert("입력완료");
+    window.location.replace("/review");
+  }
+
   render() {
     return (
       <>
         <h2> Review InputForm </h2>
 
-        <Rating></Rating>
-        <InputBox></InputBox>
+        <div className={styles.ratingForm}>
+          <RatingSweet
+            onChange={this.handleInputSweet}
+          /><br></br>
+          <RatingSour
+            onChange={this.handleInputSour}
+          /><br></br>
+          <RatingBitter
+            onChange={this.handleInputBitter}
+          />
+        </div>
+
+        <InputBox
+          comment={this.state.comment}
+          onChange={this.handleInputComment}
+        />
+        
+        <div className={styles.btn}>
+        <Button variant='primary' type='submit' onClick={this.handleSubmit}>
+          Submit
+        </Button>
+        </div>
       </>
     );
   }
 }
 
-class ParentEvent extends Component {
-  handleCreate = (data) => {
-    console.log(data);
-  };
-  render() {
-    return (
-      <div>
-        <WriteReview onCreate={this.handleCreate} />
-      </div>
-    );
-  }
+const RatingSweet = ({ onChange }) => {
+  return(
+    <div className={styles.taste}>
+      <span class={styles.font}>단맛 </span>
+      <span class={styles.rating}>
+        <ReactStars 
+          activeColor='#ffc107' 
+          size={35} 
+          isHalf={true} 
+          onChange={onChange}
+        />
+      </span>
+    </div>
+  );
 }
 
-class Rating extends Component {
-  render() {
-    const ratingChanged = (rating) => {
-      console.log(rating);
-    };
-    return (
-      <div className={styles.ratingForm}>
-        <div className={styles.taste}>
-          <span class={styles.font}>단맛 </span>
-          <span class={styles.rating}>
-            <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={ratingChanged} />
-          </span>
-        </div>
-        <br></br>
-
-        <div className={styles.taste}>
-          <span class={styles.font}>신맛 </span>
-          <span class={styles.rating}>
-            <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={ratingChanged} />
-          </span>
-        </div>
-        <br></br>
-
-        <div className={styles.taste}>
-          <span class={styles.font}>쓴맛 </span>
-          <span class={styles.rating}>
-            <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={ratingChanged} />
-          </span>
-        </div>
-        <br></br>
-      </div>
-    );
-  }
+const RatingSour = ({ onChange }) => {
+  return(
+    <div className={styles.taste}>
+      <span class={styles.font}>신맛 </span>
+      <span class={styles.rating}>
+        <ReactStars 
+          activeColor='#ffc107' 
+          size={35} 
+          isHalf={true} 
+          onChange={onChange}
+        />
+      </span>
+    </div>
+  );
 }
 
-class InputBox extends Component {
-  render() {
-    return (
-      <div>
-        <Form className={styles.inputbox}>
-          <Form.Group>
-            <Form.Label className={styles.head}>리뷰를 입력하세요</Form.Label>
-            <Form.Control className={styles.content} as='textarea' rows={3} />
-          </Form.Group>
+const RatingBitter = ({ onChange }) => {
+  return(
+    <div className={styles.taste}>
+      <span class={styles.font}>쓴맛 </span>
+      <span class={styles.rating}>
+        <ReactStars 
+          activeColor='#ffc107' 
+          size={35} 
+          isHalf={true} 
+          onChange={onChange}
+        />
+      </span>
+    </div>
+  );
+}
 
-          <Button variant='primary' type='submit'>
-            Submit
-          </Button>
-        </Form>
-      </div>
-    );
-  }
+const InputBox = ({ comment, onChange}) => {
+  return (
+    <div>
+      <Form className={styles.inputbox}>
+        <Form.Group>
+          <Form.Label className={styles.head}>리뷰를 입력하세요</Form.Label>
+          <Form.Control 
+            className={styles.content} 
+            as='textarea' 
+            rows={3}
+            value={comment}
+            onChange={onChange}
+          />
+        </Form.Group>
+      </Form>
+    </div>
+  );
 }
 
 export default WriteReview;
