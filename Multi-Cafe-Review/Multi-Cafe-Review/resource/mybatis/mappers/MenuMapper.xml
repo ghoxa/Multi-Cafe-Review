@@ -27,6 +27,11 @@
 		where menu_id=#{menuId}
 	</select>
 	
+	<select id="listViewMenu" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		from menu
+	</select>
+	
 	<select id="listViewMenuByCondition" parameterType="java.lang.String" resultMap="menu_resultMap">
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
 		from menu
@@ -55,7 +60,7 @@
 		from menu where category_id=#{categoryId}
 	</select>
 	
-	<select id="listViewCafeMenuByCategory" parameterType="int" resultMap="menu_resultMap">
+	<select id="listViewCafeMenuByCategory" resultMap="menu_resultMap">
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
 		from menu where cafe_id=#{cafeId} and category_id=#{categoryId}
 	</select>
@@ -72,12 +77,8 @@
 		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
 	</select>
 	
-	<update id="addGood" parameterType="int">
-		update menu set good=good+1 where menu_id=#{menuId}
-	</update>
-	
-	<update id="deleteGood" parameterType="int">
-		update menu set good=good-1 where menu_id=#{menuId}
+	<update id="updateGood" parameterType="int">
+		update menu set good=good+#{n} where menu_id=#{menuId}
 	</update>
 	
 	<update id="updateMenuTaste" parameterType="int">

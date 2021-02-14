@@ -3,6 +3,7 @@ package kr.co.multicafe.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.co.multicafe.dto.Menu;
 
@@ -13,16 +14,16 @@ public interface MenuMapper {
 	public int updateMenu(Menu menu);
 	public int deleteMenu(int menuId);
 	public Menu getMenu(int menuId);
+	public List<Menu> listViewMenu();
 	public List<Menu> listViewMenuByCondition(String condition); //condition은 good(좋아요순), click(조회수순)
-	public List<Menu> listViewCafeMenuByCondition(int cafeId, String condition);
-	public List<Menu> listViewCategoryMenuByCondition(int categoryId, String condition);
+	public List<Menu> listViewCafeMenuByCondition(@Param("cafeId") int cafeId, @Param("condition") String condition);
+	public List<Menu> listViewCategoryMenuByCondition(@Param("categoryId") int categoryId, @Param("condition") String condition);
 	public List<Menu> listViewCafeMenu(int cafeId);
 	public List<Menu> listViewCategoryMenu(int categoryId);
-	public List<Menu> listViewCafeMenuByCategory(int cafeId, int categoryId);
+	public List<Menu> listViewCafeMenuByCategory(@Param("cafeId") int cafeId, @Param("categoryId") int categoryId);
 	public List<Menu> searchMenu(String keyword); //메뉴이름, 설명, 키워드
-	public List<Menu> searchCafeMenu(int cafeId, String keyword); //(카페별 검색)메뉴이름, 설명, 키워드
-	public void addGood(int menuId);
-	public void deleteGood(int menuId);
+	public List<Menu> searchCafeMenu(@Param("cafeId") int cafeId, @Param("keyword") String keyword); //(카페별 검색)메뉴이름, 설명, 키워드
+	public void updateGood(int menuId);
 	public int updateMenuTaste(int menuId);
 	public int updateMenuGrade(int menuId);
 	
