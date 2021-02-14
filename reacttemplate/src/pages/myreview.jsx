@@ -1,7 +1,8 @@
 import React from 'react';
 import menuDataJson from './menudata.json';
+import { Link } from 'react-router-dom';
 
-class MyPage extends React.Component {
+class MyReview extends React.Component {
   state = {
     myLike: false,
   };
@@ -21,49 +22,6 @@ class MyPage extends React.Component {
               <div className='card'>
                 <article className='filter-group'>
                   <header className='card-header'>
-                    <a href='#' data-toggle='collapse' data-target='#collapse_1' aria-expanded='true' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>Product type</h6>
-                    </a>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_1'>
-                    <div className='card-body'>
-                      <form className='pb-3'>
-                        <div className='input-group'>
-                          <input type='text' className='form-control' placeholder='Search' />
-                          <div className='input-group-append'>
-                            <button className='btn btn-light' type='button'>
-                              <i className='fa fa-search'></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-
-                      <ul className='list-menu'>
-                        <li>
-                          <a href='#'>커피</a>
-                        </li>
-                        <li>
-                          <a href='#'>주스</a>
-                        </li>
-                        <li>
-                          <a href='#'>스무디</a>
-                        </li>
-                        <li>
-                          <a href='#'>Home items </a>
-                        </li>
-                        <li>
-                          <a href='#'>Animals</a>
-                        </li>
-                        <li>
-                          <a href='#'>People </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-                <article className='filter-group'>
-                  <header className='card-header'>
                     <a href='#' data-toggle='collapse' data-target='#collapse_2' aria-expanded='false' className=''>
                       <i className='icon-control fa fa-chevron-down'></i>
                       <h6 className='title'>마이페이지</h6>
@@ -73,36 +31,16 @@ class MyPage extends React.Component {
                     <div className='card-body'>
                       <ul className='list-menu'>
                         <li>
-                          <a href='#'>개인정보수정 </a>
+                          <Link to='/formPage'>개인정보수정 </Link>
                         </li>
                         <li>
-                          <a href='#'>찜 목록 </a>
+                          <Link to='/mylike'>찜 목록 </Link>
                         </li>
                         <li>
-                          <a href='#'>최근 본 메뉴 </a>
+                          <Link to='/myrecent'>최근 본 메뉴 </Link>
                         </li>
                         <li>
-                          <a href='#'>내 리뷰 관리 </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-                <article className='filter-group'>
-                  <header className='card-header'>
-                    <a href='#' data-toggle='collapse' data-target='#collapse_3' aria-expanded='false' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>관리자페이지</h6>
-                    </a>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_3'>
-                    <div className='card-body'>
-                      <ul className='list-menu'>
-                        <li>
-                          <a href='#'>메뉴 추가 </a>
-                        </li>
-                        <li>
-                          <a href='#'>메뉴 삭제 </a>
+                          <Link to='/myreview'>내 리뷰 관리 </Link>
                         </li>
                       </ul>
                     </div>
@@ -110,6 +48,7 @@ class MyPage extends React.Component {
                 </article>
               </div>
             </aside>
+
             {/* 이 부분 부터 바뀐다 */}
             <main className='col-md-9'>
               <header className='border-bottom mb-4 pb-3'>
@@ -250,4 +189,4 @@ class MyPage extends React.Component {
   }
 }
 
-export default MyPage;
+export default MyReview;

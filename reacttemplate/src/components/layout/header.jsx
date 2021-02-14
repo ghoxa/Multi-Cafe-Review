@@ -70,12 +70,11 @@ class Header extends React.Component {
                       </span>
                     </div>
                     <div className="widget-header icontext">
-                      <a
-                        href="#"
+                      <Link to="/formPage"
                         className="icon icon-sm rounded-circle border"
                       >
                         <i className="fa fa-user"></i>
-                      </a>
+                      </Link>
                       <div className="text">
                         <span className="text-muted">Welcome!</span>
                         <div>
