@@ -6,6 +6,7 @@ import Input from './../pages/input.jsx';
 import Review from './../pages/review.jsx';
 import MyPage from './../pages/mypage.jsx';
 import WriteReview from '../pages/writereview.jsx';
+import Formpage from './../pages/formpage.jsx';
 
 const routes = [
   {
@@ -32,6 +33,10 @@ const routes = [
   {
     path: '/writereview',
     component: () => <WriteReview />,
+  },
+  {
+    path: '/formpage',
+    component: () => <Formpage />,
   },
 ];
 
