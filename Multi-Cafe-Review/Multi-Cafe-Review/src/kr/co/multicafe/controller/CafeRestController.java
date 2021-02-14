@@ -16,17 +16,12 @@ import kr.co.multicafe.service.CafeService;
 
 
 
-@RestController //ResponseBody라는 것을 붙일 필요 없음
+@RestController
 @RequestMapping(path="/api/cafe")
 public class CafeRestController {
-	@Autowired //Service에게 데이터 얻어오는 부분
+	@Autowired 
 	private CafeService cafeService;
 
-	
-//	public List<Cafe> listViewCafe();
-//	public Cafe getCafe(int cafeId);
-//	public int insertCafe(Cafe cafe);
-//	public int deleteCafe(int cafeId);
 	
 	@GetMapping
 	public List<Cafe> listViewCafe(){

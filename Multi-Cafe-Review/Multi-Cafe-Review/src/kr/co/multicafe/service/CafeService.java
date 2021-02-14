@@ -11,16 +11,11 @@ import kr.co.multicafe.dto.Cafe;
 
 
 @Service
-@Transactional
 public class CafeService {
 	@Autowired
 	private CafeMapper cafeMapper;
 	
-//	public List<Cafe> listViewCafe();
-//	public Cafe getCafe(int cafeId);
-//	public int insertCafe(Cafe cafe);
-//	public int deleteCafe(int cafeId);
-	
+
 	public List<Cafe> listViewCafe(){
 		return cafeMapper.listViewCafe();
 	}

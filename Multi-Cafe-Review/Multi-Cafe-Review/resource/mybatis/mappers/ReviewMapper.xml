@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.multicafe.dao.ReviewMapper">
+	<resultMap type="Review" id="review_resultMap">
+		<result column="review_id" property="reviewId"/>
+		<result column="review_date" property="reviewDate"/>
+		<result column="user_id" property="userId"/>
+		<result column="menu_id" property="menuId"/>
+	</resultMap>
+	
+	
+	<!-- Insert -->
+	<insert id="insertReview" parameterType="Review">
+	
+		insert into review(review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour) 
+		values(review_seq.nextval, sysdate, #{content}, #{good}, #{grade}, #{userId}, #{menuId}, #{sweet}, #{bitter}, #{sour})
+	</insert>
+	
+	<!-- Update -->
+	<update id="updateReview" parameterType="Review">
+		update review set content=#{content}, grade=#{grade}, sweet=#{sweet}, bitter=#{bitter}, sour=#{sour} where review_id=#{reviewId}
+	</update>
+	
+	
+	<!-- Delete -->	
+	<delete id="deleteReview" parameterType="java.lang.Integer" >
+		delete from review where review_id = #{reviewId}
+	</delete>
+	
+	<!-- ListView -->
+	<select id="listViewReview" parameterType="java.lang.Integer" resultMap="review_resultMap">
+		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
+		from review
+		where menu_id=#{menu_id}
+	</select>
+	
+	<!-- ListMyReview -->
+	<select id="listMyReview" parameterType="java.lang.String" resultMap="review_resultMap">
+		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
+		from review
+		where user_id=#{userId}
+	</select>
+	
+	<!-- GoodListReview -->
+	<select id="goodListReview" parameterType="java.lang.Integer" resultMap="review_resultMap">
+		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
+		from review
+		where menu_id=#{menuId}
+		order by good desc
+	</select>
+	
+
 	
 	
 </mapper>

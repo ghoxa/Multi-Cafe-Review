@@ -8,14 +8,14 @@
 	</resultMap>
 	
 	<!-- ListView -->
-	<select id="listViewRecent" parameterType="int" resultMap="menu_resultMap">
+	<select id="listViewRecent" parameterType="String" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
 		from recent r, menu m 
-		where r.menu_id=m.menu_id and r.user_id=#{userId}
+		where r.user_id=#{userId} and r.menu_id=m.menu_id
 	</select>
 	
 	<!-- Insert -->
-	<insert id="insertRecent" parameterType="int">
+	<insert id="insertRecent" parameterType="Recent">
 		insert into recent(recent_id, menu_id, user_id)
 		values (recent_seq.nextval, #{menuId}, #{userId})
 	</insert>

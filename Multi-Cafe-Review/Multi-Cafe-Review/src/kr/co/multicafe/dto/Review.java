@@ -3,13 +3,12 @@ package kr.co.multicafe.dto;
 public class Review {
 	
 	private int reviewId;
-	private int reviewDate;
+	private String reviewDate;
 	private String content;
 	private int good;
 	private int grade;
 	private String userId;
 	private int menuId;
-	private int tasteId;
 	private double sweet;
 	private double bitter;
 	private double sour;
@@ -20,10 +19,10 @@ public class Review {
 	public void setReviewId(int reviewId) {
 		this.reviewId = reviewId;
 	}
-	public int getReviewDate() {
+	public String getReviewDate() {
 		return reviewDate;
 	}
-	public void setReviewDate(int reviewDate) {
+	public void setReviewDate(String reviewDate) {
 		this.reviewDate = reviewDate;
 	}
 	public String getContent() {
@@ -56,16 +55,11 @@ public class Review {
 	public void setMenuId(int menuId) {
 		this.menuId = menuId;
 	}
-	public int getTasteId() {
-		return tasteId;
-	}
-	public void setTasteId(int tasteId) {
-		this.tasteId = tasteId;
-	}
+
 	@Override
 	public String toString() {
 		return "Review [reviewId=" + reviewId + ", reviewDate=" + reviewDate + ", content=" + content + ", good=" + good
-				+ ", grade=" + grade + ", userId=" + userId + ", menuId=" + menuId + ", tasteId=" + tasteId + "]";
+				+ ", grade=" + grade + ", userId=" + userId + ", menuId=" + menuId + "]";
 	}
 
 }
