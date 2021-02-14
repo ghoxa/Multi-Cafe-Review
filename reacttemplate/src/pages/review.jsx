@@ -51,7 +51,7 @@ const columns = [
   // },
   {
     name: 'name',
-    label: 'name',
+    label: '이름',
     options: {
       filter: true,
       sort: true,
@@ -89,6 +89,26 @@ const options = {
   filterType: 'checkbox',
 };
 const TestUrl = '/api/cafe';
+const TestPost = '/api/menu';
+const Data = {
+  menuId: '',
+  name: 'dd',
+  price: '',
+  description: 'react api post 테스트입니다.',
+  grade: '',
+  keyword: '',
+  image: '',
+  good: '',
+  click: '',
+  hot: '',
+  ice: '',
+  categoryId: 3003,
+  cafeId: 2007,
+  sweet: '',
+  bitter: '',
+  sour: '',
+};
+
 class ReviewPage extends Component {
   // createListOfFiles() {
   //   let listOfFiles = [];
@@ -113,11 +133,19 @@ class ReviewPage extends Component {
           Test: res.data,
         });
 
-        console.log(this.state.Test);
+        console.log(this.state.Test[0]['name']);
       })
       .catch((err) => {
         console.log(err);
       });
+
+    // Promise.all([axios.post(TestPost, Data)])
+    //   .then(([res]) => {
+    //     console.log('post 성공');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
   createListOfSimilarMenu() {
     let list = [];

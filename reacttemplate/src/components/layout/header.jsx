@@ -1,13 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper.scss";
-import cafeListJson from "./cafeList.json";
-import axios from "axios";
-import { ThemeProvider } from "react-bootstrap";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper.scss';
+import cafeListJson from './cafeList.json';
+import axios from 'axios';
+import { ThemeProvider } from 'react-bootstrap';
 
-const cafeList = "/api/cafe";
+const cafeList = '/api/cafe';
 
 class Header extends React.Component {
   constructor(props) {
@@ -32,19 +32,19 @@ class Header extends React.Component {
   }
 
   render() {
-    return (      
+    return (
       <div>
-        <header className="section-header">
-          <section className="header-main border-bottom">
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-lg-2 col-4">
-                  <Link to="/home" className="brand-wrap">
-                    {" "}
-                    Company Name
+        <header className='section-header'>
+          <section className='header-main border-bottom'>
+            <div className='container'>
+              <div className='row align-items-center'>
+                <div className='col-lg-2 col-4'>
+                  <Link to='/home' className='brand-wrap'>
+                    {' '}
+                    Home
                   </Link>
                 </div>
-                <div className="col-lg-6 col-sm-12">
+                <div className='col-lg-6 col-sm-12'>
                   {/* <form action="#" className="search">
                                   <div className="input-group w-100">
                                       <input type="text" className="form-control" placeholder="Search" />
@@ -56,29 +56,22 @@ class Header extends React.Component {
                                   </div>
                               </form>  */}
                 </div>
-                <div className="col-lg-4 col-sm-6 col-12">
-                  <div className="widgets-wrap float-md-right">
-                    <div className="widget-header  mr-3">
-                      <a
-                        href="#"
-                        className="icon icon-sm rounded-circle border"
-                      >
-                        <i className="fa fa-shopping-cart"></i>
+                <div className='col-lg-4 col-sm-6 col-12'>
+                  <div className='widgets-wrap float-md-right'>
+                    <div className='widget-header  mr-3'>
+                      <a href='#' className='icon icon-sm rounded-circle border'>
+                        <i className='fa fa-shopping-cart'></i>
                       </a>
-                      <span className="badge badge-pill badge-danger notify">
-                        0
-                      </span>
+                      <span className='badge badge-pill badge-danger notify'>0</span>
                     </div>
-                    <div className="widget-header icontext">
-                      <Link to="/formPage"
-                        className="icon icon-sm rounded-circle border"
-                      >
-                        <i className="fa fa-user"></i>
+                    <div className='widget-header icontext'>
+                      <Link to='/formPage' className='icon icon-sm rounded-circle border'>
+                        <i className='fa fa-user'></i>
                       </Link>
-                      <div className="text">
-                        <span className="text-muted">Welcome!</span>
+                      <div className='text'>
+                        <span className='text-muted'>Welcome!</span>
                         <div>
-                          <a href="#">Sign in</a> |<a href="#"> Register</a>
+                          <a href='#'>Sign in</a> |<a href='#'> Register</a>
                         </div>
                       </div>
                     </div>
@@ -89,24 +82,20 @@ class Header extends React.Component {
           </section>
         </header>
 
-        <section className="section-pagetop bg">
-          <div className="container">
-            <nav className="mt-4" aria-label="Page navigation sample">
+        <section className='section-pagetop bg'>
+          <div className='container'>
+            <nav className='mt-4' aria-label='Page navigation sample'>
               <Swiper
                 // spaceBetween={0}
                 slidesPerView={6}
-                onSlideChange={() => console.log("slide change")}
+                onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => console.log(swiper)}
               >
                 {this.state.cafeListJson.map((cafe, i) => {
                   return (
                     <SwiperSlide>
                       <div>
-                        <img
-                          className="rounded-circle"
-                          style={{ width: 100, height: 100 }}
-                          src={cafeListJson[i]["logoImg"]}               
-                        />
+                        <img className='rounded-circle' style={{ width: 100, height: 100 }} src={cafeListJson[i]['logoImg']} />
                       </div>
                     </SwiperSlide>
                   );
