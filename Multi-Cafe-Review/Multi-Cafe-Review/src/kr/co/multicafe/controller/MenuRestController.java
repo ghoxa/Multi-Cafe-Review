@@ -3,12 +3,8 @@ package kr.co.multicafe.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -24,20 +20,6 @@ public class MenuRestController {
 	@Autowired
 	private MenuService menuService;
 	
-	@PostMapping //admin으로 가야함
-	public int insertMenu(@RequestBody Menu menu) {
-		return menuService.insertMenu(menu);
-	}
-	
-	@PutMapping
-	public int updateMenu(@RequestBody Menu menu) {
-		return menuService.updateMenu(menu);
-	}
-	
-	@DeleteMapping("/{menuId}")
-	public int deleteMenu(@PathVariable int menuId) {
-		return menuService.deleteMenu(menuId);
-	}
 	
 	@GetMapping("/{menuId}")
 	public Menu getMenu(@PathVariable int menuId) {
@@ -89,20 +71,5 @@ public class MenuRestController {
 		return menuService.searchCafeMenu(cafeId, keyword);
 	}
 	
-	@GetMapping("/{menuId}/good")
-	public void updateGood(@SessionAttribute("user") Users users, @PathVariable int menuId) {
-//		menuService.insertOrDeleteLike(UserUtil.getCurrentUserId(), menuId);
-		menuService.insertOrDeleteLike(users.getUserId(), menuId);
-	}
 	
-	@PutMapping("/{menuId}/taste")
-	public int updateMenuTaste(@PathVariable int menuId) {
-		return menuService.updateMenuTaste(menuId);
-	}
-	
-	@PutMapping("/{menuId}/grade")
-	public int updateMenuGrade(@PathVariable int menuId) {
-		return menuService.updateMenuGrade(menuId);
-	}
-
 }

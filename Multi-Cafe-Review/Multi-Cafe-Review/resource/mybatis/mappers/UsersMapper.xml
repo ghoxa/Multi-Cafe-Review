@@ -3,6 +3,7 @@
 <mapper namespace="kr.co.multicafe.dao.UsersMapper">
 	<resultMap type="Users" id="users_resultMap">
 		<result column="user_id" property="userId"/>
+		<result column="join_date" property="joinDate"/>
 	</resultMap>
 	
 	<!-- Insert -->
