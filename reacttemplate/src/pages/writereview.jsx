@@ -47,23 +47,24 @@ class WriteReview extends Component {
 
   handleSubmit = () => {
     const { sweet, sour, bitter, grade, comment } = this.state;
-
+    const menuId = localStorage.getItem('menuId');
+    console.log(menuId);
     if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '') {
       alert('모든 입력을 완료해 주세요');
       return;
     }
 
     const data = {
-      reviewId:"",
-      reviewDate:"",
+      reviewId: '',
+      reviewDate: '',
       content: comment,
-      good:"",
+      good: '',
       grade: grade,
-      userId:"",
-      menuId:50000126,
-      sweet:sweet,
-      bitter:bitter,
-      sour:sour
+      userId: '',
+      menuId: menuId,
+      sweet: sweet,
+      bitter: bitter,
+      sour: sour,
     };
 
     Promise.all([axios.post('/api/review', data)])
@@ -75,7 +76,7 @@ class WriteReview extends Component {
       });
 
     alert('입력완료');
-    //window.location.replace('/review');
+    window.location.replace('/review');
   };
 
   render() {
