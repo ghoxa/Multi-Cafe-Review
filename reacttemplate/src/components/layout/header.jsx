@@ -32,6 +32,8 @@ class Header extends React.Component {
   }
 
   render() {
+    const { logged, onLogout } = this.props;
+
     return (
       <div>
         <header className='section-header'>
@@ -71,7 +73,9 @@ class Header extends React.Component {
                       <div className='text'>
                         <span className='text-muted'>Welcome!</span>
                         <div>
-                          <a href='#'>Sign in</a> |<a href='#'> Register</a>
+                          {/*<Link to='/' onClick={onLogout}>Logout</Link>*/} 
+                          <Link to='./signin'>Sign in</Link>
+                          |<Link to='./register'> Register</Link>
                         </div>
                       </div>
                     </div>

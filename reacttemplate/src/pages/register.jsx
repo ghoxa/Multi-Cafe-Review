@@ -20,7 +20,7 @@ class SignIn extends React.Component {
                 Password
               </Label>
               <Col>
-                <Input type='id' name='id' placeholder='password 등록' />
+                <Input type='password' name='password' placeholder='password 등록' />
               </Col>
             </FormGroup>
             <FormGroup>

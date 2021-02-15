@@ -45,26 +45,21 @@ class WriteReview extends Component {
       alert('모든 입력을 완료해 주세요');
       return;
     }
+
     const data = {
-      menuId: '',
-      name: 'dd',
-      price: '',
-      description: comment,
-      grade: '',
-      keyword: '',
-      image: '',
-      good: '',
-      click: '',
-      hot: '',
-      ice: '',
-      categoryId: 3003,
-      cafeId: 2007,
-      sweet: sweet,
-      bitter: bitter,
-      sour: sour,
+      reviewId:"",
+      reviewDate:"",
+      content: comment,
+      good:"",
+      grade:"",
+      userId:"",
+      menuId:50000126,
+      sweet:sweet,
+      bitter:bitter,
+      sour:sour
     };
 
-    Promise.all([axios.post('/api/menu', data)])
+    Promise.all([axios.post('/api/review', data)])
       .then(([res]) => {
         console.log('post 성공');
       })
@@ -72,13 +67,8 @@ class WriteReview extends Component {
         console.log(err);
       });
 
-    console.log(sweet);
-    console.log(sour);
-    console.log(bitter);
-    console.log(comment);
-
     alert('입력완료');
-    // window.location.replace('/review');
+    window.location.replace('/review');
   };
 
   render() {
