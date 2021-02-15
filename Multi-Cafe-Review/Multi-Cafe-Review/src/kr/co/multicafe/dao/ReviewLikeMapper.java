@@ -10,6 +10,6 @@ import kr.co.multicafe.dto.ReviewLike;
 @Mapper
 public interface ReviewLikeMapper {
 	public ReviewLike getReviewLike(@Param("reviewId")int reviewId, @Param("userId")String userId);
-	public int insertLike(ReviewLike reviewLike);
-	public int deleteLike(int reviewLikeId);
+	public int insertReviewLike(ReviewLike reviewLike);
+	public int deleteReviewLike(int reviewLikeId);
 }

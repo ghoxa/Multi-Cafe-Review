@@ -16,10 +16,7 @@
 	
 	<!-- Insert -->
 	<insert id="insertReviewLike" parameterType="ReviewLike">
-		<selectKey keyProperty="likeId" resultType="Integer" order="BEFORE">
-			select review_like_seq.nextval from dual
-		</selectKey>
-		insert into review_like values(#{reviewLikeId}, #{userId},#{reviewId})
+		insert into review_like(review_like_id, review_id, user_id) values(review_like_seq.nextval,#{reviewId}, #{userId})
 	</insert>
 	
 	<!-- Delete -->	

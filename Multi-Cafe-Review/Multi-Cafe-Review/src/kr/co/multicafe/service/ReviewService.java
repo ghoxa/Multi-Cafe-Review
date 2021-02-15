@@ -90,12 +90,14 @@ public class ReviewService {
 	public int updateGood(int reviewId,String userId) {
 		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
 		if(reviewLike==null) {
+			reviewMapper.plusGood(reviewId);
+			reviewLike=new ReviewLike();
 			reviewLike.setReivewId(reviewId);
 			reviewLike.setUserId(userId);
-			reviewLikeMapper.insertLike(reviewLike);
-			return reviewMapper.plusGood(reviewId);
+			return reviewLikeMapper.insertReviewLike(reviewLike);
 		}else {
-			return reviewMapper.minusGood(reviewId);
+			reviewMapper.minusGood(reviewId);
+			return reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
 		}
 	}
 	

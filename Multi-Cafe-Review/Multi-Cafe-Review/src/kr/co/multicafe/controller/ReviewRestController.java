@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.multicafe.dto.Review;
+import kr.co.multicafe.dto.ReviewLike;
 import kr.co.multicafe.service.ReviewService;
 
 @RestController
@@ -48,18 +49,24 @@ public class ReviewRestController {
 	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
 		return reviewService.listMyReview(userId);
 	}
-//	
+	
+//	@GetMapping("/{reviewId}")
 //	public Review getReview(int reviewId) {
 //		return reviewService.getReview(reviewId);
 //	}
-//	
+	
 	@GetMapping("/good/{menuId}")
 	public List<Review> goodListReview(@PathVariable(name="menuId")int menuId){
 		return reviewService.goodListReview(menuId);
 	}
 
-	@PutMapping("/good/count")
-	public int updateGood(int reviewId, String userId) {
-		return reviewService.updateGood(reviewId, userId);
+//	@PostMapping("/good/count")
+//	public int updateGood(@RequestBody int reviewId, @RequestBody String userId) { //객체로 넘겨줘보기.
+//		return reviewService.updateGood(reviewId, userId);
+//	}
+	
+	@PostMapping("/good/count")
+	public int updateGood(@RequestBody ReviewLike reviewLike) { //객체로 넘겨줘보기.
+		return reviewService.updateGood(reviewLike.getReviewId(), reviewLike.getUserId());
 	}
 }
