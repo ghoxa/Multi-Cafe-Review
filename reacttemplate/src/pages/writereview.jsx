@@ -78,7 +78,7 @@ class WriteReview extends Component {
     console.log(comment);
 
     alert('입력완료');
-    window.location.replace('/review');
+    //window.location.replace('/review');
   };
 
   render() {

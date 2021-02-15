@@ -71,7 +71,7 @@ class Header extends React.Component {
                       <div className='text'>
                         <span className='text-muted'>Welcome!</span>
                         <div>
-                          <a href='#'>Sign in</a> |<a href='#'> Register</a>
+                          <Link to='./signin'>Sign in</Link> |<Link to='./register'> Register</Link>
                         </div>
                       </div>
                     </div>
