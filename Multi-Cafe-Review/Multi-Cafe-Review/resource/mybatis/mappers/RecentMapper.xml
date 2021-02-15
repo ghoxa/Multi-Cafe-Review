@@ -11,8 +11,8 @@
 	<select id="listViewRecent" parameterType="String" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
 		from recent r, menu m 
-		where r.user_id=#{userId} and r.menu_id=m.menu_id
-		order by recent_date desc
+		where r.user_id=#{userId} and r.menu_id=m.menu_id		
+		order by r.recent_date desc
 	</select>
 	
 	<!-- Insert -->

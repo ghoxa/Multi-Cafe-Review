@@ -94,14 +94,6 @@ public class MenuService {
 	public List<Menu> searchCafeMenu(int cafeId, String keyword) { //(카페별 검색)메뉴이름, 설명, 키워드
 		return menuMapper.searchCafeMenu(cafeId, keyword);
 	}
-	
-	public int updateMenuTaste(int menuId) {
-		return menuMapper.updateMenuTaste(menuId);
-	}
-	
-	public int updateMenuGrade(int menuId) {
-		return menuMapper.updateMenuGrade(menuId);
-	}
 
 	public List<Menu> listViewLike(String userId) {
 		return likesMapper.listViewLike(userId);

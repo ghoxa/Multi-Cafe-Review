@@ -32,14 +32,4 @@ public class CafeRestController {
 	public Cafe getCafe(@PathVariable(name="cafeId")int cafeId) {
 		return cafeService.getCafe(cafeId);
 	}
-	
-	@PostMapping
-	public void insertCafe(@RequestBody Cafe cafe) {
-		cafeService.insertCafe(cafe);
-	}
-	
-	@DeleteMapping("/{cafeId}")
-	public void deleteCafe(@PathVariable(name="cafeId")int cafeId) {
-		cafeService.deleteCafe(cafeId);
-	}
 }
