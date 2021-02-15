@@ -36,26 +36,6 @@ class Home extends React.Component {
       });
   }
 
-  // Promise.all([axios.post(TestPost, Data)])
-  //   .then(([res]) => {
-  //     console.log("post 성공");
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-
-    // Promise.all([axios.post(TestPost, Data)])
-    //   .then(([res]) => {
-    //     console.log("post 성공");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }
-  handleClick = (value) => () => {
-    // console.log(value);
-    localStorage.setItem('menuId', value);
-  };
   render() {
     const { isLoaded } = this.state;
 
