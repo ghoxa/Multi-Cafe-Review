@@ -5,52 +5,13 @@ import MUIDataTable from 'mui-datatables';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
+import styles from '../Css/writeReview.module.css';
 const ratingChanged = (newRating) => {
   console.log(newRating);
 };
 const columns = [
-  // {
-  //   name: '이름',
-  //   label: '이름',
-  //   options: {
-  //     filter: true,
-  //     sort: true,
-  //   },
-  // },
-  // {
-  //   name: '한줄평',
-  //   label: '한줄평',
-  //   options: {
-  //     filter: true,
-  //     sort: false,
-  //   },
-  // },
-  // {
-  //   name: '단맛',
-  //   label: '단맛',
-  //   options: {
-  //     filter: true,
-  //     sort: false,
-  //   },
-  // },
-  // {
-  //   name: '쓴맛',
-  //   label: '쓴맛',
-  //   options: {
-  //     filter: true,
-  //     sort: false,
-  //   },
-  // },
-  // {
-  //   name: '신맛',
-  //   label: '신맛',
-  //   options: {
-  //     filter: true,
-  //     sort: false,
-  //   },
-  // },
   {
-    name: 'name',
+    name: 'userId',
     label: '이름',
     options: {
       filter: true,
@@ -58,56 +19,47 @@ const columns = [
     },
   },
   {
-    name: 'RAM',
-    label: 'RAM',
+    name: 'content',
+    label: '리뷰내용',
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: 'sour',
+    label: '신맛',
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: 'bitter',
+    label: '쓴맛',
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: 'sweet',
+    label: '단맛',
     options: {
       filter: true,
       sort: true,
     },
   },
 ];
-const data = [
-  {
-    이름: 'Joe James',
-    한줄평: '너무 맛있어요111111',
-    단맛: '1',
-    쓴맛: '1',
-    신맛: '1',
-  },
-  { 이름: 'John Walsh', 한줄평: '맛있어요', 단맛: '2', 쓴맛: '1', 신맛: '1' },
-  { 이름: 'Bob Herm', 한줄평: '맛있어요', 단맛: '3', 쓴맛: '1', 신맛: '1' },
-  {
-    이름: 'James Houston',
-    한줄평: '맛있어요',
-    단맛: '4',
-    쓴맛: '1',
-    신맛: '1',
-  },
-];
 
 const options = {
   filterType: 'checkbox',
 };
-const TestUrl = '/api/cafe';
-const TestPost = '/api/menu';
-const Data = {
-  menuId: '',
-  name: 'dd',
-  price: '',
-  description: 'react api post 테스트입니다.',
-  grade: '',
-  keyword: '',
-  image: '',
-  good: '',
-  click: '',
-  hot: '',
-  ice: '',
-  categoryId: 3003,
-  cafeId: 2007,
-  sweet: '',
-  bitter: '',
-  sour: '',
-};
+
+// Styling
+const menuId = localStorage.getItem('menuId');
+const TestUrl = `/api/review/${menuId}`;
 
 class ReviewPage extends Component {
   // createListOfFiles() {
@@ -133,19 +85,11 @@ class ReviewPage extends Component {
           Test: res.data,
         });
 
-        // console.log(this.state.Test[0]['name']);
+        console.log(this.state.Test);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    // Promise.all([axios.post(TestPost, Data)])
-    //   .then(([res]) => {
-    //     console.log('post 성공');
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }
   createListOfSimilarMenu() {
     let list = [];
@@ -162,6 +106,7 @@ class ReviewPage extends Component {
     );
     return list;
   }
+  starReviewCount() {}
 
   render() {
     return (
@@ -175,22 +120,8 @@ class ReviewPage extends Component {
               <div className='row wow fadeIn'>
                 {/*Grid column*/}
                 <span className='col-md-6 mb-4'>
-                  <div className='rating-wrap mb-3'>
-                    총점: &nbsp;
-                    <ul className='rating-stars'>
-                      <li className='stars-active w-80'>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
-                      <li>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
-                    </ul>
-                    <div className='label-rating'>7/10</div>
-                  </div>
+                  총점:
+                  <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={3} size={35} isHalf={true} />
                   <img src='https://image.istarbucks.co.kr/upload/store/skuimg/2015/08/[94]_20150813222021797.jpg' className='img-fluid' alt />
                 </span>
                 {/*Grid column*/}
@@ -240,18 +171,8 @@ class ReviewPage extends Component {
                   <div className='rating-wrap mb-3'>
                     단맛: &nbsp;
                     <ul className='rating-stars'>
-                      <li className='stars-active w-80'>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
-                      <li>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
+                      <ReactStars edit={false} activeColor='#ffc107' value={3} size={25} isHalf={true} />
                     </ul>
-                    <div className='label-rating'>7/10</div>
                   </div>
                   <div className='rating-wrap mb-3'>
                     신맛: &nbsp;
@@ -267,7 +188,6 @@ class ReviewPage extends Component {
                         <i className='fa fa-star'></i>
                       </li>
                     </ul>
-                    <div className='label-rating'>7/10</div>
                   </div>
                   <div className='rating-wrap mb-3'>
                     쓴맛: &nbsp;
