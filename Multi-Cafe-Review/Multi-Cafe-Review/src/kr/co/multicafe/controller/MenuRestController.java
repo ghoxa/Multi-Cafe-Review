@@ -44,6 +44,11 @@ public class MenuRestController {
 		return menuService.getMenu(menuId);
 	}
 	
+	@GetMapping("/check/{menuId}")
+	public Menu getMenuCheck(@PathVariable int menuId) {
+		return menuService.getMenuCheck(menuId);
+	}
+	
 	@GetMapping
 	public List<Menu> listViewMenu() { 
 		return menuService.listViewMenu();

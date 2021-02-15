@@ -29,11 +29,4 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addRedirectViewController("/", "/hi");
 	}
 
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(new HandlerInterceptor()).excludePathPatterns("");
-//	}
-	
-	
-	
 }

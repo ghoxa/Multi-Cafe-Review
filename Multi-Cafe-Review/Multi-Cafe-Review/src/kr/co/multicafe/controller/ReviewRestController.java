@@ -60,13 +60,8 @@ public class ReviewRestController {
 		return reviewService.goodListReview(menuId);
 	}
 
-//	@PostMapping("/good/count")
-//	public int updateGood(@RequestBody int reviewId, @RequestBody String userId) { //객체로 넘겨줘보기.
-//		return reviewService.updateGood(reviewId, userId);
-//	}
-	
 	@PostMapping("/good/count")
-	public int updateGood(@RequestBody ReviewLike reviewLike) { //객체로 넘겨줘보기.
+	public int updateGood(@RequestBody ReviewLike reviewLike) { 
 		return reviewService.updateGood(reviewLike.getReviewId(), reviewLike.getUserId());
 	}
 }
