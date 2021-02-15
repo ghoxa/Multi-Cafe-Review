@@ -12,11 +12,25 @@ public class Users {
 	private double bitter;
 	private double sour;
 	
+	public Users(String userId, String pwd) {
+		super();
+		this.userId = userId;
+		this.pwd = pwd;
+	}
+	
+	
+	public Users() {
+		super();
+	}
+
+
 	@Override
 	public String toString() {
 		return "Users [userId=" + userId + ", pwd=" + pwd + ", phone=" + phone + ", email=" + email + ", address="
-				+ address + ", joinDate=" + joinDate + "]";
+				+ address + ", joinDate=" + joinDate + ", sweet=" + sweet + ", bitter=" + bitter + ", sour=" + sour
+				+ "]";
 	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -53,6 +67,30 @@ public class Users {
 	}
 	public void setJoinDate(int joinDate) {
 		this.joinDate = joinDate;
+	}
+
+	public double getSweet() {
+		return sweet;
+	}
+
+	public void setSweet(double sweet) {
+		this.sweet = sweet;
+	}
+
+	public double getBitter() {
+		return bitter;
+	}
+
+	public void setBitter(double bitter) {
+		this.bitter = bitter;
+	}
+
+	public double getSour() {
+		return sour;
+	}
+
+	public void setSour(double sour) {
+		this.sour = sour;
 	}
 
 }

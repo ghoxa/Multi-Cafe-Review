@@ -13,7 +13,7 @@ public class UserUtil {
 	public static boolean isAdmin() {
 	    ServletRequestAttributes servletRequestAttribute = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    HttpSession httpSession = servletRequestAttribute.getRequest().getSession(true);
-	    if( ((Admin)httpSession.getAttribute("admin")).getAdminId().equals("cafeadmin") && ((Admin)httpSession.getAttribute("admin")).getPwd().equals("ohcafe")) {
+	    if( ((Admin)httpSession.getAttribute("admin")).getAdminId().equals("cafeadmin") ) {
 	        return true;
 	    }else {
 	        return false;
@@ -23,14 +23,14 @@ public class UserUtil {
 	public static Users getCurrentUsers() {
 	    ServletRequestAttributes servletRequestAttribute = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    HttpSession httpSession = servletRequestAttribute.getRequest().getSession(true);
-	    return (Users)httpSession.getAttribute("users");
+	    return (Users)httpSession.getAttribute("user");
 	}
 
 
 	public static String getCurrentUserId() {
 	    ServletRequestAttributes servletRequestAttribute = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    HttpSession httpSession = servletRequestAttribute.getRequest().getSession(true);
-	    return( (Users)httpSession.getAttribute("users")).getUserId();
+	    return( (Users)httpSession.getAttribute("user")).getUserId();
 	}
 
 	

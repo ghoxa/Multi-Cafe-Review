@@ -9,7 +9,6 @@ public class Review {
 	private int grade;
 	private String userId;
 	private int menuId;
-	private int tasteId;
 	private double sweet;
 	private double bitter;
 	private double sour;
@@ -56,16 +55,30 @@ public class Review {
 	public void setMenuId(int menuId) {
 		this.menuId = menuId;
 	}
-	public int getTasteId() {
-		return tasteId;
+	public double getSweet() {
+		return sweet;
 	}
-	public void setTasteId(int tasteId) {
-		this.tasteId = tasteId;
+	public void setSweet(double sweet) {
+		this.sweet = sweet;
+	}
+	public double getBitter() {
+		return bitter;
+	}
+	public void setBitter(double bitter) {
+		this.bitter = bitter;
+	}
+	public double getSour() {
+		return sour;
+	}
+	public void setSour(double sour) {
+		this.sour = sour;
 	}
 	@Override
 	public String toString() {
 		return "Review [reviewId=" + reviewId + ", reviewDate=" + reviewDate + ", content=" + content + ", good=" + good
-				+ ", grade=" + grade + ", userId=" + userId + ", menuId=" + menuId + ", tasteId=" + tasteId + "]";
+				+ ", grade=" + grade + ", userId=" + userId + ", menuId=" + menuId + ", sweet=" + sweet + ", bitter="
+				+ bitter + ", sour=" + sour + "]";
 	}
+	
 
 }

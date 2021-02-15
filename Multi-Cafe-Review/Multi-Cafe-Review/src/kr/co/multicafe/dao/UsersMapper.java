@@ -10,5 +10,5 @@ public interface UsersMapper {
 	public int insertUser(Users user);
 	public int updateUser(Users user);
 	public int deleteUser(String userId);
-	public Users login(@Param("userId") String userId, @Param("pwd") int pwd);
+	public Users login(@Param("userId") String userId, @Param("pwd") String pwd);
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.multicafe.dao.CategoryMapper;
-import kr.co.multicafe.dto.Cafe;
 import kr.co.multicafe.dto.Category;
 
 @Service

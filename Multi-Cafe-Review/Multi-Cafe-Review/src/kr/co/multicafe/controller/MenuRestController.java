@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import kr.co.multicafe.common.utils.UserUtil;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Users;
 import kr.co.multicafe.service.MenuService;
@@ -90,8 +89,8 @@ public class MenuRestController {
 		return menuService.searchCafeMenu(cafeId, keyword);
 	}
 	
-	@PutMapping("/{menuId}/good")
-	public void updateGood(@SessionAttribute("users") Users users, @PathVariable int menuId) {
+	@GetMapping("/{menuId}/good")
+	public void updateGood(@SessionAttribute("user") Users users, @PathVariable int menuId) {
 //		menuService.insertOrDeleteLike(UserUtil.getCurrentUserId(), menuId);
 		menuService.insertOrDeleteLike(users.getUserId(), menuId);
 	}
