@@ -1,18 +1,22 @@
-import {BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 import React from 'react';
-import { Button, Form, FormGroup, Input, Label, Col } from 'reactstrap';
+import { Button, FormGroup, Input, Label, Col } from 'reactstrap';
 import axios from 'axios';
+
 class SignIn extends React.Component {
-  state = {
-    id: '',
-    pw: '',
-    phone:'',
-    email:'',
-    address:'',
-    sweet:'',
-    sour:'',
-    bitter:'',
-    isLogin: null
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: '',
+      pw: '',
+      phone:'',
+      email:'',
+      address:'',
+      sweet:'',
+      sour:'',
+      bitter:'',
+      data:{},        // api 통해 받아오는 json 객체를 담음
+    }
   }
 
   // id 입력창 관리
@@ -31,40 +35,44 @@ class SignIn extends React.Component {
 
   // 로그인버튼 클릭시 서버로 데이터 전송
   handleSubmit = e => {
-    const { id, pw } = this.state;
+    const {id, pw} = this.state;
     e.preventDefault();
 
     const login_info = {
       userId: id,
-      pwd: pw
+      pwd: pw,
     };
-    {/* 
+    
     Promise.all([axios.post('/api/login', login_info)])
-      .then(res => {
-        console.log('post 성공');
-        return res.json();
-      })
-      .then(json => { 
-        if(json.success === true) {
+      .then( (res) => {
+        this.setState({
+          data:res[0].data,
+        });
+
+        if(this.state.data != "") {
           alert('로그인되었습니다');
-          window.localStorage.setItem('userInfo', JSON.stringify(json))
+          window.localStorage.setItem('userInfo', JSON.stringify(this.state.data))
   
           this.setState({
-            id: json.userId,
-            phone: json.phone,
-            email: json.email,
-            address: json.address,
-            sweet: json.sweet,
-            sour: json.sour,
-            bitter: json.bitter,
-            isLogin: json.success
+            id: this.state.data.userId,
+            phone: this.state.data.phone,
+            email: this.state.data.email,
+            address: this.state.data.address,
+            sweet:this.state.data.sweet,
+            sour: this.state.data.sour,
+            bitter: this.state.data.bitter,
           });
-        this.props.history.push("/")
-      } else {
-        alert('아이디 혹은 비밀번호를 확인하세요');
-      }
-    });
-    */}
+
+          localStorage.setItem('isLogin', true);
+          window.location.replace('/');
+        } else {
+          alert('아이디 혹은 비밀번호를 확인하세요');
+          this.setState({
+            id:'',
+            pw:''
+          })
+        }
+      });
   }
 
   render() {
@@ -120,7 +128,7 @@ class SignIn extends React.Component {
       </div>
     );
   }  
-  
+
 }
 
 
