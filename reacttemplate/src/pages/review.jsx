@@ -5,62 +5,11 @@ import MUIDataTable from 'mui-datatables';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
-import styles from '../Css/writeReview.module.css';
-const ratingChanged = (newRating) => {
-  console.log(newRating);
-};
-const columns = [
-  {
-    name: 'userId',
-    label: '이름',
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: 'content',
-    label: '리뷰내용',
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-  {
-    name: 'sour',
-    label: '신맛',
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: 'bitter',
-    label: '쓴맛',
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: 'sweet',
-    label: '단맛',
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-];
+import { Table } from 'react-bootstrap';
 
 const options = {
   filterType: 'checkbox',
 };
-
-// Styling
-const menuId = localStorage.getItem('menuId');
-const TestUrl = `/api/review/${menuId}`;
-
 class ReviewPage extends Component {
   // createListOfFiles() {
   //   let listOfFiles = [];
@@ -73,19 +22,24 @@ class ReviewPage extends Component {
     super(props);
     this.state = {
       myLike: false,
-      Test: [],
+      menuReivew: [],
+      selectMenu: [],
       isLoaded: false,
     };
   }
 
   componentDidMount() {
-    Promise.all([axios.get(TestUrl)])
-      .then(([res]) => {
+    const menuId = localStorage.getItem('menuId');
+    const menuReivewUrl = axios.get(`/api/review/${menuId}`);
+    const selectMenuUrl = axios.get(`/api/menu/${menuId}`);
+    Promise.all([menuReivewUrl, selectMenuUrl])
+      .then(([res, res2]) => {
         this.setState({
-          Test: res.data,
+          menuReivew: res.data,
+          selectMenu: res2.data,
         });
 
-        console.log(this.state.Test);
+        console.log(this.state.menuReivew[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -106,9 +60,36 @@ class ReviewPage extends Component {
     );
     return list;
   }
-  starReviewCount() {}
-
+  createListOfFiles() {
+    let listOfFiles = [];
+    for (let i = 0; i < this.files.length; ++i) {
+      listOfFiles.push(<p key={i}>{this.files[i].name}</p>);
+    }
+    return listOfFiles;
+  }
+  createListOfReview() {
+    let list = [];
+    for (let i = 0; i < this.state.menuReivew.length; ++i) {
+      list.push(
+        <tr>
+          <td>{this.state.menuReivew[i].userId}</td>
+          <td>{this.state.menuReivew[i].content}</td>
+          <td>
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sweet} size={20} isHalf={true} />
+          </td>
+          <td>
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].bitter} size={20} isHalf={true} />
+          </td>
+          <td>
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
+          </td>
+        </tr>
+      );
+    }
+    return list;
+  }
   render() {
+    const { menuReivew, selectMenu } = this.state;
     return (
       <div>
         <div>
@@ -122,41 +103,22 @@ class ReviewPage extends Component {
                 <span className='col-md-6 mb-4'>
                   총점:
                   <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={3} size={35} isHalf={true} />
-                  <img src='https://image.istarbucks.co.kr/upload/store/skuimg/2015/08/[94]_20150813222021797.jpg' className='img-fluid' alt />
+                  <img src={selectMenu.image} className='img-fluid' style={{ width: '80%', height: '80%' }} alt />
                 </span>
                 {/*Grid column*/}
                 {/*Grid column*/}
                 <div className='col-md-6 mb-4'>
                   {/*Content*/}
                   <div className='p-4'>
-                    <div className='mb-3'>
-                      <a href>
-                        <span className='badge purple mr-1'>Category 2</span>
-                      </a>
-                      <a href>
-                        <span className='badge blue mr-1'>New</span>
-                      </a>
-                      <a href>
-                        <span className='badge red mr-1'>Bestseller</span>
-                      </a>
-                    </div>
-
-                    <p className='lead font-weight-bold'>카페 아메리카노 </p>
+                    <span className='lead font-weight-bold'>{selectMenu.name} </span>
+                    <a className='btn' onClick={() => this.setState({ myLike: !this.state.myLike })}>
+                      <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
+                    </a>
                     <p className='lead font-weight-bold'>
-                      <span>4100원</span>
+                      <span>{selectMenu.price}원 </span>
                     </p>
-                    <p>강렬한 에스프레소 샷에 뜨거운 물의 조화</p>
-                    <form className='d-flex justify-content-left'>
-                      {/* Default input */}
-                      <input type='number' defaultValue={1} aria-label='Search' className='form-control' style={{ width: 100 }} />
-                      <button className='btn btn-primary btn-md my-0 p' type='submit'>
-                        Add to cart
-                        <i className='fas fa-shopping-cart ml-1' />
-                      </button>
-                      <a className='btn' onClick={() => this.setState({ myLike: !this.state.myLike })}>
-                        <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
-                      </a>
-                    </form>
+                    <p>{selectMenu.description}</p>
+                    <form className='d-flex justify-content-left'>{/* Default input */}</form>
                   </div>
                   {/*Content*/}
                 </div>
@@ -175,35 +137,16 @@ class ReviewPage extends Component {
                     </ul>
                   </div>
                   <div className='rating-wrap mb-3'>
-                    신맛: &nbsp;
+                    쓴맛: &nbsp;
                     <ul className='rating-stars'>
-                      <li className='stars-active w-80'>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
-                      <li>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
+                      <ReactStars edit={false} activeColor='#ffc107' value={3} size={25} isHalf={true} />
                     </ul>
                   </div>
                   <div className='rating-wrap mb-3'>
-                    쓴맛: &nbsp;
+                    신맛: &nbsp;
                     <ul className='rating-stars'>
-                      <li className='stars-active w-80'>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
-                      <li>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i> <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                      </li>
+                      <ReactStars edit={false} activeColor='#ffc107' value={3} size={25} isHalf={true} />
                     </ul>
-                    <div className='label-rating'>7/10</div>
                   </div>
                 </div>
                 <Link to='/writereview'>
@@ -214,8 +157,20 @@ class ReviewPage extends Component {
 
                 {/*Grid column*/}
               </div>
-              <MUIDataTable title={'고객 리뷰'} data={this.state.Test} columns={columns} options={options} />
               <br />
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>리뷰내용</th>
+                    <th>단맛</th>
+                    <th>쓴맛</th>
+                    <th>신맛</th>
+                  </tr>
+                </thead>
+                <tbody>{this.createListOfReview()}</tbody>
+              </Table>
+
               {/*Grid row*/}
               {/*Grid row*/}
               <div className='row wow fadeIn'>
