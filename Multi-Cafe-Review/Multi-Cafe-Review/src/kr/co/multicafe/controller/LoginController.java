@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.multicafe.dto.Admin;
 import kr.co.multicafe.dto.Users;
@@ -39,7 +38,7 @@ public class LoginController {
 	}
 	
 	@GetMapping
-	public void logout(SessionStatus status, HttpSession session) {
+	public void logout(HttpSession session) {
 		if (session.getAttribute("admin") != null || session.getAttribute("user") != null) {
 			session.removeAttribute("admin");
 			session.removeAttribute("user");
