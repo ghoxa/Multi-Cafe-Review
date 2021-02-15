@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.multicafe.common.utils.UserUtil;
 import kr.co.multicafe.dao.LikesMapper;
 import kr.co.multicafe.dao.MenuMapper;
+import kr.co.multicafe.dao.RecentMapper;
 import kr.co.multicafe.dto.Likes;
 import kr.co.multicafe.dto.Menu;
+import kr.co.multicafe.dto.Recent;
 
 @Service
 @Transactional
@@ -20,6 +23,9 @@ public class MenuService {
 	
 	@Autowired
 	private LikesMapper likesMapper;
+	
+	@Autowired
+	private RecentMapper recentMapper;
 	
 	public int insertMenu(Menu menu) {
 		return menuMapper.insertMenu(menu);
@@ -35,6 +41,21 @@ public class MenuService {
 	
 	public Menu getMenu(int menuId) {
 		return menuMapper.getMenu(menuId);
+	}
+	
+	@Transactional
+	public Menu getMenuCheck(int menuId) {
+		UserUtil userUtil = new UserUtil();
+		if(userUtil.getCurrentUsers()!=null) { //로그인이 된 상태면 Recent에 추가하고 Menu 보여주기
+			Recent recent = new Recent();
+			recent.setUserId(userUtil.getCurrentUserId());
+			recent.setMenuId(menuId);
+			recentMapper.insertRecent(null);
+			return menuMapper.getMenu(menuId);
+		}
+		else { //로그인 안 된 상태면 그냥 보여주기
+			return menuMapper.getMenu(menuId);
+		}
 	}
 	
 	public List<Menu> listViewMenu() { 
