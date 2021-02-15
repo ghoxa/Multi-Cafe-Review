@@ -49,6 +49,22 @@
 		order by good desc
 	</select>
 	
+	<!-- plusGood -->
+	<update id="plusGood" parameterType="java.lang.Integer">
+		update review 
+		set good=good+1 
+		where review_id=#{reviewId}
+	</update>
+	
+	<!-- minusGood -->
+	<update id="minusGood" parameterType="java.lang.Integer">
+		update review 
+		set good=case when good>0 then good-1 
+				else 0
+				end
+		where review_id=#{reviewId}
+	</update>
+	
 
 	
 	

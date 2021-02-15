@@ -2,7 +2,6 @@ package kr.co.multicafe.controller;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,8 +58,8 @@ public class ReviewRestController {
 		return reviewService.goodListReview(menuId);
 	}
 
-//	@PutMapping("/good/count")
-//	public int updateGood(@Param("val")int val, @Param("reviewId")int reviewId) {
-//		return reviewService.updateGood(val, reviewId);
-//	}
+	@PutMapping("/good/count")
+	public int updateGood(int reviewId, String userId) {
+		return reviewService.updateGood(reviewId, userId);
+	}
 }

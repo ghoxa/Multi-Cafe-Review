@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.multicafe.dao.ReviewLikeMapper;
 import kr.co.multicafe.dao.ReviewMapper;
 import kr.co.multicafe.dto.Review;
+import kr.co.multicafe.dto.ReviewLike;
 
 @Service
 @Transactional
@@ -16,6 +18,9 @@ public class ReviewService {
 	
 	@Autowired
 	private ReviewMapper reviewMapper;
+	
+	@Autowired
+	private ReviewLikeMapper reviewLikeMapper;
 	
 	//리뷰 추가
 	public int insertReview(Review review) throws RuntimeException{
@@ -81,9 +86,17 @@ public class ReviewService {
 		return reviewMapper.goodListReview(menuId);
 	}
 
-	
-	public int updateGood(int val, int reviewId) {
-		return reviewMapper.updateGood(val, reviewId);
+	@Transactional
+	public int updateGood(int reviewId,String userId) {
+		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
+		if(reviewLike==null) {
+			reviewLike.setReivewId(reviewId);
+			reviewLike.setUserId(userId);
+			reviewLikeMapper.insertLike(reviewLike);
+			return reviewMapper.plusGood(reviewId);
+		}else {
+			return reviewMapper.minusGood(reviewId);
+		}
 	}
 	
 

@@ -15,5 +15,6 @@ public interface ReviewMapper {
 	public List<Review> listMyReview(String userId);
 	public Review getReview(int reviewId);
 	public List<Review> goodListReview(int menuId);
-	public int updateGood(int val, int reviewId); //리뷰 좋아요 수정
+	public int plusGood(int reviewId);
+	public int minusGood(int reviewId);
 }
