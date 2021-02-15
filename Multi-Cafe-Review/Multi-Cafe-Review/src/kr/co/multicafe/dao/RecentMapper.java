@@ -11,4 +11,6 @@ import kr.co.multicafe.dto.Recent;
 public interface RecentMapper {
 	public List<Menu> listViewRecent(String userId);
 	public int insertRecent(Recent recent);
+	public int deleteRecent(int recentId);
+	public Recent getRecent(int recentId);
 }

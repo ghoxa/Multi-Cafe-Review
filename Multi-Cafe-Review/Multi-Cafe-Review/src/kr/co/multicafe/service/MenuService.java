@@ -47,10 +47,11 @@ public class MenuService {
 	public Menu getMenuCheck(int menuId) {
 		UserUtil userUtil = new UserUtil();
 		if(userUtil.getCurrentUsers()!=null) { //로그인이 된 상태면 Recent에 추가하고 Menu 보여주기
-			Recent recent = new Recent();
+			//userId로 recent 가져와서 
+			Recent recent = recentMapper.getRecent(menuId);
 			recent.setUserId(userUtil.getCurrentUserId());
 			recent.setMenuId(menuId);
-			recentMapper.insertRecent(null);
+			recentMapper.insertRecent(recent);
 			return menuMapper.getMenu(menuId);
 		}
 		else { //로그인 안 된 상태면 그냥 보여주기
