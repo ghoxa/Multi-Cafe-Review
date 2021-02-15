@@ -4,7 +4,7 @@ import Header from './components/layout/header.jsx';
 import Comtent from './components/layout/content.jsx';
 import Footer from './components/layout/footer.jsx';
 class App extends React.Component {
-  /*state = {
+  state = {
     logged: false,
     onLogin: this.onLogin,
     onLogout: this.onLogout
@@ -20,12 +20,12 @@ class App extends React.Component {
     this.setState({
       logged: false
     });
-  }*/
-  // Header 안에 logged={this.state.logged} onLogout={this.state.onLogout} 
+  }
+
   render() {
     return (
       <div>
-        <Header />
+        <Header logged={this.state.logged} onLogout={this.state.onLogout} />
         <Comtent />
         <Footer />
       </div>

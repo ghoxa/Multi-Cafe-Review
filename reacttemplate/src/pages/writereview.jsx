@@ -11,6 +11,7 @@ class WriteReview extends Component {
     sweet: '',
     sour: '',
     bitter: '',
+    grade: '',
     comment: '',
   };
 
@@ -32,6 +33,12 @@ class WriteReview extends Component {
     });
   };
 
+  handleInputGrade = (rating) => {
+    this.setState({
+      grade: rating,
+    });
+  };
+
   handleInputComment = (e) => {
     this.setState({
       comment: e.target.value,
@@ -39,9 +46,9 @@ class WriteReview extends Component {
   };
 
   handleSubmit = () => {
-    const { sweet, sour, bitter, comment } = this.state;
+    const { sweet, sour, bitter, grade, comment } = this.state;
 
-    if (sweet === '' || sour === '' || bitter === '' || comment === '') {
+    if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '') {
       alert('모든 입력을 완료해 주세요');
       return;
     }
@@ -51,7 +58,7 @@ class WriteReview extends Component {
       reviewDate:"",
       content: comment,
       good:"",
-      grade:"",
+      grade: grade,
       userId:"",
       menuId:50000126,
       sweet:sweet,
@@ -68,7 +75,7 @@ class WriteReview extends Component {
       });
 
     alert('입력완료');
-    window.location.replace('/review');
+    //window.location.replace('/review');
   };
 
   render() {
@@ -82,6 +89,8 @@ class WriteReview extends Component {
           <RatingSour onChange={this.handleInputSour} />
           <br></br>
           <RatingBitter onChange={this.handleInputBitter} />
+          <br></br>
+          <RatingGrade onChange={this.handleInputGrade}></RatingGrade>
         </div>
 
         <InputBox comment={this.state.comment} onChange={this.handleInputComment} />
@@ -122,6 +131,17 @@ const RatingBitter = ({ onChange }) => {
   return (
     <div className={styles.taste}>
       <span class={styles.font}>쓴맛 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
+
+const RatingGrade = ({ onChange }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>평점 </span>
       <span class={styles.rating}>
         <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
       </span>

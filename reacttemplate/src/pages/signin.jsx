@@ -31,17 +31,16 @@ class SignIn extends React.Component {
 
   // 로그인버튼 클릭시 서버로 데이터 전송
   handleSubmit = e => {
+    const { id, pw } = this.state;
     e.preventDefault();
 
     const login_info = {
-      method: "POST",
-      body: JSON.stringify(this.state),
-      headers: {
-        "Content-Type": "application/json"
-      }
+      userId: id,
+      pwd: pw
     };
+    {/* 
     Promise.all([axios.post('/api/login', login_info)])
-      .then(([res]) => {
+      .then(res => {
         console.log('post 성공');
         return res.json();
       })
@@ -65,6 +64,7 @@ class SignIn extends React.Component {
         alert('아이디 혹은 비밀번호를 확인하세요');
       }
     });
+    */}
   }
 
   render() {
