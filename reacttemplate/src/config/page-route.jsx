@@ -12,6 +12,8 @@ import MyReview from '../pages/myreview.jsx';
 import MyLike from '../pages/mylike.jsx';
 import MyRecent from '../pages/myrecent.jsx';
 import AdminPage from '../pages/adminpage.jsx';
+import SignIn from '../pages/signin.jsx';
+import Register from '../pages/register.jsx';
 
 const routes = [
   {
@@ -62,6 +64,14 @@ const routes = [
   {
     path: '/adminpage',
     component: () => <AdminPage />,
+  },
+  {
+    path: '/signin',
+    component: () => <SignIn />,
+  },
+  {
+    path: '/register',
+    component: () => <Register />,
   },
 ];
 
