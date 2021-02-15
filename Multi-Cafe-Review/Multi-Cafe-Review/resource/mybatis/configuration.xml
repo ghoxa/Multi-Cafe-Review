@@ -11,6 +11,7 @@
 		<typeAlias type="kr.co.multicafe.dto.Review" alias="Review"/>
 		<typeAlias type="kr.co.multicafe.dto.Users" alias="Users"/>
 		<typeAlias type="kr.co.multicafe.dto.ReviewLike" alias="ReviewLike"/>
+		<typeAlias type="kr.co.multicafe.dto.Taste" alias="Taste"/>
 	</typeAliases>
 
 </configuration>

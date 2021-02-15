@@ -2,6 +2,8 @@ package kr.co.multicafe.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +38,9 @@ public class UserController {
 	
 	
 	@GetMapping("/menu/{menuId}/like")
-	public void updateGood(@SessionAttribute("user") Users users, @PathVariable int menuId) {
+	public int updateGood(HttpSession session, @PathVariable int menuId) {
 //		menuService.insertOrDeleteLike(UserUtil.getCurrentUserId(), menuId);
-		menuService.insertOrDeleteLike(users.getUserId(), menuId);
+		return menuService.insertOrDeleteLike(((Users)session.getAttribute("user")).getUserId(), menuId);
 	}
 
 	//리뷰 추가

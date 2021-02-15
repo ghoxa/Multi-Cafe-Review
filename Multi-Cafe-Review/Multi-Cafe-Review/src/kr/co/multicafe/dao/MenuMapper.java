@@ -1,11 +1,13 @@
 package kr.co.multicafe.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.co.multicafe.dto.Menu;
+import kr.co.multicafe.dto.Taste;
 
 @Mapper
 public interface MenuMapper {
@@ -27,5 +29,8 @@ public interface MenuMapper {
 	public void minusGood(int menuId);
 	public int updateMenuTaste(int menuId);
 	public int updateMenuGrade(int menuId);
+	public List<Menu> listViewRecommendMenuByKeyword(@Param("menuId") int menuId, @Param("keyword") String keyword);
+	public Taste getMenuTaste(int menuId);
+	public List<Menu> listViewRecommendMenuByTaste(@Param("menuId") int menuId, @Param("list") List<String> list, @Param("max") double max);
 	
 }
