@@ -17,25 +17,26 @@ import {
   Row,
 } from "reactstrap";
 
-class Admin_Insert extends React.Component {
-  state = {
-    "menuId": "",
-    "name": "dd",
-    "price": "",
-    "description": "",
-    "grade": "",
-    "keyword": "",
-    "image": "",
-    "good": "",
-    "click": "",
-    "hot": "",
-    "ice": "",
-    "categoryId": 3003,
-    "cafeId": 2007,
-    "sweet": "",
-    "bitter": "",
-    "sour": ""  
-  };
+const state = {
+  "menuId": "",
+  "name": "dd",
+  "price": "",
+  "description": "",
+  "grade": "",
+  "keyword": "",
+  "image": "",
+  "good": "",
+  "click": "",
+  "hot": "",
+  "ice": "",
+  "categoryId": 3003,
+  "cafeId": 2007,
+  "sweet": "",
+  "bitter": "",
+  "sour": ""  
+};
+
+class Admin_Insert extends React.Component {  
 
   render() {
     return (

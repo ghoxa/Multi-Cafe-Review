@@ -87,7 +87,7 @@ class Header extends React.Component {
             <nav className='mt-4' aria-label='Page navigation sample'>
               <Swiper
                 // spaceBetween={0}
-                slidesPerView={6}
+                slidesPerView={7}
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => console.log(swiper)}
               >
