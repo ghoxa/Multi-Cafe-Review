@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import menuDataJson from "./menudata.json";
 import Page from "../components/layout/page";
+import axios from 'axios';
 import {
   Button,
   Card,
@@ -38,6 +39,38 @@ const state = {
 
 class Admin_Insert extends React.Component {  
 
+  handleSubmit = () => {
+    const { sweet, sour, bitter, grade, comment } = this.state;
+
+    if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '') {
+      alert('모든 입력을 완료해 주세요');
+      return;
+    }
+
+    const data = {
+      reviewId:"",
+      reviewDate:"",
+      content: comment,
+      good:"",
+      grade: grade,
+      userId:"",
+      menuId:50000126,
+      sweet:sweet,
+      bitter:bitter,
+      sour:sour
+    };
+
+    Promise.all([axios.post('/api/review', data)])
+      .then(([res]) => {
+        console.log('post 성공');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    alert('입력완료');
+    //window.location.replace('/review');
+  };
   render() {
     return (
       <section className="section-content padding-y">
