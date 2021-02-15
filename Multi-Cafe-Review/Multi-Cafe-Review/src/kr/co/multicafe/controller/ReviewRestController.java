@@ -23,31 +23,9 @@ public class ReviewRestController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	//리뷰 추가
-	@PostMapping
-	public int insertReview(@RequestBody Review review) {
-		return reviewService.insertReview(review);
-	}
-	
-	//리뷰 업데이트 sweet, bitter, sour 업뎃 안됨
-	@PutMapping
-	public int updateReview(@RequestBody Review review) {
-		return reviewService.updateReview(review);
-	}
-	
-	@DeleteMapping("/{reviewId}")
-	public int deleteReview(@PathVariable(name="reviewId") int reviewId) {
-		return reviewService.deleteReview(reviewId);
-	}
-	
 	@GetMapping("/{menuId}")
 	public List<Review> listViewReview(@PathVariable(name="menuId")int menuId){
 		return reviewService.listViewReview(menuId);
-	}
-	
-	@GetMapping("/my/{userId}")
-	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
-		return reviewService.listMyReview(userId);
 	}
 	
 //	@GetMapping("/{reviewId}")
@@ -60,8 +38,4 @@ public class ReviewRestController {
 		return reviewService.goodListReview(menuId);
 	}
 
-	@PostMapping("/good/count")
-	public int updateGood(@RequestBody ReviewLike reviewLike) { 
-		return reviewService.updateGood(reviewLike.getReviewId(), reviewLike.getUserId());
-	}
 }
