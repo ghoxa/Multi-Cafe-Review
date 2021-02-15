@@ -1,6 +1,9 @@
 package kr.co.multicafe.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Users;
 import kr.co.multicafe.service.MenuService;
+import kr.co.multicafe.service.ReviewService;
 
 @RestController
 @RequestMapping(path="/api/menu")
@@ -20,6 +24,8 @@ public class MenuRestController {
 	@Autowired
 	private MenuService menuService;
 	
+	@Autowired
+	private ReviewService reviewService;
 	
 	@GetMapping("/{menuId}")
 	public Menu getMenu(@PathVariable int menuId) {
@@ -74,6 +80,18 @@ public class MenuRestController {
 	@GetMapping("/search/{cafeId}/{keyword}")
 	public List<Menu> searchCafeMenu(@PathVariable int cafeId, @PathVariable String keyword) { //(카페별 검색)메뉴이름, 설명, 키워드
 		return menuService.searchCafeMenu(cafeId, keyword);
+	}
+	
+	@GetMapping("/{menuId}/recommend/keyword")
+	public List<Menu> listViewRecommendMenuByKeyword(@PathVariable int menuId) {
+		return menuService.listViewRecommendMenuByKeyword(menuId);
+	}
+	
+	@GetMapping("/{menuId}/recommend/taste")
+	public List<Menu> listViewRecommendMenuByTaste(@PathVariable int menuId, HttpServletResponse response) throws Exception {
+		if (reviewService.listViewReview(menuId) == null)
+			response.sendError(5001, "메뉴에 대한 리뷰정보가 없습니다. (taste기준 추천 불가능)");
+		return menuService.listViewRecommendMenuByTaste(menuId);
 	}
 	
 	

@@ -15,10 +15,17 @@ public class Menu {
 	private int ice;
 	private int categoryId;
 	private int cafeId;
+	private String cafeName;
 	private double sweet;
 	private double bitter;
 	private double sour;
 	
+	public String getCafeName() {
+		return cafeName;
+	}
+	public void setCafeName(String cafeName) {
+		this.cafeName = cafeName;
+	}
 	public double getSweet() {
 		return sweet;
 	}
@@ -120,7 +127,7 @@ public class Menu {
 		return "Menu [menuId=" + menuId + ", name=" + name + ", price=" + price + ", description=" + description
 				+ ", grade=" + grade + ", keyword=" + keyword + ", image=" + image + ", good=" + good + ", click="
 				+ click + ", hot=" + hot + ", ice=" + ice + ", categoryId=" + categoryId + ", cafeId=" + cafeId
-				+ ", sweet=" + sweet + ", bitter=" + bitter + ", sour=" + sour + "]";
+				+ ", cafeName=" + cafeName + ", sweet=" + sweet + ", bitter=" + bitter + ", sour=" + sour + "]";
 	}
-
+	
 }

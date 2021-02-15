@@ -13,5 +13,5 @@ public interface LikesMapper {
 	public List<Menu> listViewLike(String userId);
 	public int insertLike(Likes likes);
 	public int deleteLike(int likeId);
-	public Likes getLike(@Param("userId") String string, @Param("menuId") int menuId);
+	public Likes getLike(@Param("userId") String userId, @Param("menuId") int menuId);
 }

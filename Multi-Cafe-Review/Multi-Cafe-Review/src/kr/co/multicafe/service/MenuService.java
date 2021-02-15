@@ -1,7 +1,11 @@
 package kr.co.multicafe.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +17,7 @@ import kr.co.multicafe.dao.RecentMapper;
 import kr.co.multicafe.dto.Likes;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Recent;
+import kr.co.multicafe.dto.Taste;
 
 @Service
 @Transactional
@@ -105,6 +110,28 @@ public class MenuService {
 	
 	public List<Menu> searchCafeMenu(int cafeId, String keyword) { //(카페별 검색)메뉴이름, 설명, 키워드
 		return menuMapper.searchCafeMenu(cafeId, keyword);
+	}
+	
+	@Transactional
+	public List<Menu> listViewRecommendMenuByKeyword(int menuId) {
+		return menuMapper.listViewRecommendMenuByKeyword(menuId, menuMapper.getMenu(menuId).getKeyword());
+	}
+	
+	@Transactional
+	public List<Menu> listViewRecommendMenuByTaste(int menuId) {
+		Taste taste = menuMapper.getMenuTaste(menuId);
+		System.out.println(taste);
+		List<String> maxCol = new ArrayList<String>();
+		double max = Math.max(Math.max(taste.getSweet(), taste.getBitter()), taste.getSour());
+		if (taste.getSweet() == max) 
+			maxCol.add("sweet");
+		if (taste.getBitter() == max) 
+			maxCol.add("bitter");
+		if (taste.getSour() == max) 
+			maxCol.add("sour");
+		System.out.println(maxCol);
+		System.out.println(max);
+		return menuMapper.listViewRecommendMenuByTaste(menuId, maxCol, max);
 	}
 
 	public List<Menu> listViewLike(String userId) {

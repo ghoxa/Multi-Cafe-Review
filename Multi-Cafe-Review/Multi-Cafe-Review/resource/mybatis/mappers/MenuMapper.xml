@@ -28,52 +28,63 @@
 	</select>
 	
 	<select id="listViewMenu" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from menu
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id
 	</select>
 	
 	<select id="listViewMenuByCondition" parameterType="java.lang.String" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from menu
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id
 		order by #{condition} desc
 	</select>
 	
 	<select id="listViewCafeMenuByCondition" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour from menu where cafe_id=#{cafeId})
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from menu m, cafe c
+				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
 		order by #{condition} desc
 	</select>
 	
 	<select id="listViewCategoryMenuByCondition" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour from menu where category_id=#{categoryId})
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from menu m, cafe c
+				where m.cafe_id = c.cafe_id and m.category_id=#{categoryId})
 		order by #{condition} desc
 	</select>
 	
 	<select id="listViewCafeMenu" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from menu where cafe_id=#{cafeId}
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId}
 	</select>
 	
 	<select id="listViewCategoryMenu" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from menu where category_id=#{categoryId}
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.category_id=#{categoryId}
 	</select>
 	
 	<select id="listViewCafeMenuByCategory" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from menu where cafe_id=#{cafeId} and category_id=#{categoryId}
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
 	</select>
 	
 	<select id="searchMenu" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from menu
-		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.name like '%'||#{keyword}||'%' or m.description like '%'||#{keyword}||'%' or m.keyword like '%'||#{keyword}||'%'
 	</select>
 	
 	<select id="searchCafeMenu" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour from menu where cafe_id=#{cafeId})
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from menu m, cafe c
+				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
 		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
 	</select>
 	
@@ -92,4 +103,24 @@
 	<update id="updateMenuGrade" parameterType="int">
 		update menu set grade=(select avg(grade) from review where menu_id=#{menuId}) where menu_id=#{menuId}
 	</update>
+	
+	<select id="getMenuTaste" resultType="Taste">
+		select sweet, bitter, sour from menu where menu_id=#{menuId}
+	</select>
+	
+	<select id="listViewRecommendMenuByKeyword" resultMap="menu_resultMap">
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.menu_id!=#{menuId} and m.keyword=#{keyword}
+	</select>
+	
+	<select id="listViewRecommendMenuByTaste" resultMap="menu_resultMap">
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.menu_id!=#{menuId}
+		order by
+		<foreach collection="list" item="item" separator=", ">
+			abs(#{max}-${item})
+		</foreach>
+	</select>
 </mapper>
