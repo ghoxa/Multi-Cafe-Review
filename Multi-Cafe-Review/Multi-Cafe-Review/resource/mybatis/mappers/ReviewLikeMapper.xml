@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.multicafe.dao.ReviewLikeMapper">
+	<resultMap type="ReviewLike" id="reviewlike_resultMap">
+		<result column="review_like_id" property="reviewLikeId"/>
+		<result column="review_id" property="reviewId"/>
+		<result column="user_id" property="userId"/>
+	</resultMap>
+	
+	<!-- ListView -->
+	<select id="getReviewLike" resultMap="reviewlike_resultMap">
+		select review_like_id, user_id, review_id 
+		from review_like
+		where review_id=#{reviewId} and user_id=#{userId}
+	</select>
+	
+	<!-- Insert -->
+	<insert id="insertReviewLike" parameterType="ReviewLike">
+		<selectKey keyProperty="likeId" resultType="Integer" order="BEFORE">
+			select review_like_seq.nextval from dual
+		</selectKey>
+		insert into review_like values(#{reviewLikeId}, #{userId},#{reviewId})
+	</insert>
+	
+	<!-- Delete -->	
+	<delete id="deleteReviewLike" parameterType="java.lang.Integer" >
+		delete from review_like where review_like_id = #{reviewLikeId}
+	</delete>
+
+
+</mapper>
