@@ -29,6 +29,7 @@ public class LikesService {
 		Likes likes = likesMapper.getLike(userId, menuId);
 		if (likes == null) {
 			menuMapper.addGood(menuId);
+			likes = new Likes();
 			likes.setUserId(userId);
 			likes.setMenuId(menuId);
 			return likesMapper.insertLike(likes);

@@ -7,7 +7,7 @@ public class Users {
 	private String phone;
 	private String email;
 	private String address;
-	private int joinDate;
+	private String joinDate;
 	private double sweet;
 	private double bitter;
 	private double sour;
@@ -62,10 +62,10 @@ public class Users {
 		this.address = address;
 	}
 
-	public int getJoinDate() {
+	public String getJoinDate() {
 		return joinDate;
 	}
-	public void setJoinDate(int joinDate) {
+	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
 	}
 

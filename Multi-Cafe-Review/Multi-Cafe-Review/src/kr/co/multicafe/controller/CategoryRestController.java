@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.co.multicafe.dto.Category;
 import kr.co.multicafe.service.CategoryService;
 
-@RestController //ResponseBody라는 것을 붙일 필요 없음
+@RestController 
 @RequestMapping(path="/api/category")
 public class CategoryRestController {
-//	public List<Category> listViewCategory();
-//	public Category getCategory(int category_id);
-	
-	@Autowired //Service에게 데이터 얻어오는 부분
+
+	@Autowired 
 	private CategoryService categoryService;
 	
 	@GetMapping
@@ -28,6 +26,5 @@ public class CategoryRestController {
 	@GetMapping("/{categoryId}")
 	public Category getCategory(@PathVariable(name="categoryId")int categoryId) {
 		return categoryService.getCategory(categoryId);
-
 	}
 }

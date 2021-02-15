@@ -10,6 +10,7 @@
 		<typeAlias type="kr.co.multicafe.dto.Recent" alias="Recent"/>
 		<typeAlias type="kr.co.multicafe.dto.Review" alias="Review"/>
 		<typeAlias type="kr.co.multicafe.dto.Users" alias="Users"/>
+		<typeAlias type="kr.co.multicafe.dto.ReviewLike" alias="ReviewLike"/>
 	</typeAliases>
 
 </configuration>

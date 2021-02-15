@@ -12,10 +12,9 @@ public interface ReviewMapper {
 	public int updateReview(Review review);
 	public int deleteReview(int reviewId);
 	public List<Review> listViewReview(int menuId);
-	public List<Review> listMyReview(int userId);
+	public List<Review> listMyReview(String userId);
 	public Review getReview(int reviewId);
-	public List<Review> goodListReview(int menuId); //?
-	public int addGood(int reviewId); //리뷰 좋아요 올리기
-	public int deleteGood(int reviewId);
-	//getMyReview
+	public List<Review> goodListReview(int menuId);
+	public int plusGood(int reviewId);
+	public int minusGood(int reviewId);
 }

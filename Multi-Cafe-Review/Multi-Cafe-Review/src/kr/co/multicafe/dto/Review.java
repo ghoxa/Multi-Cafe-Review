@@ -3,7 +3,7 @@ package kr.co.multicafe.dto;
 public class Review {
 	
 	private int reviewId;
-	private int reviewDate;
+	private String reviewDate;
 	private String content;
 	private int good;
 	private int grade;
@@ -19,10 +19,10 @@ public class Review {
 	public void setReviewId(int reviewId) {
 		this.reviewId = reviewId;
 	}
-	public int getReviewDate() {
+	public String getReviewDate() {
 		return reviewDate;
 	}
-	public void setReviewDate(int reviewDate) {
+	public void setReviewDate(String reviewDate) {
 		this.reviewDate = reviewDate;
 	}
 	public String getContent() {
@@ -55,6 +55,8 @@ public class Review {
 	public void setMenuId(int menuId) {
 		this.menuId = menuId;
 	}
+	
+	
 	public double getSweet() {
 		return sweet;
 	}
