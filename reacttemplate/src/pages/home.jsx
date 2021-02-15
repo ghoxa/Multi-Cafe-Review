@@ -5,8 +5,6 @@ import { CircularProgress } from "@material-ui/core";
 
 
 
-const cafeId = localStorage.getItem('cafeId');
-const TestUrl = `/api/menu/cafe/${cafeId}`;
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -22,14 +20,18 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([axios.get(TestUrl)])
-      .then(([res]) => {
+    const cafeId = localStorage.getItem('cafeId');
+    const TestUrl = axios.get(`/api/menu/cafe/${cafeId}`);
+    const allUrl = axios.get(`/api/menu/`);
+    Promise.all([TestUrl, allUrl])
+      .then(([res, res2]) => {
         this.setState({
-          Test: res.data,
+          Memu: res.data,
+          Allmenu: res2.data,
           isLoaded: true,
-        });
+        });   
 
-        // console.log(this.state.Test);
+        console.log(cafeId);
       })
       .catch((err) => {
         console.log(err);
@@ -57,11 +59,9 @@ class Home extends React.Component {
         </div>
       );
     } else {
-      // {console.log(this.state.Test)}
-      let start = 0;
       let menulist = [];
-      let list = this.state.Test;
-      for (let i = start; i < start + 9; i++) {
+      let list = this.state.Memu;
+      for (let i = 0; i < 9; i++) {
         menulist.push(
           <Link to="/review" >
             <div className="card card-product-list"

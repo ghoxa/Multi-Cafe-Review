@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
-import cafeListJson from "./cafeList.json";
+// import cafeListJson from "./cafeList.json";
 import axios from "axios";
 import { ThemeProvider } from "react-bootstrap";
+import { CircularProgress } from "@material-ui/core";
 
 const cafeApi = "/api/cafe";
 
@@ -13,43 +14,60 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cafeListJson,
+      isLoaded: false,
     };
   }
 
-  cafeLogoMount() {
+  componentDidMount() {
     Promise.all([axios.get(cafeApi)])
       .then(([res]) => {
         this.setState({
-          Test: res.data,
+          Cafe: res.data,
+          isLoaded: true,
         });
-
-        
+        // console.log(this.state.Cafe);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  handleClick = value => () => {
+    // console.log(value);
+    localStorage.setItem("cafeId", value)
+    window.location.replace("/")
+  }
+
   render() {
+    const { isLoaded } = this.state;
     const { logged, onLogout } = this.props;
-    console.log(this.state.Test);
-    // let cafelist = [];
-    // let list = this.state.Cafe;
-    // for (let i = 0; i < Cafe.length; i++) {
-    //   cafelist.push(
-    //     <SwiperSlide>
-    //       <div>
-    //         {/* <img
-    //           className="rounded-circle"
-    //           style={{ width: 100, height: 100 }}
-    //           src={list[i]["logoImg"]}
-    //         /> */}
-    //         {Cafe[i]["name"]}
-    //       </div>
-    //     </SwiperSlide>
-    //   );
-    // }
+
+    if (!isLoaded) {
+      return (
+        <div
+          id="loader"
+          style={{ position: "absolute", top: "50%", left: "50%" }}
+        >
+          <CircularProgress />
+        </div>
+      );
+    } else {
+      let cafelist = [];
+      let cafe = this.state.Cafe;
+      for (let i = 0; i < cafe.length; i++) {
+        cafelist.push(
+          <SwiperSlide>            
+            <div onClick={this.handleClick(cafe[i]["cafeId"])}>
+              {/* <img
+              className="rounded-circle"
+              style={{ width: 100, height: 100 }}
+              src={list[i]["logoImg"]}
+            /> */}
+              {cafe[i]["name"]}
+            </div>            
+          </SwiperSlide>
+        );
+      }
       return (
         <div>
           <header className="section-header">
@@ -115,11 +133,21 @@ class Header extends React.Component {
               <nav className="mt-4" aria-label="Page navigation sample">
                 <Swiper
                   // spaceBetween={0}
-                  slidesPerView={7}
+                  slidesPerView={6}
                   // onSlideChange={() => console.log("slide change")}
                   // onSwiper={(swiper) => console.log(swiper)}
                 >
-                  {/* {cafelist} */}
+                  <SwiperSlide>                    
+                      <div onClick={this.handleClick(localStorage.removeItem("all"))}>
+                        {/* <img
+                        className="rounded-circle"
+                        style={{ width: 100, height: 100 }}
+                        src={list[i]["logoImg"]}
+                      /> */}
+                        모든카페                     
+                      </div>                    
+                  </SwiperSlide>
+                  {cafelist}
                 </Swiper>
               </nav>
             </div>
@@ -128,5 +156,6 @@ class Header extends React.Component {
       );
     }
   }
+}
 
 export default Header;
