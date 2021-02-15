@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
-// import cafeListJson from "./cafeList.json";
 import axios from "axios";
 import { ThemeProvider } from "react-bootstrap";
 import { CircularProgress } from "@material-ui/core";
@@ -82,15 +80,15 @@ class Header extends React.Component {
                   </div>
                   <div className="col-lg-6 col-sm-12">
                     {/* <form action="#" className="search">
-                                  <div className="input-group w-100">
-                                      <input type="text" className="form-control" placeholder="Search" />
-                                      <div className="input-group-append">
-                                      <button className="btn btn-primary" type="submit">
-                                          <i className="fa fa-search"></i>
-                                      </button>
-                                      </div>
-                                  </div>
-                              </form>  */}
+                        <div className="input-group w-100">
+                            <input type="text" className="form-control" placeholder="Search" />
+                            <div className="input-group-append">
+                            <button className="btn btn-primary" type="submit">
+                                <i className="fa fa-search"></i>
+                            </button>
+                            </div>
+                        </div>
+                    </form>  */}
                   </div>
                   <div className="col-lg-4 col-sm-6 col-12">
                     <div className="widgets-wrap float-md-right">
@@ -134,11 +132,9 @@ class Header extends React.Component {
                 <Swiper
                   // spaceBetween={0}
                   slidesPerView={6}
-                  // onSlideChange={() => console.log("slide change")}
-                  // onSwiper={(swiper) => console.log(swiper)}
                 >
                   <SwiperSlide>                    
-                      <div onClick={this.handleClick(localStorage.removeItem("all"))}>
+                      <div onClick={this.handleClick(0)}>
                         {/* <img
                         className="rounded-circle"
                         style={{ width: 100, height: 100 }}

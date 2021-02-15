@@ -31,19 +31,11 @@ class Home extends React.Component {
           isLoaded: true,
         });   
 
-        console.log(cafeId);
+        // console.log(cafeId);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    // Promise.all([axios.post(TestPost, Data)])
-    //   .then(([res]) => {
-    //     console.log("post 성공");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }  
 
   render() {
@@ -60,7 +52,12 @@ class Home extends React.Component {
       );
     } else {
       let menulist = [];
-      let list = this.state.Memu;
+
+      let list = this.state.Allmenu;
+      if(localStorage.getItem("cafeId") != 0){
+        
+        list = this.state.Memu;
+      }
       for (let i = 0; i < 9; i++) {
         menulist.push(
           <Link to="/review" >
@@ -247,7 +244,6 @@ class Home extends React.Component {
 
                 {/* {this.createListOfSimilarMenu()} */}
                 <div className="card-columns">{menulist}</div>
-
 
                 <nav className="mt-4" aria-label="Page navigation sample">
                   <ul className="pagination justify-content-center">
