@@ -133,7 +133,7 @@ class ReviewPage extends Component {
           Test: res.data,
         });
 
-        console.log(this.state.Test[0]['name']);
+        // console.log(this.state.Test[0]['name']);
       })
       .catch((err) => {
         console.log(err);

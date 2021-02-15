@@ -29,6 +29,12 @@ class Home extends React.Component {
     this.state = {
       isLoaded: false,
     };
+    // this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick = value => () => {
+    // console.log(value);
+    localStorage.setItem("menuId", value)
   }
 
   componentDidMount() {
@@ -52,8 +58,7 @@ class Home extends React.Component {
     //   .catch((err) => {
     //     console.log(err);
     //   });
-  }
-  createListOfSimilarMenu() {}
+  }  
 
   render() {
     const { isLoaded } = this.state;
@@ -68,6 +73,52 @@ class Home extends React.Component {
         </div>
       );
     } else {
+      let menulist = [];
+      let list = this.state.Test;
+      // {console.log(this.state.Test[0])}
+      for (let i = 0; i < 9; i++) {
+        menulist.push(
+          <Link to="/review" >
+            <div className="card card-product-list"
+              key={list[i]["menuId"]}
+              onClick={this.handleClick(list[i]["menuId"])}
+            >
+              <div className="row no-gutters">
+                <img
+                  className="card-img-top"
+                  src={list[i]["image"]}
+                  alt="Card image"
+                />
+                <div className="card-body">
+                  <h6 className="card-title">{list[i]["name"]}</h6>
+                  <p className="text-success">{list[i]["cafeId"]}</p>
+                  <ul className="rating-stars">
+                    <li className="stars-active w-80">
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                    </li>
+                    <li>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                      <i className="fa fa-star"></i>
+                    </li>
+                    <span>{list[i]["grade"]}</span>
+                  </ul>
+                  <div className="price-wrap">
+                    <span className="price h5">{list[i]["price"]}원</span>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </Link>
+        );
+      }
       return (
         <section className="section-content padding-y">
           <div className="container">
@@ -197,7 +248,6 @@ class Home extends React.Component {
                 </div>
               </aside>
 
-              {/* 이 부분 부터 바뀐다 */}
               <main className="col-md-9">
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
@@ -211,61 +261,10 @@ class Home extends React.Component {
                   </div>
                 </header>
 
-                <div className="card-columns">
-                  {/* {this.state.Test.map((coffee, i) => {
-                  return ( */}
-                  <Link to="/review">
-                    <div
-                      className="card card-product-list"
-                      onClick={localStorage.setItem(
-                        "menuId",
-                        this.state.Test[0]["menuId"]
-                      )}
-                    >
-                      <div className="row no-gutters">
-                        <img
-                          className="card-img-top"
-                          src={this.state.Test[0]["image"]}
-                          alt="Card image"
-                        />
-                        <div className="card-body">
-                          <h5 className="card-title">
-                            {this.state.Test[0]["name"]}
-                          </h5>
-                          <p className="text-success">
-                            {this.state.Test[0]["cafeId"]}
-                          </p>
+                {/* {this.createListOfSimilarMenu()} */}
+                <div className="card-columns">{menulist}</div>
 
-                          <ul className="rating-stars">
-                            <li className="stars-active w-80">
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                            </li>
-                            <li>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                            </li>
-                            <span>{this.state.Test[0]["grade"]}</span>
-                          </ul>
-                          <div className="price-wrap">
-                            <span className="price h5">
-                              {this.state.Test[0]["price"]}원
-                            </span>
-                          </div>
-                          <br />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                  {/* );
-                })} */}
-                </div>
+
                 <nav className="mt-4" aria-label="Page navigation sample">
                   <ul className="pagination justify-content-center">
                     <li className="page-item disabled">
