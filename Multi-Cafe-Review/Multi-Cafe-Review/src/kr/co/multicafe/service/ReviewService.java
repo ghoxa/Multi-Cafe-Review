@@ -2,10 +2,13 @@ package kr.co.multicafe.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.multicafe.common.utils.UserUtil;
 import kr.co.multicafe.dao.MenuMapper;
 import kr.co.multicafe.dao.ReviewLikeMapper;
 import kr.co.multicafe.dao.ReviewMapper;
@@ -26,21 +29,27 @@ public class ReviewService {
 	@Autowired
 	private MenuMapper menuMapper;
 	
+	
 	//리뷰 추가
 	@Transactional
 	public int insertReview(Review review) throws RuntimeException{
 		int result=0;
-		
+		//로그인 한 사용자가 이미 리뷰 작성한 메뉴인지 확인
+		UserUtil userUtil = new UserUtil();
+		String userId = userUtil.getCurrentUserId();
 		try {
-			result = reviewMapper.insertReview(review);
-			menuMapper.updateMenuGrade(review.getMenuId());
-			menuMapper.updateMenuTaste(review.getMenuId());
-	
+			if(reviewMapper.getReview(userId, review.getMenuId())==null) {
+				result = reviewMapper.insertReview(review);
+				menuMapper.updateMenuGrade(review.getMenuId());
+				menuMapper.updateMenuTaste(review.getMenuId());
+			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			result = 0;
 		}
-		
+
+
 		return result;
 	}
 	
@@ -84,9 +93,9 @@ public class ReviewService {
 	}
 	
 	//리뷰 하나 얻어오기
-	public Review getReview(int reviewId) {
-		return reviewMapper.getReview(reviewId);
-	}
+//	public Review getReview(int reviewId) {
+//		return reviewMapper.getReview(reviewId);
+//	}
 	
 	//좋아요 많은 순서로 리뷰 보여주기
 	public List<Review> goodListReview(int menuId){

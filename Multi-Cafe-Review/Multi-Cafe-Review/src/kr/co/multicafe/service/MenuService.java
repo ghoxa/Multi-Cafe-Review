@@ -47,9 +47,21 @@ public class MenuService {
 	public Menu getMenuCheck(int menuId) {
 		UserUtil userUtil = new UserUtil();
 		if(userUtil.getCurrentUsers()!=null) { //로그인이 된 상태면 Recent에 추가하고 Menu 보여주기
-			//userId로 recent 가져와서 
-			Recent recent = recentMapper.getRecent(menuId);
-			recent.setUserId(userUtil.getCurrentUserId());
+			String userId = userUtil.getCurrentUserId(); 
+			Recent recent =recentMapper.getRecent(userId,menuId); 
+			
+			if(recent!=null){ //(menuId, userId)가 recent 테이블에 이미 있으면
+				
+				recentMapper.deleteRecent(recent.getRecentId());
+			}
+			
+			else if(recentMapper.countMyRecent(userId)>=20) { //userId의 최근 본 메뉴가 20개 이상일 경우 가장 오래된 recent 삭제
+				Recent tmp = recentMapper.getRecentPast(userId);
+				recentMapper.deleteRecent(tmp.getRecentId());
+			}
+
+			recent = new Recent();
+			recent.setUserId(userId);
 			recent.setMenuId(menuId);
 			recentMapper.insertRecent(recent);
 			return menuMapper.getMenu(menuId);

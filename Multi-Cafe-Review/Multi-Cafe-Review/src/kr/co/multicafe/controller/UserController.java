@@ -1,8 +1,12 @@
 package kr.co.multicafe.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +38,7 @@ public class UserController {
 	@Autowired
 	private RecentService recentService;
 	
-	
+
 	@GetMapping("/menu/{menuId}/like")
 	public void updateGood(@SessionAttribute("user") Users users, @PathVariable int menuId) {
 //		menuService.insertOrDeleteLike(UserUtil.getCurrentUserId(), menuId);
@@ -43,11 +47,14 @@ public class UserController {
 
 	//리뷰 추가
 	@PostMapping("/review")
-	public int insertReview(@RequestBody Review review) {
+	public int insertReview(@RequestBody Review review, HttpServletResponse response) throws Exception {
+		if(reviewService.insertReview(review)==0)
+			response.sendError(5000, "해당 메뉴에 대한 리뷰를 이미 등록하셨습니다.");
 		return reviewService.insertReview(review);
+		
 	}
-	
-	//리뷰 업데이트 sweet, bitter, sour 업뎃 안됨
+
+	//리뷰 업데이트 
 	@PutMapping("/review")
 	public int updateReview(@RequestBody Review review) {
 		return reviewService.updateReview(review);

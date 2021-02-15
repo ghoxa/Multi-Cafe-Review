@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.co.multicafe.config.ApplicationConfig;
 import kr.co.multicafe.dao.RecentMapper;
+import kr.co.multicafe.dto.Cafe;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Recent;
 
@@ -39,5 +40,19 @@ public class RecentMapperTest {
 		int resultCount = recentMapper.insertRecent(recent); 
 		Assert.assertEquals(1, resultCount);
 		Assert.assertEquals(1,recentMapper.listViewRecent("sunga").size());
+	}
+	
+	@Test
+	public void deleteRecent() throws Exception{
+		int resultCount = recentMapper.deleteRecent(60000060);
+		Assert.assertEquals(1, resultCount);
+	}
+	
+	@Test
+	public void getRecent() throws Exception{
+		Recent recent = recentMapper.getRecent("sunga",50000345);
+		System.out.println(recent);
+		Assert.assertNotNull(recent);
+		Assert.assertEquals(60000060, recent.getRecentId());
 	}
 }

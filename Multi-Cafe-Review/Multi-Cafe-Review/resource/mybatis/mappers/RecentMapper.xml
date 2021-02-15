@@ -6,6 +6,12 @@
 		<result column="category_id" property="categoryId"/>
 		<result column="cafe_id" property="cafeId"/>
 	</resultMap>
+	<resultMap type="Recent" id="recent_resultMap">
+		<result column="recent_id" property="recentId"/>
+		<result column="user_id" property="userId"/>
+		<result column="menu_id" property="menuId"/>
+		<result column="recent_date" property="recentDate"/>
+	</resultMap>
 	
 	<!-- ListView -->
 	<select id="listViewRecent" parameterType="String" resultMap="menu_resultMap">
@@ -27,9 +33,19 @@
 	</delete>
 	
 	<!-- Get -->
-	<select id="getRecent"	parameterType="Integer">
-		select recent_id, user_id, menu_id
+	<select id="getRecent" resultMap="recent_resultMap">
+		select recent_id, user_id, menu_id, recent_date
 		from recent
-		where recent_id={#recentId}
+		where user_id=#{userId} and menu_id=#{menuId}
 	</select>
+	
+	<select id="countMyRecent" parameterType="String" resultType="Integer">
+		select count(*) from recent where user_id=#{userId}
+	</select>
+	
+	<select id="getRecentPast" parameterType="String" resultMap="recent_resultMap">
+		select recent_id, user_id, menu_id, recent_date from recent 
+		where user_id=#{userId} and recent_date=(select min(recent_date) from recent)
+	</select>
+	
 </mapper>

@@ -5,6 +5,7 @@ public class Recent {
 	private int recentId;
 	private String userId;
 	private int menuId;
+	private String recentDate;
 	
 	public int getMenuId() {
 		return menuId;
@@ -23,6 +24,14 @@ public class Recent {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	
+	
+	public String getRecentDate() {
+		return recentDate;
+	}
+	public void setRecentDate(String recentDate) {
+		this.recentDate = recentDate;
 	}
 	@Override
 	public String toString() {
