@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,9 +33,9 @@ public class MenuRestController {
 		return menuService.getMenu(menuId);
 	}
 	
-	@GetMapping("/check/{menuId}")
-	public Menu getMenuCheck(@PathVariable int menuId) {
-		return menuService.getMenuCheck(menuId);
+	@GetMapping("/check/{menuId}/{userId}")
+	public Menu getMenuCheck(@PathVariable int menuId, @PathVariable String userId) {
+		return menuService.getMenuCheck(menuId, userId);
 	}
 	
 	@GetMapping
