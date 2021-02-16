@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup, FormText, Input, Label, Row } from 'reactstrap';
 
 const FormPage = () => {
+  let user = localStorage.getItem("userInfo")
+  console.log(user)
+
   return (
     <section className='section-content padding-y'>
       <div className='container'>
@@ -48,7 +51,7 @@ const FormPage = () => {
                       Id
                     </Label>
                     <Col sm={10}>
-                      <Input type='id' name='id' placeholder='id placeholder' />
+                      <Input type='id' name='id' placeholder='id placeholder' value={user.userId}/>
                     </Col>
                   </FormGroup>
                   <FormGroup row>

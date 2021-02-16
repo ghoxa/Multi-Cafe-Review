@@ -1,17 +1,10 @@
 import React from 'react';
-import menuDataJson from './menudata.json';
 import { Link } from 'react-router-dom';
 
 class MyRecent extends React.Component {
   state = {
     myLike: false,
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuDataJson,
-    };
-  }
 
   render() {
     return (
@@ -64,7 +57,7 @@ class MyRecent extends React.Component {
               </header>
 
               <div className='card-columns'>
-                {this.state.menuDataJson.map((coffee, i) => {
+                {/* {this.state.menuDataJson.map((coffee, i) => {
                   return (
                     <Link to='/review'>
                       <div className='card card-product-list'>
@@ -100,7 +93,7 @@ class MyRecent extends React.Component {
                       </div>
                     </Link>
                   );
-                })}
+                })} */}
               </div>
               <nav className='mt-4' aria-label='Page navigation sample'>
                 <ul className='pagination justify-content-center'>

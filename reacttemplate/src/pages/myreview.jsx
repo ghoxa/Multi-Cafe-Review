@@ -1,17 +1,10 @@
 import React from 'react';
-import menuDataJson from './menudata.json';
 import { Link } from 'react-router-dom';
 
 class MyReview extends React.Component {
   state = {
     myLike: false,
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuDataJson,
-    };
-  }
 
   render() {
     return (
@@ -65,12 +58,12 @@ class MyReview extends React.Component {
 
               {/* myReview */}
               <div className='cardmypage'>
-                {this.state.menuDataJson.map((coffee, i) => {
+                {/* {this.state.menuDataJson.map((coffee, i) => {
                   return (
                     <div class='row no-gutters'>
                       <aside class='col-md-3'>
                         <a href='#' class='img-wrap'>
-                          {/* <span class="badge badge-danger"> NEW </span> */}
+                          
                           <img src={menuDataJson[i]['menu.image']} />
                         </a>
                       </aside>
@@ -132,7 +125,7 @@ class MyReview extends React.Component {
                         <div class='info-aside'>
                           <div class='price-wrap'>
                             <span class='price h5'> {menuDataJson[i]['menu.price']} 원 </span>
-                            {/* <del class="price-old"> $198</del> */}
+                            
                           </div>
                           <p class='text-success'>{menuDataJson[i]['cafe.name']}</p>
                           <br />
@@ -148,7 +141,7 @@ class MyReview extends React.Component {
                       </aside>
                     </div>
                   );
-                })}
+                })} */}
               </div>
               {/* myReview */}
 

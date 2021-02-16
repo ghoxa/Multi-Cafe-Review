@@ -144,7 +144,7 @@ class Home extends React.Component {
         try{
           cateList.push(
             <li>
-              <span onClick={this.handleClick2(category[i]['categoryId'])}>{category[i]["name"]}</span>
+              <a onClick={this.handleClick2(category[i]['categoryId'])}>{category[i]["name"]}</a>
             </li>
           )
         }catch(error){
@@ -192,9 +192,9 @@ class Home extends React.Component {
 
                         <ul className="list-menu">
                           <li>
-                            <span onClick={this.handleClick2(0)}>
+                            <a onClick={this.handleClick2(0)}>
                               모든카테고리
-                            </span>
+                            </a>
                           </li>
                           {cateList}
                         </ul>
