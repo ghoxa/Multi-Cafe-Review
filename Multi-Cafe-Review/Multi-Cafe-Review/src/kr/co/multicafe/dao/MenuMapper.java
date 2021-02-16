@@ -23,6 +23,7 @@ public interface MenuMapper {
 	public List<Menu> listViewCafeMenu(int cafeId);
 	public List<Menu> listViewCategoryMenu(int categoryId);
 	public List<Menu> listViewCafeMenuByCategory(@Param("cafeId") int cafeId, @Param("categoryId") int categoryId);
+	public List<Menu> listViewCafeCategoryMenuByCondition(@Param("cafeId") int cafeId, @Param("categoryId") int categoryId, @Param("condition") String condition);
 	public List<Menu> searchMenu(String keyword); //메뉴이름, 설명, 키워드
 	public List<Menu> searchCafeMenu(@Param("cafeId") int cafeId, @Param("keyword") String keyword); //(카페별 검색)메뉴이름, 설명, 키워드
 	public void addGood(int menuId);

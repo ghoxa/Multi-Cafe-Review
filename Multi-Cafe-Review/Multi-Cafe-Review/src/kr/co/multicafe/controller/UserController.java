@@ -37,7 +37,7 @@ public class UserController {
 
 	@Autowired
 	private RecentService recentService;
-	
+
 
 	@GetMapping("/menu/{menuId}/like")
 	public void updateGood(@SessionAttribute("user") Users users, @PathVariable int menuId) {
@@ -80,5 +80,6 @@ public class UserController {
 	public List<Menu> listViewRecent(@PathVariable(name="userId")String userId){
 		return recentService.listViewRecent(userId);
 	}
+	
 
 }

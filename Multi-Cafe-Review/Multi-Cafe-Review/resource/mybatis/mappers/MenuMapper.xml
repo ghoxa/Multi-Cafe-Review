@@ -37,7 +37,7 @@
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 		from menu m, cafe c
 		where m.cafe_id = c.cafe_id
-		order by #{condition} desc
+		order by ${condition} desc
 	</select>
 	
 	<select id="listViewCafeMenuByCondition" resultMap="menu_resultMap">
@@ -45,7 +45,7 @@
 		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 				from menu m, cafe c
 				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
-		order by #{condition} desc
+		order by ${condition} desc
 	</select>
 	
 	<select id="listViewCategoryMenuByCondition" resultMap="menu_resultMap">
@@ -53,7 +53,7 @@
 		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 				from menu m, cafe c
 				where m.cafe_id = c.cafe_id and m.category_id=#{categoryId})
-		order by #{condition} desc
+		order by ${condition} desc
 	</select>
 	
 	<select id="listViewCafeMenu" resultMap="menu_resultMap">
@@ -72,6 +72,13 @@
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 		from menu m, cafe c
 		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
+	</select>
+	
+	<select id="listViewCafeCategoryMenuByCondition" resultMap="menu_resultMap">
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
+		order by ${condition} desc
 	</select>
 	
 	<select id="searchMenu" resultMap="menu_resultMap">
@@ -120,12 +127,13 @@
 	</select>
 	
 	<select id="listViewRecommendMenuByTaste" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		select rownum as rn, m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 		from menu m, cafe c
 		where m.cafe_id = c.cafe_id and m.menu_id!=#{menuId}
 		order by
 		<foreach collection="list" item="item" separator=", ">
 			abs(#{max}-${item})
 		</foreach>
+		limit 20
 	</select>
 </mapper>

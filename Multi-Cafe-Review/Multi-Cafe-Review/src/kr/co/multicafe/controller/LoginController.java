@@ -39,17 +39,6 @@ public class LoginController {
 		return user;
 	}
 	
-	@PostMapping("/check")
-	public boolean checkIdForRegister(@RequestBody String id) {
-		if (usersService.getAdmin().getAdminId().equals(id)) {
-			return false;
-		}
-		if (usersService.checkIdForRegister(id) == null) {
-			return true;
-		}
-		return false;
-	}
-	
 	@GetMapping
 	public void logout(HttpSession session) {
 		if (session.getAttribute("admin") != null || session.getAttribute("user") != null) {
@@ -58,5 +47,7 @@ public class LoginController {
 			session.invalidate();
 		}
 	}
+	
+
 
 }

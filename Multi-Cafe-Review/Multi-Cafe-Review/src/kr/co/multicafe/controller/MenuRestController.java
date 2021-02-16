@@ -71,6 +71,11 @@ public class MenuRestController {
 	public List<Menu> listViewCafeMenuByCategory(@PathVariable int cafeId, @PathVariable int categoryId) {
 		return menuService.listViewCafeMenuByCategory(cafeId, categoryId);
 	}
+	
+	@GetMapping("cafe/{cafeId}/category/{categoryId}/{condition}")
+	public List<Menu> listViewCafeCategoryMenuByCondition(@PathVariable int cafeId, @PathVariable int categoryId, @PathVariable String condition) {
+		return menuService.listViewCafeCategoryMenuByCondition(cafeId, categoryId, condition);
+	}
 
 	@GetMapping("/search/{keyword}")
 	public List<Menu> searchMenu(@PathVariable String keyword) { //메뉴이름, 설명, 키워드

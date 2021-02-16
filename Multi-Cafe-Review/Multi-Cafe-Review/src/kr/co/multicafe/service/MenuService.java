@@ -104,6 +104,10 @@ public class MenuService {
 		return menuMapper.listViewCafeMenuByCategory(cafeId, categoryId);
 	}
 	
+	public List<Menu> listViewCafeCategoryMenuByCondition(int cafeId, int categoryId, String condition) {
+		return menuMapper.listViewCafeCategoryMenuByCondition(cafeId, categoryId, condition);
+	}
+	
 	public List<Menu> searchMenu(String keyword) { //메뉴이름, 설명, 키워드
 		return menuMapper.searchMenu(keyword);
 	}
