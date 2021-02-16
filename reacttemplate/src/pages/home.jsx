@@ -53,64 +53,56 @@ class Home extends React.Component {
         list = this.state.Memu;
       }
       for (let i = 0; i < 9; i++) {
-        menulist.push(
-          <Link to="/review" >
-            <div className="card card-product-list"
-              onClick={this.handleClick(list[i]["menuId"])}
-            >
-              <div className="row no-gutters">
-                <img
-                  className="card-img-top"
-                  src={list[i]["image"]}
-                  alt="Card image"
-                />
-                <div className="card-body">
-                  <h6 className="card-title">{list[i]["name"]}</h6>
-                  <p className="text-success">{list[i]["cafeName"]}</p>
-                  <ul className="rating-stars">
-                    <li className="stars-active w-80">
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                      <i className="fa fa-star"></i>
-                    </li>
-                    <li>
-                      <i className='fa fa-star'></i>
-                      <i className='fa fa-star'></i>
-                      <i className='fa fa-star'></i>
-                      <i className='fa fa-star'></i>
-                      <i className='fa fa-star'></i>
-                    </li>
-                    <span>{list[i]['grade']}</span>
-                  </ul>
-                  <div className='price-wrap'>
-                    <span className='price h5'>{list[i]['price']}원</span>
+        try {
+          menulist.push(
+            <Link to='/review'>
+              <div className='card card-product-list' onClick={this.handleClick(list[i]['menuId'])}>
+                <div className='row no-gutters'>
+                  <img className='card-img-top' src={list[i]['image']} alt='Card image' />
+                  <div className='card-body'>
+                    <h6 className='card-title'>{list[i]['name']}</h6>
+                    <p className='text-success'>{list[i]['cafeName']}</p>
+                    <ul className='rating-stars'>
+                      <li className='stars-active w-80'>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                      </li>
+                      <li>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                        <i className='fa fa-star'></i>
+                      </li>
+                      <span>{list[i]['grade']}</span>
+                    </ul>
+                    <div className='price-wrap'>
+                      <span className='price h5'>{list[i]['price']}원</span>
+                    </div>
+                    <br />
                   </div>
-                  <br />
                 </div>
               </div>
-            </div>
-          </Link>
-        );
+            </Link>
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
       return (
-        <section className="section-content padding-y">
-          <div className="container">
-            <div className="row">
-              <aside className="col-md-3">
-                <div className="card">
-                  <article className="filter-group">
-                    <header className="card-header">
-                      <a
-                        href="#"
-                        data-toggle="collapse"
-                        data-target="#collapse_1"
-                        aria-expanded="true"
-                        className=""
-                      >
-                        <i className="icon-control fa fa-chevron-down"></i>
-                        <h6 className="title">CATEGORY</h6>
+        <section className='section-content padding-y'>
+          <div className='container'>
+            <div className='row'>
+              <aside className='col-md-3'>
+                <div className='card'>
+                  <article className='filter-group'>
+                    <header className='card-header'>
+                      <a href='#' data-toggle='collapse' data-target='#collapse_1' aria-expanded='true' className=''>
+                        <i className='icon-control fa fa-chevron-down'></i>
+                        <h6 className='title'>CATEGORY</h6>
                       </a>
                     </header>
                     <div className='filter-content collapse show' id='collapse_1'>
@@ -128,22 +120,22 @@ class Home extends React.Component {
 
                         <ul className='list-menu'>
                           <li>
-                            <a href="#">3000</a>
+                            <a href='#'>3000</a>
                           </li>
                           <li>
-                            <a href="#">3001</a>
+                            <a href='#'>3001</a>
                           </li>
                           <li>
-                            <a href="#">3002</a>
+                            <a href='#'>3002</a>
                           </li>
                           <li>
-                            <a href="#">3003</a>
+                            <a href='#'>3003</a>
                           </li>
                           <li>
-                            <a href="#">3004</a>
+                            <a href='#'>3004</a>
                           </li>
                           <li>
-                            <a href="#">3005</a>
+                            <a href='#'>3005</a>
                           </li>
                         </ul>
                       </div>

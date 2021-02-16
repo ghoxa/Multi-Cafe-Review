@@ -60,14 +60,14 @@ class WriteReview extends Component {
       content: comment,
       good: '',
       grade: grade,
-      userId: '',
+      userId: 'sunga',
       menuId: menuId,
       sweet: sweet,
       bitter: bitter,
       sour: sour,
     };
 
-    Promise.all([axios.post('/api/review', data)])
+    Promise.all([axios.post('/api/user/review', data)])
       .then(([res]) => {
         console.log('post 성공');
       })
@@ -76,7 +76,7 @@ class WriteReview extends Component {
       });
 
     alert('입력완료');
-    window.location.replace('/review');
+    // window.location.replace('/review');
   };
 
   render() {
