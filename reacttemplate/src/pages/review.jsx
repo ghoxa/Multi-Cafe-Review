@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import ReactStars from 'react-rating-stars-component';
 import axios from 'axios';
-import BootstrapTable from 'react-bootstrap-table-next';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import { Table } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
-import { Button } from 'react-bootstrap';
-const products = [
-  { id: 1, name: 'Item 1', price: 100 },
-  { id: 2, name: 'Item 2', price: 102 },
-];
+
 class ReviewPage extends Component {
   // createListOfFiles() {
   //   let listOfFiles = [];
@@ -28,34 +23,11 @@ class ReviewPage extends Component {
       selectMenu: [],
       similarMenuByKeyWord: [],
       isLoaded: false,
-      columns: [
-        {
-          dataField: 'id',
-          text: 'id',
-          sort: true,
-        },
-        {
-          dataField: 'name',
-          text: 'Name',
-          sort: true,
-        },
-        {
-          dataField: 'price',
-          text: 'Product Price',
-        },
-        {
-          dataField: 'follow',
-          text: 'Follow',
-          formatter: this.linkFollow,
-          sort: true,
-        },
-      ],
-      isFollow: true,
     };
-    this.onFollowChanged.bind(this);
+    this.onlikeChanged.bind(this);
   }
 
-  onFollowChanged() {
+  onlikeChanged() {
     const menuId = localStorage.getItem('menuId');
     const likeCheckUrl = axios.get(`/api/menu/${menuId}/likecheck`);
     Promise.all([likeCheckUrl])
@@ -101,7 +73,8 @@ class ReviewPage extends Component {
       list.push(
         <SwiperSlide>
           <div className='col-lg-4 col-md-12 mb-4'>
-            <img src={this.state.similarMenuByKeyWord[i].image} className='cafeImg' alt='...' style={{ width: 100, height: 100 }} />
+            <img src={this.state.similarMenuByKeyWord[i].image} alt='...' style={{ width: 100, height: 100, display: 'inline' }} />
+            {this.state.similarMenuByKeyWord[i].name}
           </div>
         </SwiperSlide>
       );
@@ -113,9 +86,7 @@ class ReviewPage extends Component {
     for (let i = 0; i < this.state.similarMenuByTaste.length; ++i) {
       list.push(
         <SwiperSlide>
-          <div className='col-lg-4 col-md-12 mb-4'>
-            <img src={this.state.similarMenuByTaste[i].image} className='cafeImg' alt='...' style={{ width: 100, height: 100 }} />
-          </div>
+          <img src={this.state.similarMenuByTaste[i].image} className='cafeImg' alt='...' style={{ width: 100, height: 100 }} />
         </SwiperSlide>
       );
     }
@@ -149,23 +120,6 @@ class ReviewPage extends Component {
     }
     return list;
   }
-
-  onFollowChanged() {
-    this.setState({ isFollow: !this.state.isFollow });
-    console.log(this.state.isFollow);
-  }
-
-  linkFollow = (cell, row, rowIndex, formatExtraData) => {
-    return (
-      <Button
-        onClick={() => {
-          this.onFollowChanged(row);
-        }}
-      >
-        Follow
-      </Button>
-    );
-  };
 
   render() {
     const { selectMenu, isLoaded } = this.state;
@@ -269,18 +223,18 @@ class ReviewPage extends Component {
                   <tbody>{this.createListOfReview()}</tbody>
                 </Table>
 
-                <BootstrapTable keyField='id' data={products} columns={this.state.columns} />
+                {/* <BootstrapTable keyField='id' data={products} columns={this.state.columns} /> */}
 
                 {/*Grid row*/}
                 {/*Grid row*/}
-                <div className='row wow fadeIn'>
-                  <Swiper spaceBetween={0} slidesPerView={showsimimenukeyword} onSlideChange={() => console.log('slide change')} on Swiper={(swiper) => console.log('swiper')}>
-                    {/*Grid column*/}
-                    {this.similarcreateListOfsimilarMenuByKeyword()}
 
-                    {/*Grid column*/}
-                  </Swiper>
-                </div>
+                <Swiper spaceBetween={0} slidesPerView={showsimimenukeyword} onSlideChange={() => console.log('slide change')} on Swiper={(swiper) => console.log('swiper')}>
+                  {/*Grid column*/}
+                  {this.similarcreateListOfsimilarMenuByKeyword()}
+
+                  {/*Grid column*/}
+                </Swiper>
+
                 <div className='row wow fadeIn'>
                   <Swiper spaceBetween={0} slidesPerView={showsimimenutaste} onSlideChange={() => console.log('slide change')} on Swiper={(swiper) => console.log('swiper')}>
                     {/*Grid column*/}
