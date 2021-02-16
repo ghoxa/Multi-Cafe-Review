@@ -120,9 +120,15 @@ public class MenuService {
 	@Transactional
 	public List<Menu> listViewRecommendMenuByKeyword(int menuId) {
 		String keyword = menuMapper.getMenu(menuId).getKeyword();
-		String[] list = keyword.split(" ");
-		for (String l : list) {
-			System.out.println(l);
+		String[] list;
+		if (keyword != null) {
+			list = keyword.split(" ");
+			for (String l : list) {
+				System.out.println(l);
+			}
+		} else {
+			list = new String[1];
+			list[0] = "없음";
 		}
 		return menuMapper.listViewRecommendMenuByKeyword(menuId, list);
 	}
