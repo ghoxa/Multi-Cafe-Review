@@ -66,6 +66,10 @@ class SignIn extends React.Component {
           isAdmin: this.state.data.adminCheck
         });
 
+        if(this.state.isAdmin) {
+          localStorage.setItem('admin', this.state.isAdmin);
+        }
+        
         localStorage.setItem('userId', id);
         localStorage.setItem('isLogin', true);
         window.location.replace('/');
