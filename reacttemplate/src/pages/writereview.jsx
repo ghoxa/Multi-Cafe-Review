@@ -60,7 +60,7 @@ class WriteReview extends Component {
       content: comment,
       good: '',
       grade: grade,
-      userId: 'sunga',
+      userId: '',
       menuId: menuId,
       sweet: sweet,
       bitter: bitter,
@@ -76,7 +76,7 @@ class WriteReview extends Component {
       });
 
     alert('입력완료');
-    // window.location.replace('/review');
+    window.location.replace('/review');
   };
 
   render() {

@@ -1,22 +1,24 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper.scss";
-import axios from "axios";
-import { ThemeProvider } from "react-bootstrap";
-import { CircularProgress } from "@material-ui/core";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper.scss';
+import axios from 'axios';
+import { ThemeProvider } from 'react-bootstrap';
+import { CircularProgress } from '@material-ui/core';
 
-const cafeApi = "/api/cafe";
+const cafeApi = '/api/cafe';
 
-if(localStorage.getItem("cafeId") == null){
-  localStorage.setItem("cafeId", 0)
+if (localStorage.getItem('cafeId') == null) {
+  localStorage.setItem('cafeId', 0);
 }
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
+      login: localStorage.getItem('isLogin'),
     };
+    this.changeState = this.changeState.bind(this);
   }
 
   componentDidMount() {
@@ -33,22 +35,24 @@ class Header extends React.Component {
       });
   }
 
-  handleClick = value => () => {
+  handleClick = (value) => () => {
     // console.log(value);
-    localStorage.setItem("cafeId", value)
-    window.location.replace("/")
-  }
+    localStorage.setItem('cafeId', value);
+    window.location.replace('/');
+  };
 
+  changeState = () => {
+    this.setState({
+      login: !this.state.login,
+    });
+  };
   render() {
-    const login = localStorage.getItem('isLogin');
-    const { isLoaded } = this.state;
+    // const login = localStorage.getItem('isLogin');
+    const { isLoaded, login } = this.state;
 
     if (!isLoaded) {
       return (
-        <div
-          id="loader"
-          style={{ position: "absolute", top: "50%", left: "50%" }}
-        >
+        <div id='loader' style={{ position: 'absolute', top: '50%', left: '50%' }}>
           <CircularProgress />
         </div>
       );
@@ -57,31 +61,31 @@ class Header extends React.Component {
       let cafe = this.state.Cafe;
       for (let i = 0; i < cafe.length; i++) {
         cafelist.push(
-          <SwiperSlide>            
-            <div onClick={this.handleClick(cafe[i]["cafeId"])}>
+          <SwiperSlide>
+            <div onClick={this.handleClick(cafe[i]['cafeId'])}>
               {/* <img
               className="rounded-circle"
               style={{ width: 100, height: 100 }}
               src={list[i]["logoImg"]}
             /> */}
-              {cafe[i]["name"]}
-            </div>            
+              {cafe[i]['name']}
+            </div>
           </SwiperSlide>
         );
       }
       return (
         <div>
-          <header className="section-header">
-            <section className="header-main border-bottom">
-              <div className="container">
-                <div className="row align-items-center">
-                  <div className="col-lg-2 col-4">
-                    <Link to="/home" className="brand-wrap">
-                      {" "}
+          <header className='section-header'>
+            <section className='header-main border-bottom'>
+              <div className='container'>
+                <div className='row align-items-center'>
+                  <div className='col-lg-2 col-4'>
+                    <Link to='/home' className='brand-wrap'>
+                      {' '}
                       Home
                     </Link>
                   </div>
-                  <div className="col-lg-6 col-sm-12">
+                  <div className='col-lg-6 col-sm-12'>
                     {/* <form action="#" className="search">
                         <div className="input-group w-100">
                             <input type="text" className="form-control" placeholder="Search" />
@@ -93,36 +97,25 @@ class Header extends React.Component {
                         </div>
                     </form>  */}
                   </div>
-                  <div className="col-lg-4 col-sm-6 col-12">
-                    <div className="widgets-wrap float-md-right">
-                      <div className="widget-header  mr-3">
-                        <a
-                          href="#"
-                          className="icon icon-sm rounded-circle border"
-                        >
-                          <i className="fa fa-shopping-cart"></i>
+                  <div className='col-lg-4 col-sm-6 col-12'>
+                    <div className='widgets-wrap float-md-right'>
+                      <div className='widget-header  mr-3'>
+                        <a href='#' className='icon icon-sm rounded-circle border'>
+                          <i className='fa fa-shopping-cart'></i>
                         </a>
-                        <span className="badge badge-pill badge-danger notify">
-                          0
-                        </span>
+                        <span className='badge badge-pill badge-danger notify'>0</span>
                       </div>
-                      <div className="widget-header icontext">
-                        <Link
-                          to="/formPage"
-                          className="icon icon-sm rounded-circle border"
-                        >
-                          <i className="fa fa-user"></i>
+                      <div className='widget-header icontext'>
+                        <Link to='/formPage' className='icon icon-sm rounded-circle border'>
+                          <i className='fa fa-user'></i>
                         </Link>
-                        <div className="text">
-                          <span className="text-muted">Welcome!</span>
+                        <div className='text'>
+                          <span className='text-muted'>Welcome!</span>
                           <div>
-                            <Link to = 
-                            {login === true?
-                              "./signout": "./signin"
-                            }/>
-                            <Link to = {login === true? "./signout" : "./signin"}> 
-                                      {login === true? "signout" : "signin"}</Link>
-                            |<Link to="./register"> Register</Link>
+                            <button type='button' className={login ? 'btn-primary' : 'btn-danger'}>
+                              <Link to={login ? '/signout' : '/signin'}>{login ? 'signout' : 'signin'}</Link>
+                            </button>
+                            |<Link to='/register'> Register</Link>
                           </div>
                         </div>
                       </div>
@@ -133,22 +126,22 @@ class Header extends React.Component {
             </section>
           </header>
 
-          <section className="section-pagetop bg">
-            <div className="container">
-              <nav className="mt-4" aria-label="Page navigation sample">
+          <section className='section-pagetop bg'>
+            <div className='container'>
+              <nav className='mt-4' aria-label='Page navigation sample'>
                 <Swiper
                   // spaceBetween={0}
                   slidesPerView={6}
                 >
-                  <SwiperSlide>                  
-                      <div onClick={this.handleClick(0)}>
-                        {/* <img
+                  <SwiperSlide>
+                    <div onClick={this.handleClick(0)}>
+                      {/* <img
                         className="rounded-circle"
                         style={{ width: 100, height: 100 }}
                         src={list[i]["logoImg"]}
                       /> */}
-                        모든카페                     
-                      </div>                    
+                      모든카페
+                    </div>
                   </SwiperSlide>
                   {cafelist}
                 </Swiper>
