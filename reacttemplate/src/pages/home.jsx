@@ -72,7 +72,7 @@ class Home extends React.Component {
                 />
                 <div className="card-body">
                   <h6 className="card-title">{list[i]["name"]}</h6>
-                  <p className="text-success">{list[i]["cafeId"]}</p>
+                  <p className="text-success">{list[i]["cafeName"]}</p>
                   <ul className="rating-stars">
                     <li className="stars-active w-80">
                       <i className="fa fa-star"></i>
@@ -116,7 +116,7 @@ class Home extends React.Component {
                         className=""
                       >
                         <i className="icon-control fa fa-chevron-down"></i>
-                        <h6 className="title">Product type</h6>
+                        <h6 className="title">CATEGORY</h6>
                       </a>
                     </header>
                     <div
@@ -141,22 +141,22 @@ class Home extends React.Component {
 
                         <ul className="list-menu">
                           <li>
-                            <a href="#">커피</a>
+                            <a href="#">3000</a>
                           </li>
                           <li>
-                            <a href="#">주스</a>
+                            <a href="#">3001</a>
                           </li>
                           <li>
-                            <a href="#">스무디</a>
+                            <a href="#">3002</a>
                           </li>
                           <li>
-                            <a href="#">Home items </a>
+                            <a href="#">3003</a>
                           </li>
                           <li>
-                            <a href="#">Animals</a>
+                            <a href="#">3004</a>
                           </li>
                           <li>
-                            <a href="#">People </a>
+                            <a href="#">3005</a>
                           </li>
                         </ul>
                       </div>

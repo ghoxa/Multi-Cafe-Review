@@ -8,6 +8,9 @@ import { CircularProgress } from "@material-ui/core";
 
 const cafeApi = "/api/cafe";
 
+if(localStorage.getItem("cafeId") == null){
+  localStorage.setItem("cafeId", 0)
+}
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -133,7 +136,7 @@ class Header extends React.Component {
                   // spaceBetween={0}
                   slidesPerView={6}
                 >
-                  <SwiperSlide>                    
+                  <SwiperSlide>                  
                       <div onClick={this.handleClick(0)}>
                         {/* <img
                         className="rounded-circle"
