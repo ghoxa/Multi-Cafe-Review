@@ -30,6 +30,10 @@ public class UsersService {
 		return usersMapper.deleteUser(userId);
 	}
 	
+	public Users getUser(String userId) {
+		return usersMapper.getUser(userId);
+	}
+	
 	public Users loginUser(String userId, String pwd) {
 		return usersMapper.login(userId, pwd);
 	}
@@ -42,7 +46,4 @@ public class UsersService {
 		return adminMapper.getAdmin();
 	}
 	
-	public Users checkIdForRegister(String userId) {
-		return usersMapper.checkIdForRegister(userId);
-	}
 }

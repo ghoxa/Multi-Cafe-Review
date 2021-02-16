@@ -29,7 +29,7 @@ public class RegisterRestController {
 		if (usersService.getAdmin().getAdminId().equals(id)) {
 			return false;
 		}
-		if (usersService.checkIdForRegister(id) == null) {
+		if (usersService.getUser(id) == null) {
 			return true;
 		}
 		return false;

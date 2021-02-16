@@ -45,6 +45,7 @@ public class UserController {
 	@GetMapping("/menu/{menuId}/like")
 	public void updateGood(@SessionAttribute("user") Users users, @PathVariable int menuId) {
 //		menuService.insertOrDeleteLike(UserUtil.getCurrentUserId(), menuId);
+		System.out.println(users);
 		menuService.insertOrDeleteLike(users.getUserId(), menuId);
 	}
 
@@ -87,6 +88,11 @@ public class UserController {
 	@PutMapping
 	public int updateUser(@RequestBody Users user) {
 		return usersService.updateUser(user);
+	}
+	
+	@GetMapping("/{userId}")
+	public Users getUser(@PathVariable String userId) {
+		return usersService.getUser(userId);
 	}
 	
 
