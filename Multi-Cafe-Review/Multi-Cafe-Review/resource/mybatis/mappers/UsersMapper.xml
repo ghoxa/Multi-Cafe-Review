@@ -13,7 +13,7 @@
 	
 	<!-- Update -->
 	<update id="updateUser" parameterType="Users">
-		update users set pwd=#{pwd}, phone=#{phone}, email=#{email}, address=#{address}, join_date={joinDate}, sweet=#{sweet}, bitter=#{bitter}, sour=#{sour} where user_id=#{userId}
+		update users set pwd=#{pwd}, phone=#{phone}, email=#{email}, address=#{address}, sweet=#{sweet}, bitter=#{bitter}, sour=#{sour} where user_id=#{userId}
 	</update>
 	
 	<!-- Delete -->	
@@ -21,15 +21,16 @@
 		delete from users where user_id = #{userId}
 	</delete>
 	
+	<select id="getUser" resultMap="users_resultMap">
+		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
+		from users
+		where user_id=#{userId}
+	</select>
+	
 	<select id="login" resultMap="users_resultMap">
 		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
 		from users
 		where user_id=#{userId} and pwd=#{pwd}
 	</select>
 	
-	<select id="checkIdForRegister" resultMap="users_resultMap">
-		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
-		from users
-		where user_id=#{userId}
-	</select>
 </mapper>
