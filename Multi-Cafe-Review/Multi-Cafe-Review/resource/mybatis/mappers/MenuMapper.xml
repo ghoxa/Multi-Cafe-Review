@@ -127,13 +127,18 @@
 	</select>
 	
 	<select id="listViewRecommendMenuByTaste" resultMap="menu_resultMap">
-		select rownum as rn, m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id and m.menu_id!=#{menuId}
-		order by
-		<foreach collection="list" item="item" separator=", ">
-			abs(#{max}-${item})
-		</foreach>
-		limit 20
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+				from (
+					select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+					from menu m, cafe c
+					where m.cafe_id = c.cafe_id and m.menu_id!=#{menuId}
+					order by
+					<foreach collection="list" item="item" separator=", ">
+						abs(#{max}-${item})
+					</foreach>
+					) a
+				) b
+		where 20 >= rn
 	</select>
 </mapper>
