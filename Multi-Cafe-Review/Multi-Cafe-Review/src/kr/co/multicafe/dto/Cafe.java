@@ -4,6 +4,7 @@ public class Cafe {
 	
 	private int cafeId;
 	private String name;
+	private String image;
 	
 	public int getCafeId() {
 		return cafeId;
@@ -16,6 +17,13 @@ public class Cafe {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	@Override
 	public String toString() {

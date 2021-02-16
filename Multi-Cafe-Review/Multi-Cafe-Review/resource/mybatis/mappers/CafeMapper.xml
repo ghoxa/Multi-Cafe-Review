@@ -8,12 +8,12 @@
 	
 	<!-- ListView -->
 	<select id="listViewCafe" resultMap="cafe_resultMap">
-		select cafe_id, name from cafe
+		select cafe_id, name, image from cafe
 	</select>
 	
 	<!-- Get -->
 	<select id="getCafe" parameterType="java.lang.Integer" resultMap="cafe_resultMap">
-		select cafe_id, name from cafe where cafe_id = #{cafeId}
+		select cafe_id, name, image from cafe where cafe_id = #{cafeId}
 	</select>
 	
 	<!-- Insert -->

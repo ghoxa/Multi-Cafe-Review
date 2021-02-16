@@ -109,10 +109,12 @@ public class ReviewService {
 			reviewLike=new ReviewLike();
 			reviewLike.setReivewId(reviewId);
 			reviewLike.setUserId(userId);
-			return reviewLikeMapper.insertReviewLike(reviewLike);
+			reviewLikeMapper.insertReviewLike(reviewLike);
+			return 1;
 		}else {
 			reviewMapper.minusGood(reviewId);
-			return reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
+			reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
+			return 0;
 		}
 	}
 	
