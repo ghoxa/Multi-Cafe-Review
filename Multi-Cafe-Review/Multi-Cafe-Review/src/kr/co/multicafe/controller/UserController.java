@@ -49,8 +49,8 @@ public class UserController {
 	@PostMapping("/review")
 	public int insertReview(@RequestBody Review review, HttpServletResponse response) throws Exception {
 		int result=reviewService.insertReview(review);
-//		if(result==0)
-//			response.sendError(5000, "해당 메뉴에 대한 리뷰를 이미 등록하셨습니다.");
+		if(result==0)
+			response.sendError(5000, "해당 메뉴에 대한 리뷰를 이미 등록하셨습니다.");
 		return result;
 		
 	}
