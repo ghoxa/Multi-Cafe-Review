@@ -15,7 +15,7 @@
 	</resultMap>
 	
 	<!-- ListView -->
-	<select id="listViewLike" parameterType="int" resultMap="menu_resultMap">
+	<select id="listViewLike" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
 		from likes l, menu m 
 		where l.menu_id=m.menu_id and l.user_id=#{userId}
