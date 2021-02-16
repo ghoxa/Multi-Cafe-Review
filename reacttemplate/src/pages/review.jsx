@@ -27,14 +27,12 @@ class ReviewPage extends Component {
   }
 
   onlikeChanged = (e) => {
-    e.preventDefault();
-
     const menuId = localStorage.getItem('menuId');
     {
       console.log(typeof menuId);
     }
-    const changeLikeUrl = axios.get(`/api/user/menu/${menuId}/like`);
-    const likeCheckUrl = axios.get(`/api/menu/${menuId}/likecheck`);
+    const changeLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/menu/${menuId}/like`);
+    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/likecheck`);
     Promise.all([changeLikeUrl, likeCheckUrl])
       .then(([res1, res2]) => {
         console.log(res1.data);
@@ -50,11 +48,11 @@ class ReviewPage extends Component {
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
-    const menuReivewUrl = axios.get(`/api/review/${menuId}`);
-    const selectMenuUrl = axios.get(`/api/menu/check/${menuId}/${userId}`);
-    const similarMenuByKeyWordUrl = axios.get(`/api/menu/${menuId}/recommend/keyword`);
-    const similarMenuByTasteUrl = axios.get(`/api/menu/${menuId}/recommend/taste`);
-    const likeCheckUrl = axios.get(`/api/menu/${menuId}/likecheck`);
+    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+    const selectMenuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`);
+    const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
+    const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
+    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/likecheck`);
 
     Promise.all([menuReivewUrl, selectMenuUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl])
       .then(([res, res2, res3, res4, res5]) => {

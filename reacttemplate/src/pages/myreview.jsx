@@ -13,7 +13,7 @@ class MyReview extends React.Component {
   componentDidMount() {
     const userId = localStorage.getItem('userId');
     console.log(typeof userId);
-    const menuReivewUrl = axios.get(`/api/user/review/my/${userId}`);
+    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/user/review/my/${userId}`);
     Promise.all([menuReivewUrl])
       .then(([res]) => {
         this.setState({

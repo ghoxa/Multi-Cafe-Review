@@ -33,13 +33,13 @@ class Home extends React.Component {
   componentDidMount() {
     const cafeId = localStorage.getItem('cafeId');
     const categoryId = localStorage.getItem('categoryId');
-    const cateUrl = axios.get(`/api/category`);
+    const cateUrl = axios.get(`http://localhost:9090/multicafe/api/category`);
 
     const conditionId = localStorage.getItem('conditionId');
 
     if (cafeId == 0 && categoryId == 0) {
       //아무것도 선택 안했을 때
-      const menuUrl = axios.get(`/api/menu/list/${conditionId}`);
+      const menuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/list/${conditionId}`);
       Promise.all([cateUrl, menuUrl])
 
         .then(([res, res2]) => {
@@ -56,7 +56,7 @@ class Home extends React.Component {
 
     if (cafeId != 0 && categoryId == 0) {
       //카페만 선택했을 때
-      const cafeSelectUrl = axios.get(`/api/menu/cafe/${cafeId}/${conditionId}`);
+      const cafeSelectUrl = axios.get(`http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/${conditionId}`);
       Promise.all([cateUrl, cafeSelectUrl])
         .then(([res, res2]) => {
           this.setState({
@@ -72,7 +72,7 @@ class Home extends React.Component {
 
     if (cafeId == 0 && categoryId != 0) {
       //카테고리만 선택 했을 때
-      const categorySelectUrl = axios.get(`/api/menu/category/${categoryId}/${conditionId}`);
+      const categorySelectUrl = axios.get(`http://localhost:9090/multicafe/api/menu/category/${categoryId}/${conditionId}`);
       Promise.all([cateUrl, categorySelectUrl])
         .then(([res, res2]) => {
           this.setState({
@@ -87,7 +87,7 @@ class Home extends React.Component {
     }
     if (cafeId != 0 && categoryId != 0) {
       // 카페, 카테고리 둘 다 선택 했을 때
-      const categotyCafeSelectUrl = axios.get(`/api/menu/cafe/${cafeId}/category/${categoryId}/${conditionId}`);
+      const categotyCafeSelectUrl = axios.get(`http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/category/${categoryId}/${conditionId}`);
       Promise.all([cateUrl, categotyCafeSelectUrl])
         .then(([res, res2]) => {
           this.setState({

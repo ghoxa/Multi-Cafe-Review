@@ -44,7 +44,7 @@ class SignIn extends React.Component {
       pwd: pw,
     };
 
-    Promise.all([axios.post('/api/login', login_info)]).then((res) => {
+    Promise.all([axios.post('http://localhost:9090/multicafe/api/login', login_info)]).then((res) => {
       this.setState({
         data: res[0].data,
       });
@@ -65,10 +65,10 @@ class SignIn extends React.Component {
           isAdmin: this.state.data.adminCheck,
         });
 
-        if(this.state.isAdmin) {
+        if (this.state.isAdmin) {
           localStorage.setItem('admin', this.state.isAdmin);
         }
-        
+
         localStorage.setItem('userId', id);
         localStorage.setItem('isLogin', true);
         window.location.replace('/');

@@ -13,7 +13,7 @@ class MyRecent extends React.Component {
   }
   componentDidMount() {
     const userId = localStorage.getItem('userId');
-    const menuReivewUrl = axios.get(`/api/user/recent/${userId}`);
+    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/user/recent/${userId}`);
     Promise.all([menuReivewUrl])
       .then(([res]) => {
         this.setState({

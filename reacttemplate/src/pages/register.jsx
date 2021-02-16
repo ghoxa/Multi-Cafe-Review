@@ -103,7 +103,7 @@ class Register extends React.Component {
     const { id } = this.state;
     e.preventDefault();
 
-    Promise.all([axios.get(`/api/register/${id}/check`)])
+    Promise.all([axios.get(`http://localhost:9090/multicafe/api/register/${id}/check`)])
       .then((res) => {
         if (res[0].data === false) {
           alert('사용 불가능한 Id입니다.');
