@@ -24,6 +24,7 @@ import kr.co.multicafe.dto.Users;
 import kr.co.multicafe.service.MenuService;
 import kr.co.multicafe.service.RecentService;
 import kr.co.multicafe.service.ReviewService;
+import kr.co.multicafe.service.UsersService;
 
 @RestController
 @RequestMapping(path="/api/user")
@@ -37,6 +38,9 @@ public class UserController {
 
 	@Autowired
 	private RecentService recentService;
+	
+	@Autowired
+	private UsersService usersService;
 
 
 	@GetMapping("/menu/{menuId}/like")
@@ -79,6 +83,11 @@ public class UserController {
 	@GetMapping("/recent/{userId}")
 	public List<Menu> listViewRecent(@PathVariable(name="userId")String userId){
 		return recentService.listViewRecent(userId);
+	}
+	
+	@PutMapping
+	public int updateUser(Users user) {
+		return usersService.updateUser(user);
 	}
 	
 
