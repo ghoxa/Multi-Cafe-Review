@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import { Table } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
-
 class ReviewPage extends Component {
   // createListOfFiles() {
   //   let listOfFiles = [];
@@ -86,7 +85,9 @@ class ReviewPage extends Component {
     for (let i = 0; i < this.state.similarMenuByTaste.length; ++i) {
       list.push(
         <SwiperSlide>
-          <img src={this.state.similarMenuByTaste[i].image} className='cafeImg' alt='...' style={{ width: 100, height: 100 }} />
+          <div className='col-lg-4 col-md-12 mb-4'>
+            <img src={this.state.similarMenuByTaste[i].image} className='cafeImg' alt='...' style={{ width: 100, height: 100 }} />
+          </div>
         </SwiperSlide>
       );
     }
