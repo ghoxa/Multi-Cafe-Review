@@ -66,15 +66,20 @@ class ReviewPage extends Component {
         console.log(err);
       });
   }
+  handleClick = (value) => () => {
+    localStorage.setItem('menuId', value);
+    window.location.replace('/review');
+  };
+
   similarcreateListOfsimilarMenuByKeyword() {
     let list = [];
     for (let i = 0; i < this.state.similarMenuByKeyWord.length; ++i) {
       list.push(
         <SwiperSlide>
-          <div className='col-lg-4 col-md-12 mb-4'>
-            <img src={this.state.similarMenuByKeyWord[i].image} alt='...' style={{ width: 100, height: 100, display: 'inline' }} />
-            {this.state.similarMenuByKeyWord[i].name}
-          </div>
+          <a onClick={this.handleClick(this.state.similarMenuByKeyWord[i].menuId)} style={{ textAlign: 'center' }}>
+            <img src={this.state.similarMenuByKeyWord[i].image} alt='...' style={{ width: 200, height: 200 }} />
+            <div>{this.state.similarMenuByKeyWord[i].name}</div>
+          </a>
         </SwiperSlide>
       );
     }
@@ -85,9 +90,10 @@ class ReviewPage extends Component {
     for (let i = 0; i < this.state.similarMenuByTaste.length; ++i) {
       list.push(
         <SwiperSlide>
-          <div className='col-lg-4 col-md-12 mb-4'>
-            <img src={this.state.similarMenuByTaste[i].image} className='cafeImg' alt='...' style={{ width: 100, height: 100 }} />
-          </div>
+          <a style={{ textAlign: 'center' }}>
+            <img src={this.state.similarMenuByTaste[i].image} className='cafeImg' alt='...' style={{ width: 200, height: 200 }} />
+            <div>{this.state.similarMenuByTaste[i].name}</div>
+          </a>
         </SwiperSlide>
       );
     }
@@ -151,15 +157,19 @@ class ReviewPage extends Component {
                 <div className='row wow fadeIn'>
                   {/*Grid column*/}
                   <span className='col-md-6 mb-4'>
-                    총점:
-                    <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={selectMenu.grade} size={35} isHalf={true} />
+                    <div>
+                      <div style={{ fontSize: 30 }}>총점:{selectMenu.grade}</div>
+
+                      <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.grade} size={35} isHalf={true} />
+                    </div>
+
                     <img src={selectMenu.image} className='img-fluid' style={{ width: '80%', height: '80%' }} alt />
                   </span>
                   {/*Grid column*/}
                   {/*Grid column*/}
-                  <div className='col-md-6 mb-4'>
+                  <div className='col-md-6 mb-4' st>
                     {/*Content*/}
-                    <div className='p-4'>
+                    <div className='p-4' style={{ fontSize: 20 }}>
                       <span className='lead font-weight-bold'>{selectMenu.name} </span>
 
                       <a className='btn' onClick={() => this.setState({ myLike: !this.state.myLike })}>
@@ -170,6 +180,30 @@ class ReviewPage extends Component {
                         <span>{selectMenu.price}원 </span>
                       </p>
                       <p>{selectMenu.description}</p>
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      <div className='col-md-6 text-right'>
+                        <div className='rating-wrap mb-3'>
+                          단맛: &nbsp;
+                          <ul className='rating-stars'>
+                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.sweet} size={25} isHalf={true} />
+                          </ul>
+                        </div>
+                        <div className='rating-wrap mb-3'>
+                          쓴맛: &nbsp;
+                          <ul className='rating-stars'>
+                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.bitter} size={25} isHalf={true} />
+                          </ul>
+                        </div>
+                        <div className='rating-wrap mb-3'>
+                          신맛: &nbsp;
+                          <ul className='rating-stars'>
+                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.sour} size={25} isHalf={true} />
+                          </ul>
+                        </div>
+                      </div>
                       <form className='d-flex justify-content-left'>{/* Default input */}</form>
                     </div>
                     {/*Content*/}
@@ -181,26 +215,7 @@ class ReviewPage extends Component {
                 {/*Grid row*/}
                 <div className='row d-flex justify-content-center wow fadeIn'>
                   {/*Grid column*/}
-                  <div className='col-md-6 text-left'>
-                    <div className='rating-wrap mb-3'>
-                      단맛: &nbsp;
-                      <ul className='rating-stars'>
-                        <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.sweet} size={25} isHalf={true} />
-                      </ul>
-                    </div>
-                    <div className='rating-wrap mb-3'>
-                      쓴맛: &nbsp;
-                      <ul className='rating-stars'>
-                        <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.bitter} size={25} isHalf={true} />
-                      </ul>
-                    </div>
-                    <div className='rating-wrap mb-3'>
-                      신맛: &nbsp;
-                      <ul className='rating-stars'>
-                        <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.sour} size={25} isHalf={true} />
-                      </ul>
-                    </div>
-                  </div>
+
                   <Link to='/writereview'>
                     <button className='btn btn-primary btn-md my-0 p' type='submit' style={{ height: '70px' }}>
                       리뷰 작성
