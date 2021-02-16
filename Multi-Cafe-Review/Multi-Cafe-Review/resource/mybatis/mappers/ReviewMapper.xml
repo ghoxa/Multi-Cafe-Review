@@ -31,7 +31,7 @@
 	<select id="listViewReview" parameterType="java.lang.Integer" resultMap="review_resultMap">
 		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
 		from review
-		where menu_id=#{menu_id}
+		where menu_id=#{menuId}
 		order by review_date desc
 	</select>
 	
