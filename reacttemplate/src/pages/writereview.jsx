@@ -80,7 +80,7 @@ class WriteReview extends Component {
         alert('에러입니다.');
       });
 
-    // window.location.replace('/review');
+    window.location.replace('/review');
   };
 
   render() {
