@@ -118,15 +118,15 @@ class Home extends React.Component {
         try {
           menulist.push(
             <Link to='/review'>
-              <div className='card card-product-list' onClick={this.handleClick(menu[i]['menuId'])}>
+              <span className='card card-product-list' onClick={this.handleClick(menu[i]['menuId'])}>
                 <div className='row no-gutters'>
                   <img className='card-img-top' src={menu[i]['image']} alt='Card image' />
                   <div className='card-body'>
                     <h6 className='card-title'>{menu[i]['name']}</h6>
                     <p className='text-success'>{menu[i]['cafeName']}</p>
                     <ul className='rating-stars'>
+                      총점: <span>{menu[i]['grade']}</span>
                       <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={menu[i]['grade']} size={15} isHalf={true} />
-                      <span>{menu[i]['grade']}</span>
                     </ul>
                     <div className='price-wrap'>
                       <span className='price h5'>{menu[i]['price']}원</span>
@@ -134,7 +134,7 @@ class Home extends React.Component {
                     <br />
                   </div>
                 </div>
-              </div>
+              </span>
             </Link>
           );
         } catch (error) {
