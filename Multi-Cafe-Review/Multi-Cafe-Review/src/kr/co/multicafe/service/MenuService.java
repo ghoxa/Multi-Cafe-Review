@@ -147,6 +147,10 @@ public class MenuService {
 		return likesMapper.listViewLike(userId);
 	}
 	
+	public Likes getLike(String userId, int menuId) {
+		return likesMapper.getLike(userId, menuId);
+	}
+	
 	@Transactional
 	public int insertOrDeleteLike(String userId, int menuId) {
 		Likes likes = likesMapper.getLike(userId, menuId);

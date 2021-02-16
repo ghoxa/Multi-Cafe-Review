@@ -1,16 +1,15 @@
 package kr.co.multicafe.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Users;
@@ -26,6 +25,7 @@ public class MenuRestController {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
 	
 	@GetMapping("/{menuId}")
 	public Menu getMenu(@PathVariable int menuId) {
@@ -97,6 +97,14 @@ public class MenuRestController {
 		if (reviewService.listViewReview(menuId) == null)
 			response.sendError(5001, "메뉴에 대한 리뷰정보가 없습니다. (taste기준 추천 불가능)");
 		return menuService.listViewRecommendMenuByTaste(menuId);
+	}
+	
+	@GetMapping("/{menuId}/likecheck")
+	public boolean likeCheck(@PathVariable int menuId, HttpSession session) {
+		if (session.getAttribute("user") != null)
+			if (menuService.getLike(((Users)session.getAttribute("user")).getUserId(), menuId) != null)
+				return true;
+		return false;
 	}
 	
 	
