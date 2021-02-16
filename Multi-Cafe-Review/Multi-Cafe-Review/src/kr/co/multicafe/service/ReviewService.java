@@ -35,20 +35,21 @@ public class ReviewService {
 	public int insertReview(Review review) throws RuntimeException{
 		int result=0;
 		//로그인 한 사용자가 이미 리뷰 작성한 메뉴인지 확인
-		UserUtil userUtil = new UserUtil();
-		String userId = userUtil.getCurrentUserId();
+//		UserUtil userUtil = new UserUtil();
+//		String userId = userUtil.getCurrentUserId();
+//		if(reviewMapper.getReview(userId, review.getMenuId())==null) {
 		try {
-			if(reviewMapper.getReview(userId, review.getMenuId())==null) {
-				result = reviewMapper.insertReview(review);
 				menuMapper.updateMenuGrade(review.getMenuId());
 				menuMapper.updateMenuTaste(review.getMenuId());
-			}
+				return reviewMapper.insertReview(review);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 			result = 0;
 		}
-
+//		}
+//		result=0;
+		System.out.println("result="+result);
 
 		return result;
 	}
