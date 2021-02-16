@@ -39,7 +39,7 @@ class ReviewPage extends Component {
           selectMenu: res2.data,
         });
 
-        console.log(this.state.menuReivew[0]);
+        console.log(this.state.menuReivew);
       })
       .catch((err) => {
         console.log(err);

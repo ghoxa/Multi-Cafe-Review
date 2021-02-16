@@ -47,7 +47,7 @@ class WriteReview extends Component {
 
   handleSubmit = () => {
     const { sweet, sour, bitter, grade, comment } = this.state;
-    const menuId = localStorage.getItem('menuId');
+    const menuId = parseInt(localStorage.getItem('menuId'));
     console.log(menuId);
     if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '') {
       alert('모든 입력을 완료해 주세요');
@@ -60,15 +60,18 @@ class WriteReview extends Component {
       content: comment,
       good: '',
       grade: grade,
-      userId: 'sunga',
+      userId: localStorage.getItem('userId'),
       menuId: menuId,
       sweet: sweet,
       bitter: bitter,
       sour: sour,
     };
 
+    console.log(data);
+
     Promise.all([axios.post('/api/user/review', data)])
       .then(([res]) => {
+        console.log(res.data);
         console.log('post 성공');
       })
       .catch((err) => {
@@ -76,7 +79,7 @@ class WriteReview extends Component {
       });
 
     alert('입력완료');
-    // window.location.replace('/review');
+    window.location.replace('/review');
   };
 
   render() {

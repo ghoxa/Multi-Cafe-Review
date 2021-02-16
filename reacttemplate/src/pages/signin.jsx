@@ -47,6 +47,7 @@ class SignIn extends React.Component {
       this.setState({
         data: res[0].data,
       });
+      console.log(this.state.data);
 
       if (this.state.data != '') {
         alert('로그인되었습니다');
@@ -62,9 +63,9 @@ class SignIn extends React.Component {
           bitter: this.state.data.bitter,
           //isAdmin: this.state.data.adminCheck
         });
-
+        localStorage.setItem('userId', id);
         localStorage.setItem('isLogin', true);
-        window.location.replace('/');
+        // window.location.replace('/');
       } else {
         alert('아이디 혹은 비밀번호를 확인하세요');
         this.setState({
