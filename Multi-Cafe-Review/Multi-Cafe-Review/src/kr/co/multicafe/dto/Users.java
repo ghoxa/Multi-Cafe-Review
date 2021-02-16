@@ -11,16 +11,19 @@ public class Users {
 	private double sweet;
 	private double bitter;
 	private double sour;
+	private boolean adminCheck;
 	
 	public Users(String userId, String pwd) {
 		super();
 		this.userId = userId;
 		this.pwd = pwd;
+		this.adminCheck = false;
 	}
 	
 	
 	public Users() {
 		super();
+		this.adminCheck = false;
 	}
 
 
@@ -28,8 +31,9 @@ public class Users {
 	public String toString() {
 		return "Users [userId=" + userId + ", pwd=" + pwd + ", phone=" + phone + ", email=" + email + ", address="
 				+ address + ", joinDate=" + joinDate + ", sweet=" + sweet + ", bitter=" + bitter + ", sour=" + sour
-				+ "]";
+				+ ", adminCheck=" + adminCheck + "]";
 	}
+
 
 	public String getUserId() {
 		return userId;
@@ -91,6 +95,14 @@ public class Users {
 
 	public void setSour(double sour) {
 		this.sour = sour;
+	}
+
+	public boolean isAdminCheck() {
+		return adminCheck;
+	}
+
+	public void setAdminCheck(boolean adminCheck) {
+		this.adminCheck = adminCheck;
 	}
 
 }

@@ -8,4 +8,5 @@ import kr.co.multicafe.dto.Admin;
 @Mapper
 public interface AdminMapper {
 	public Admin login(@Param("adminId") String adminId, @Param("pwd") String pwd);
+	public Admin getAdmin();
 }

@@ -27,7 +27,9 @@ public class LoginController {
 		if (admin != null) {
 			session.setAttribute("admin", admin);
 			System.out.println(session.getAttribute("admin"));
-			return new Users(admin.getAdminId(), admin.getPwd());
+			Users u = new Users(admin.getAdminId(), admin.getPwd());
+			u.setAdminCheck(true);
+			return u;
 		}
 		if (user != null) {
 			session.setAttribute("user", user);
@@ -35,6 +37,17 @@ public class LoginController {
 			return user;
 		}
 		return user;
+	}
+	
+	@PostMapping("/check")
+	public boolean checkIdForRegister(@RequestBody String id) {
+		if (usersService.getAdmin().getAdminId().equals(id)) {
+			return false;
+		}
+		if (usersService.checkIdForRegister(id) == null) {
+			return true;
+		}
+		return false;
 	}
 	
 	@GetMapping

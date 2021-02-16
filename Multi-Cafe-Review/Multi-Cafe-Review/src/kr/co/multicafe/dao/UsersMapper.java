@@ -11,4 +11,5 @@ public interface UsersMapper {
 	public int updateUser(Users user);
 	public int deleteUser(String userId);
 	public Users login(@Param("userId") String userId, @Param("pwd") String pwd);
+	public Users checkIdForRegister(String userId);
 }

@@ -37,4 +37,12 @@ public class UsersService {
 	public Admin loginAdmin(String adminId, String pwd) {
 		return adminMapper.login(adminId, pwd);
 	}
+	
+	public Admin getAdmin() {
+		return adminMapper.getAdmin();
+	}
+	
+	public Users checkIdForRegister(String userId) {
+		return usersMapper.checkIdForRegister(userId);
+	}
 }

@@ -26,4 +26,10 @@
 		from users
 		where user_id=#{userId} and pwd=#{pwd}
 	</select>
+	
+	<select id="checkIdForRegister" resultMap="users_resultMap">
+		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
+		from users
+		where user_id=#{userId}
+	</select>
 </mapper>
