@@ -35,18 +35,18 @@ public class ReviewService {
 	public int insertReview(Review review) {
 		int result=0;
 		//로그인 한 사용자가 이미 리뷰 작성한 메뉴인지 확인
-		UserUtil userUtil = new UserUtil();
-		String userId = userUtil.getCurrentUserId();
-		Review review_tmp = reviewMapper.getReview(userId, review.getMenuId());
-		if(review_tmp==null) {
+//		UserUtil userUtil = new UserUtil();
+//		String userId = userUtil.getCurrentUserId();
+//		Review review_tmp = reviewMapper.getReview(userId, review.getMenuId());
+//		if(review_tmp==null) {
 			menuMapper.updateMenuGrade(review.getMenuId());
 			menuMapper.updateMenuTaste(review.getMenuId());
 			result=reviewMapper.insertReview(review);
 
-		}
-		else {
-			result=0;
-		}
+//		}
+//		else {
+//			result=0;
+//		}
 
 		return result;
 		
