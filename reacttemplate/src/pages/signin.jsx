@@ -61,6 +61,7 @@ class SignIn extends React.Component {
             sweet:this.state.data.sweet,
             sour: this.state.data.sour,
             bitter: this.state.data.bitter,
+            //isAdmin: this.state.data.adminCheck
           });
 
           localStorage.setItem('isLogin', true);

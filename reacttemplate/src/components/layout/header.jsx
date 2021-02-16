@@ -116,18 +116,12 @@ class Header extends React.Component {
                         <div className="text">
                           <span className="text-muted">Welcome!</span>
                           <div>
-                            {login ? 
-                            <Link to='/' onClick={() => {
-                              Promise.all([axios.get('/api/login')])
-                              .then(([res]) => {
-                                localStorage.setItem('isLogin', false);
-                                window.location.replace('/signin');
-                              })
-                              .catch((err) => {
-                                console.log(err);
-                              });
-                            }}>Logout</Link> :
-                            <Link to="./signin">Login</Link> }
+                            <Link to = 
+                            {login === true?
+                              "./signout": "./signin"
+                            }/>
+                            <Link to = {login === true? "./signout" : "./signin"}> 
+                                      {login === true? "signout" : "signin"}</Link>
                             |<Link to="./register"> Register</Link>
                           </div>
                         </div>

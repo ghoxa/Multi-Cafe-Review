@@ -1,8 +1,22 @@
 import React from 'react';
-
+import axios from 'axios';
 class SignOut extends React.Component {
-    render() {
+
+    componentDidMount() {
         localStorage.setItem('isLogin', false);
+        Promise.all([axios.get('/api/login')])
+        .then(([res]) => {
+            console.log(res);
+            console.log("get성공");            
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    render() {
+        alert('로그아웃');
+        window.location.replace('/');
         return(
             <>
             </>
@@ -11,13 +25,3 @@ class SignOut extends React.Component {
 }
 
 export default SignOut;
-() => {
-    Promise.all([axios.get('/api/login')])
-    .then(([res]) => {
-      //localStorage.setItem('isLogin', false);
-      window.location.replace('/');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }

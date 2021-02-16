@@ -13,6 +13,7 @@ import MyLike from '../pages/mylike.jsx';
 import MyRecent from '../pages/myrecent.jsx';
 import AdminPage from '../pages/adminpage.jsx';
 import SignIn from '../pages/signin.jsx';
+import SignOut from '../pages/signout.jsx';
 import Register from '../pages/register.jsx';
 
 const routes = [
@@ -68,6 +69,10 @@ const routes = [
   {
     path: '/signin',
     component: () => <SignIn />,
+  },
+  {
+    path: '/signout',
+    component: () => <SignOut />,
   },
   {
     path: '/register',
