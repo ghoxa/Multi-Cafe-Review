@@ -1,6 +1,7 @@
 package kr.co.multicafe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.multicafe.dto.Users;
 import kr.co.multicafe.service.UsersService;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path="/api/register")
 public class RegisterRestController {

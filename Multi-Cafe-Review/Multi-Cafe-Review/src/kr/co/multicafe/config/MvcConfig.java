@@ -2,6 +2,7 @@ package kr.co.multicafe.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -39,6 +40,14 @@ public class MvcConfig implements WebMvcConfigurer {
 //		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/api/menu/*/like");
 		registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/api/admin/**");
 	}
+	
+	@Override
+    public void addCorsMappings(CorsRegistry registry) {
+      // 모든 uri에 대해 http://localhost:18080, http://localhost:8180 도메인은 접근을 허용한다.
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000","http://localhost:9090");
+
+    }
 	
 	
 	

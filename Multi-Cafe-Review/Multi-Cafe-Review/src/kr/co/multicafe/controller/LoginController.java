@@ -3,6 +3,7 @@ package kr.co.multicafe.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import kr.co.multicafe.dto.Admin;
 import kr.co.multicafe.dto.Users;
 import kr.co.multicafe.service.UsersService;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path="/api/login")
 public class LoginController {

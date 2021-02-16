@@ -1,6 +1,7 @@
 package kr.co.multicafe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,7 @@ import kr.co.multicafe.dto.Cafe;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.service.CafeService;
 import kr.co.multicafe.service.MenuService;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path="/api/admin")
 public class AdminController {
