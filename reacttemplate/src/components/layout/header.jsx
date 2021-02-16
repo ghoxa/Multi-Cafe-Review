@@ -40,8 +40,8 @@ class Header extends React.Component {
   }
 
   render() {
+    const login = localStorage.getItem('isLogin');
     const { isLoaded } = this.state;
-    const { logged, onLogout } = this.props;
 
     if (!isLoaded) {
       return (
@@ -116,9 +116,19 @@ class Header extends React.Component {
                         <div className="text">
                           <span className="text-muted">Welcome!</span>
                           <div>
-                            {/*<Link to='/' onClick={onLogout}>Logout</Link>*/}
-                            <Link to="./signin">Sign in</Link>|
-                            <Link to="./register"> Register</Link>
+                            {login ? 
+                            <Link to='/' onClick={() => {
+                              Promise.all([axios.get('/api/login')])
+                              .then(([res]) => {
+                                localStorage.setItem('isLogin', false);
+                                window.location.replace('/signin');
+                              })
+                              .catch((err) => {
+                                console.log(err);
+                              });
+                            }}>Logout</Link> :
+                            <Link to="./signin">Login</Link> }
+                            |<Link to="./register"> Register</Link>
                           </div>
                         </div>
                       </div>
