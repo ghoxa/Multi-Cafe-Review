@@ -13,6 +13,7 @@ class MyRecent extends React.Component {
   }
   componentDidMount() {
     const userId = localStorage.getItem('userId');
+    console.log(userId);
     const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/user/recent/${userId}`);
     Promise.all([menuReivewUrl])
       .then(([res]) => {
@@ -27,6 +28,10 @@ class MyRecent extends React.Component {
         console.log(err.response);
       });
   }
+  handleClick = (value) => () => {
+    // console.log(value);
+    localStorage.setItem('menuId', value);
+  };
 
   render() {
     const { isLoaded } = this.state;
@@ -105,11 +110,11 @@ class MyRecent extends React.Component {
               <main className='col-md-9'>
                 <header className='border-bottom mb-4 pb-3'>
                   <div className='form-inline'>
-                    <span className='mr-md-auto'>32 Items found </span>
+                    <span className='mr-md-auto'>{myRecent.length} Items found </span>
                   </div>
                 </header>
 
-                <div className='card-columns'></div>
+                <div className='card-columns'>{menulist}</div>
                 <nav className='mt-4' aria-label='Page navigation sample'>
                   <ul className='pagination justify-content-center'>
                     <li className='page-item disabled'>

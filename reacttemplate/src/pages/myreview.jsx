@@ -96,7 +96,7 @@ class MyReview extends React.Component {
               <main className='col-md-9'>
                 <header className='border-bottom mb-4 pb-3'>
                   <div className='form-inline'>
-                    <span className='mr-md-auto'>32 Items found </span>
+                    <span className='mr-md-auto'>{this.state.menuReivew.length} Items found </span>
                   </div>
                 </header>
 

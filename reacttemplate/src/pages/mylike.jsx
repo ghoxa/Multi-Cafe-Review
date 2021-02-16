@@ -13,20 +13,24 @@ class Mylike extends React.Component {
   }
   componentDidMount() {
     const userId = localStorage.getItem('userId');
-    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/user/recent/${userId}`);
-    Promise.all([menuReivewUrl])
+    const myLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/like`);
+    Promise.all([myLikeUrl])
       .then(([res]) => {
         this.setState({
-          myRecent: res.data,
+          myLike: res.data,
 
           isLoaded: true,
         });
-        console.log(this.state.myRecent);
+        console.log(this.state.myLike);
       })
       .catch((err) => {
         console.log(err.response);
       });
   }
+  handleClick = (value) => () => {
+    // console.log(value);
+    localStorage.setItem('menuId', value);
+  };
 
   render() {
     const { isLoaded } = this.state;
@@ -38,23 +42,23 @@ class Mylike extends React.Component {
       );
     } else {
       let menulist = [];
-      let myRecent = this.state.myRecent;
-      for (let i = 0; i < myRecent.length; i++) {
+      let myLike = this.state.myLike;
+      for (let i = 0; i < myLike.length; i++) {
         try {
           menulist.push(
             <Link to='/review'>
-              <div className='card card-product-list' onClick={this.handleClick(myRecent[i]['menuId'])}>
+              <div className='card card-product-list' onClick={this.handleClick(myLike[i]['menuId'])}>
                 <div className='row no-gutters'>
-                  <img className='card-img-top' src={myRecent[i]['image']} alt='Card image' />
+                  <img className='card-img-top' src={myLike[i]['image']} alt='Card image' />
                   <div className='card-body'>
-                    <h6 className='card-title'>{myRecent[i]['name']}</h6>
-                    <p className='text-success'>{myRecent[i]['cafeName']}</p>
+                    <h6 className='card-title'>{myLike[i]['name']}</h6>
+                    <p className='text-success'>{myLike[i]['cafeName']}</p>
                     <ul className='rating-stars'>
-                      <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={myRecent[i]['grade']} size={15} isHalf={true} />
-                      <span>{myRecent[i]['grade']}</span>
+                      <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={myLike[i]['grade']} size={15} isHalf={true} />
+                      <span>{myLike[i]['grade']}</span>
                     </ul>
                     <div className='price-wrap'>
-                      <span className='price h5'>{myRecent[i]['price']}원</span>
+                      <span className='price h5'>{myLike[i]['price']}원</span>
                     </div>
                     <br />
                   </div>
@@ -105,11 +109,11 @@ class Mylike extends React.Component {
               <main className='col-md-9'>
                 <header className='border-bottom mb-4 pb-3'>
                   <div className='form-inline'>
-                    <span className='mr-md-auto'>32 Items found </span>
+                    <span className='mr-md-auto'>{myLike.length} Items found </span>
                   </div>
                 </header>
 
-                <div className='card-columns'></div>
+                <div className='card-columns'>{menulist}</div>
                 <nav className='mt-4' aria-label='Page navigation sample'>
                   <ul className='pagination justify-content-center'>
                     <li className='page-item disabled'>
