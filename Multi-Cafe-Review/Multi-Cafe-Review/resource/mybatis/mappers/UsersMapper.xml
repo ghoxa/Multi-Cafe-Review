@@ -13,7 +13,7 @@
 	
 	<!-- Update -->
 	<update id="updateUser" parameterType="Users">
-		update users set pwd=#{pwd}, phone=#{phone}, email=#{email}, address=#{address}, taste_id=#{tasteId}, join_date={joinDate} where user_id=#{userId}
+		update users set pwd=#{pwd}, phone=#{phone}, email=#{email}, address=#{address}, join_date={joinDate}, sweet=#{sweet}, bitter=#{bitter}, sour=#{sour} where user_id=#{userId}
 	</update>
 	
 	<!-- Delete -->	
