@@ -11,6 +11,12 @@ const cafeApi = "/api/cafe";
 if(localStorage.getItem("cafeId") == null){
   localStorage.setItem("cafeId", 0)
 }
+if(localStorage.getItem("categoryId") == null){
+  localStorage.setItem("categoryId", 0)
+}
+if(localStorage.getItem("conditionId") == null){
+  localStorage.setItem("conditionId", "good")
+}
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +37,14 @@ class Header extends React.Component {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  handleClickHome = value => () => {
+    // console.log(value);
+    localStorage.setItem("cafeId", 0)
+    localStorage.setItem("categoryId", 0)
+    localStorage.setItem("conditionId", "good")
+    window.location.replace("/")
   }
 
   handleClick = value => () => {
@@ -76,22 +90,19 @@ class Header extends React.Component {
               <div className="container">
                 <div className="row align-items-center">
                   <div className="col-lg-2 col-4">
-                    <Link to="/home" className="brand-wrap">
-                      {" "}
-                      Home
+                    <Link to="/home" className="brand-wrap" onClick={this.handleClickHome()}>
+                      <img 
+                        src = "https://cdn.dribbble.com/users/4078256/screenshots/7165484/ohcaffe-dribbble_4x.png"
+                        style={{width:160, height:120}}
+                        />
                     </Link>
+                      
                   </div>
                   <div className="col-lg-6 col-sm-12">
-                    {/* <form action="#" className="search">
-                        <div className="input-group w-100">
-                            <input type="text" className="form-control" placeholder="Search" />
-                            <div className="input-group-append">
-                            <button className="btn btn-primary" type="submit">
-                                <i className="fa fa-search"></i>
-                            </button>
-                            </div>
-                        </div>
-                    </form>  */}
+                    <img 
+                      src = "https://www.ohmyzip.com/images2017/sub/banner_ohcafevisual.jpg"
+                      style={{width:548, height:120}}
+                      />
                   </div>
                   <div className="col-lg-4 col-sm-6 col-12">
                     <div className="widgets-wrap float-md-right">
@@ -118,9 +129,9 @@ class Header extends React.Component {
                           <div>
                             <Link to = 
                             {login === true?
-                              "./signout": "./signin"
+                              "/signout": "/signin"
                             }/>
-                            <Link to = {login === true? "./signout" : "./signin"}> 
+                            <Link to = {login === true? "/signout" : "/signin"}> 
                                       {login === true? "signout" : "signin"}</Link>
                             |<Link to="./register"> Register</Link>
                           </div>
