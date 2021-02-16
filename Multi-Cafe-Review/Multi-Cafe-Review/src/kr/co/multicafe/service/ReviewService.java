@@ -32,26 +32,24 @@ public class ReviewService {
 	
 	//리뷰 추가
 	@Transactional
-	public int insertReview(Review review) throws RuntimeException{
+	public int insertReview(Review review) {
 		int result=0;
 		//로그인 한 사용자가 이미 리뷰 작성한 메뉴인지 확인
-//		UserUtil userUtil = new UserUtil();
-//		String userId = userUtil.getCurrentUserId();
-//		if(reviewMapper.getReview(userId, review.getMenuId())==null) {
-		try {
-				menuMapper.updateMenuGrade(review.getMenuId());
-				menuMapper.updateMenuTaste(review.getMenuId());
-				return reviewMapper.insertReview(review);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-			result = 0;
+		UserUtil userUtil = new UserUtil();
+		String userId = userUtil.getCurrentUserId();
+		Review review_tmp = reviewMapper.getReview(userId, review.getMenuId());
+		if(review_tmp==null) {
+			menuMapper.updateMenuGrade(review.getMenuId());
+			menuMapper.updateMenuTaste(review.getMenuId());
+			result=reviewMapper.insertReview(review);
+
 		}
-//		}
-//		result=0;
-		System.out.println("result="+result);
+		else {
+			result=0;
+		}
 
 		return result;
+		
 	}
 	
 	//리뷰 업데이트
