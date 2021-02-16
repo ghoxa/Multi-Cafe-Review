@@ -18,7 +18,6 @@ class Header extends React.Component {
       isLoaded: false,
       login: localStorage.getItem('isLogin'),
     };
-    this.changeState = this.changeState.bind(this);
   }
 
   componentDidMount() {
@@ -41,13 +40,7 @@ class Header extends React.Component {
     window.location.replace('/');
   };
 
-  changeState = () => {
-    this.setState({
-      login: !this.state.login,
-    });
-  };
   render() {
-    // const login = localStorage.getItem('isLogin');
     const { isLoaded, login } = this.state;
 
     if (!isLoaded) {
@@ -112,10 +105,7 @@ class Header extends React.Component {
                         <div className='text'>
                           <span className='text-muted'>Welcome!</span>
                           <div>
-                            <button type='button' className={login ? 'btn-primary' : 'btn-danger'}>
-                              <Link to={login ? '/signout' : '/signin'}>{login ? 'signout' : 'signin'}</Link>
-                            </button>
-                            |<Link to='/register'> Register</Link>
+                            <Link to={login ? '/signout' : '/signin'}>{login ? 'signout' : 'signin'}</Link>|<Link to='/register'> Register</Link>
                           </div>
                         </div>
                       </div>

@@ -7,7 +7,7 @@ class SignOut extends React.Component {
         console.log(res);
         console.log('get성공');
         alert('로그아웃');
-        localStorage.setItem('isLogin', false);
+        localStorage.removeItem('isLogin');
         window.location.replace('/');
       })
       .catch((err) => {
