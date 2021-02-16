@@ -3,6 +3,7 @@ package kr.co.multicafe.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,6 +52,13 @@ public class UserController {
 	@GetMapping("/{userId}/menu/like")
 	public List<Menu> listViewLike(@PathVariable String userId) {
 		return menuService.listViewLike(userId);
+	}
+
+	@GetMapping("/{userId}/{menuId}/likecheck")
+	public boolean likeCheck(@PathVariable String userId, @PathVariable int menuId) {
+		if (menuService.getLike(userId, menuId) != null)
+			return true;
+		return false;
 	}
 
 	//리뷰 추가
