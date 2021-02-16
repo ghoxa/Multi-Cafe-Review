@@ -1,184 +1,157 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import ReactStars from 'react-rating-stars-component';
+import { Table } from 'react-bootstrap';
+import { CircularProgress } from '@material-ui/core';
 class MyReview extends React.Component {
   state = {
-    myLike: false,
+    menuReivew: [],
+    isLoaded: false,
   };
 
+  componentDidMount() {
+    const userId = localStorage.getItem('userId');
+    console.log(typeof userId);
+    const menuReivewUrl = axios.get(`/api/user/review/my/${userId}`);
+    Promise.all([menuReivewUrl])
+      .then(([res]) => {
+        this.setState({
+          menuReivew: res.data,
+
+          isLoaded: true,
+        });
+        console.log(this.state.menuReivew);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }
+  createListOfReview() {
+    let list = [];
+    for (let i = 0; i < this.state.menuReivew.length; ++i) {
+      list.push(
+        <tr>
+          <td>{this.state.menuReivew[i].userId}</td>
+          <td>{this.state.menuReivew[i].content}</td>
+          <td>
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sweet} size={20} isHalf={true} />
+          </td>
+          <td>
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].bitter} size={20} isHalf={true} />
+          </td>
+          <td>
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
+          </td>
+        </tr>
+      );
+    }
+    return list;
+  }
   render() {
-    return (
-      <section className='section-content padding-y'>
-        <div className='container'>
-          <div className='row'>
-            <aside className='col-md-3'>
-              <div className='card'>
-                <article className='filter-group'>
-                  <header className='card-header'>
-                    <a href='#' data-toggle='collapse' data-target='#collapse_2' aria-expanded='false' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>마이페이지</h6>
-                    </a>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_2'>
-                    <div className='card-body'>
-                      <ul className='list-menu'>
-                        <li>
-                          <Link to='/formPage'>개인정보수정 </Link>
-                        </li>
-                        <li>
-                          <Link to='/mylike'>찜 목록 </Link>
-                        </li>
-                        <li>
-                          <Link to='/myrecent'>최근 본 메뉴 </Link>
-                        </li>
-                        <li>
-                          <Link to='/myreview'>내 리뷰 관리 </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            </aside>
-
-            {/* 이 부분 부터 바뀐다 */}
-            <main className='col-md-9'>
-              <header className='border-bottom mb-4 pb-3'>
-                <div className='form-inline'>
-                  <span className='mr-md-auto'>32 Items found </span>
-                  <select className='mr-2 form-control'>
-                    <option>추천순</option>
-                    <option>조회순</option>
-                    <option>Most Popular</option>
-                    <option>Cheapest</option>
-                  </select>
-                </div>
-              </header>
-
-              {/* myReview */}
-              <div className='cardmypage'>
-                {/* {this.state.menuDataJson.map((coffee, i) => {
-                  return (
-                    <div class='row no-gutters'>
-                      <aside class='col-md-3'>
-                        <a href='#' class='img-wrap'>
-                          
-                          <img src={menuDataJson[i]['menu.image']} />
-                        </a>
-                      </aside>
-                      <div class='col-md-6'>
-                        <div class='info-main'>
-                          <a href='#' class='h5 title'>
-                            {menuDataJson[i]['menu.name']}
-                          </a>
-                          <div class='rating-wrap mb-3'>
-                            <ul class='rating-stars'>
-                              <li class='stars-active w-80'>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i>
-                              </li>
-                              <li>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i>
-                              </li>
-                            </ul>
-                            <div class='label-rating'>{menuDataJson[i]['avgScore']}</div>
-                          </div>
-                          <div class='rating-wrap mb-3'>
-                            <ul class='rating-stars'>
-                              <li class='stars-active w-80'>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i>
-                              </li>
-                              <li>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i>
-                              </li>
-                            </ul>
-                            <div class='label-rating'>{menuDataJson[i]['avgScore']}</div>
-                          </div>
-                          <div class='rating-wrap mb-3'>
-                            <ul class='rating-stars'>
-                              <li class='stars-active w-80'>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i>
-                              </li>
-                              <li>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i> <i class='fa fa-star'></i>
-                                <i class='fa fa-star'></i>
-                              </li>
-                            </ul>
-                            <div class='label-rating'>{menuDataJson[i]['avgScore']}</div>
-                          </div>
-
-                          <p> {menuDataJson[i]['reviewContents']} </p>
-                        </div>
-                      </div>
-                      <aside class='col-sm-3'>
-                        <div class='info-aside'>
-                          <div class='price-wrap'>
-                            <span class='price h5'> {menuDataJson[i]['menu.price']} 원 </span>
-                            
-                          </div>
-                          <p class='text-success'>{menuDataJson[i]['cafe.name']}</p>
-                          <br />
-                          <p>
-                            <a className='btn' onClick={() => this.setState({ myLike: !this.state.myLike })}>
-                              <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
-                            </a>
-                            <button className='btn btn-primary btn-md my-0 p' type='submit'>
-                              <i className='fa fa-trash' />
-                            </button>
-                          </p>
-                        </div>
-                      </aside>
-                    </div>
-                  );
-                })} */}
-              </div>
-              {/* myReview */}
-
-              <nav className='mt-4' aria-label='Page navigation sample'>
-                <ul className='pagination justify-content-center'>
-                  <li className='page-item disabled'>
-                    <a className='page-link' href='#'>
-                      Previous
-                    </a>
-                  </li>
-                  <li className='page-item active'>
-                    <a className='page-link' href='#'>
-                      1
-                    </a>
-                  </li>
-                  <li className='page-item'>
-                    <a className='page-link' href='#'>
-                      2
-                    </a>
-                  </li>
-                  <li className='page-item'>
-                    <a className='page-link' href='#'>
-                      3
-                    </a>
-                  </li>
-                  <li className='page-item'>
-                    <a className='page-link' href='#'>
-                      Next
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </main>
-          </div>
+    const { isLoaded } = this.state;
+    if (!isLoaded) {
+      return (
+        <div id='loader' style={{ position: 'absolute', top: '50%', left: '50%' }}>
+          <CircularProgress />
         </div>
-      </section>
-    );
+      );
+    } else {
+      return (
+        <section className='section-content padding-y'>
+          <div className='container'>
+            <div className='row'>
+              <aside className='col-md-3'>
+                <div className='card'>
+                  <article className='filter-group'>
+                    <header className='card-header'>
+                      <a href='#' data-toggle='collapse' data-target='#collapse_2' aria-expanded='false' className=''>
+                        <i className='icon-control fa fa-chevron-down'></i>
+                        <h6 className='title'>마이페이지</h6>
+                      </a>
+                    </header>
+                    <div className='filter-content collapse show' id='collapse_2'>
+                      <div className='card-body'>
+                        <ul className='list-menu'>
+                          <li>
+                            <Link to='/formPage'>개인정보수정 </Link>
+                          </li>
+                          <li>
+                            <Link to='/mylike'>찜 목록 </Link>
+                          </li>
+                          <li>
+                            <Link to='/myrecent'>최근 본 메뉴 </Link>
+                          </li>
+                          <li>
+                            <Link to='/myreview'>내 리뷰 관리 </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </aside>
+
+              {/* 이 부분 부터 바뀐다 */}
+              <main className='col-md-9'>
+                <header className='border-bottom mb-4 pb-3'>
+                  <div className='form-inline'>
+                    <span className='mr-md-auto'>32 Items found </span>
+                  </div>
+                </header>
+
+                {/* myReview */}
+                <div className='cardmypage'></div>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>이름</th>
+                      <th>리뷰내용</th>
+                      <th>단맛</th>
+                      <th>쓴맛</th>
+                      <th>신맛</th>
+                      <th>좋아요</th>
+                    </tr>
+                  </thead>
+                  <tbody>{this.createListOfReview()}</tbody>
+                </Table>
+                {/* myReview */}
+
+                <nav className='mt-4' aria-label='Page navigation sample'>
+                  <ul className='pagination justify-content-center'>
+                    <li className='page-item disabled'>
+                      <a className='page-link' href='#'>
+                        Previous
+                      </a>
+                    </li>
+                    <li className='page-item active'>
+                      <a className='page-link' href='#'>
+                        1
+                      </a>
+                    </li>
+                    <li className='page-item'>
+                      <a className='page-link' href='#'>
+                        2
+                      </a>
+                    </li>
+                    <li className='page-item'>
+                      <a className='page-link' href='#'>
+                        3
+                      </a>
+                    </li>
+                    <li className='page-item'>
+                      <a className='page-link' href='#'>
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </main>
+            </div>
+          </div>
+        </section>
+      );
+    }
   }
 }
 

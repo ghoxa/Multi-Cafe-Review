@@ -17,7 +17,7 @@ class ReviewPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mylike: null,
+      myLike: false,
       menuReivew: [],
       selectMenu: [],
       similarMenuByKeyWord: [],
@@ -26,30 +26,36 @@ class ReviewPage extends Component {
     this.onlikeChanged.bind(this);
   }
 
-  onlikeChanged = e => {
+  onlikeChanged = (e) => {
     e.preventDefault();
 
     const menuId = localStorage.getItem('menuId');
-    {console.log(typeof(menuId))};
+    {
+      console.log(typeof menuId);
+    }
     const changeLikeUrl = axios.get(`/api/user/menu/${menuId}/like`);
     const likeCheckUrl = axios.get(`/api/menu/${menuId}/likecheck`);
     Promise.all([changeLikeUrl, likeCheckUrl])
-      .then((res1, res2) => {
+      .then(([res1, res2]) => {
+        console.log(res1.data);
+        console.log(res2);
         this.setState({
-          mylike: !this.state.mylike
+          myLike: res2.data,
         });
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
+    const userId = localStorage.getItem('userId');
     const menuReivewUrl = axios.get(`/api/review/${menuId}`);
-    const selectMenuUrl = axios.get(`/api/menu/${menuId}`);
+    const selectMenuUrl = axios.get(`/api/menu/check/${menuId}/${userId}`);
     const similarMenuByKeyWordUrl = axios.get(`/api/menu/${menuId}/recommend/keyword`);
     const similarMenuByTasteUrl = axios.get(`/api/menu/${menuId}/recommend/taste`);
     const likeCheckUrl = axios.get(`/api/menu/${menuId}/likecheck`);
+
     Promise.all([menuReivewUrl, selectMenuUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl])
       .then(([res, res2, res3, res4, res5]) => {
         this.setState({
@@ -57,13 +63,14 @@ class ReviewPage extends Component {
           selectMenu: res2.data,
           similarMenuByKeyWord: res3.data,
           similarMenuByTaste: res4.data,
-          mylike: res5.data,
+          myLike: res5.data,
           isLoaded: true,
         });
-        localStorage.setItem('mylike', this.state.mylike);
-        //console.log(this.state.mylike);
+
+        localStorage.setItem('myLike', this.state.myLike);
+        console.log(this.state.mylike);
         console.log(this.state.similarMenuByKeyWord);
-        console.log(this.state.selectMenu.grade);
+        console.log(this.state.selectMenu);
       })
       .catch((err) => {
         console.log(err);
@@ -175,8 +182,8 @@ class ReviewPage extends Component {
                     <div className='p-4' style={{ fontSize: 20 }}>
                       <span className='lead font-weight-bold'>{selectMenu.name} </span>
 
-                      <a className='btn' onClick={this.onlikeChanged}>
-                        <i style={{ color: 'red' }} className={this.state.mylike ? 'fa fa-heart' : 'far fa-heart'}></i>
+                      <a className='btn' onClick={() => this.onlikeChanged()}>
+                        <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
                       </a>
 
                       <p className='lead font-weight-bold'>

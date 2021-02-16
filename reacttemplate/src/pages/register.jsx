@@ -10,15 +10,15 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id:'',
-      pw:'',
-      email:'',
-      phone:'',
-      address:'',
-      join_date:'',
-      sweet:'',
-      sour:'',
-      bitter:''
+      id: '',
+      pw: '',
+      email: '',
+      phone: '',
+      address: '',
+      join_date: '',
+      sweet: '',
+      sour: '',
+      bitter: '',
     };
   }
 
@@ -76,7 +76,7 @@ class Register extends React.Component {
     const { id, pw, email, phone, address, sweet, sour, bitter } = this.state;
     e.preventDefault();
 
-    if(id === '' || pw === '' || email === '' || phone === '' || address === '' || sweet === '' || sour === '' || bitter === '') {
+    if (id === '' || pw === '' || email === '' || phone === '' || address === '' || sweet === '' || sour === '' || bitter === '') {
       alert('모든 입력을 완료해 주세요');
       return;
     }
@@ -90,102 +90,95 @@ class Register extends React.Component {
       joinDate: '',
       sweet: sweet,
       sour: sour,
-      bitter: bitter
+      bitter: bitter,
     };
 
-    Promise.all([axios.post('/api/register', signup_info)])
-    .then((res) => {
-      alert("회원가입 완료");
+    Promise.all([axios.post('/api/register', signup_info)]).then((res) => {
+      alert('회원가입 완료');
       window.location.replace('/signin');
     });
-  }
+  };
 
   checkId = (e) => {
     const { id } = this.state;
     e.preventDefault();
-    
+
     Promise.all([axios.get(`/api/register/${id}/check`)])
-    .then((res) => {
-      if(res[0].data === false) {
-        alert('사용 불가능한 Id입니다.');
-        this.setState({
-          id:''
-        });
-      }
-      else {
-        alert('사용 가능한 Id입니다.');
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+      .then((res) => {
+        if (res[0].data === false) {
+          alert('사용 불가능한 Id입니다.');
+          this.setState({
+            id: '',
+          });
+        } else {
+          alert('사용 가능한 Id입니다.');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   render() {
     return (
-      <div className="container">
-          <form onSubmit={this.handleSubmit}>
-            <FormGroup>
-              <Label for='exampleId' sm={2}>
-                Id
-              </Label>
-              <Col>
-                <Input type='id' id='id' name='id' placeholder='id 등록' value={this.state.id} onChange={this.handleId} />
-                <button onClick={this.checkId}>ID 중복체크</button>
-              </Col>
-            </FormGroup>
-            
-            <FormGroup>
-              <Label for='examplePassword' sm={2}>
-                Password
-              </Label>
-              <Col>
-                <Input type='password' name='password' placeholder='password 등록' value={this.state.pw} onChange={this.handlePW} />
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Label for='exampleEmail' sm={2}>
-               Email
-              </Label>
-              <Col>
-                <Input type='email' name='email' placeholder='email 등록' value={this.state.email} onChange={this.handleEmail}/>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Label for='exampleEmail' sm={2}>
-                Phone Number
-              </Label>
-              <Col>
-                <Input type='text' name='phonenumber' placeholder='phonenumber 등록' value={this.state.phone} onChange={this.handlePhone}/>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <Label for='exampleAddress' sm={2}>
-                Address
-              </Label>
-              <Col>
-                <Input type='text' name='address' placeholder='address 등록' value={this.state.address} onChange={this.handleAddress}/>
-              </Col>
-            </FormGroup>
+      <div className='container'>
+        <form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <Label for='exampleId' sm={2}>
+              Id
+            </Label>
+            <Col>
+              <Input type='id' id='id' name='id' placeholder='id 등록' value={this.state.id} onChange={this.handleId} />
+              <button onClick={this.checkId}>ID 중복체크</button>
+            </Col>
+          </FormGroup>
 
-            <RatingSweet onChange={this.handleInputSweet} />
-            <RatingSour onChange={this.handleInputSour} />
-            <RatingBitter onChange={this.handleInputBitter} />
-            <br></br>  
+          <FormGroup>
+            <Label for='examplePassword' sm={2}>
+              Password
+            </Label>
+            <Col>
+              <Input type='password' name='password' placeholder='password 등록' value={this.state.pw} onChange={this.handlePW} />
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Label for='exampleEmail' sm={2}>
+              Email
+            </Label>
+            <Col>
+              <Input type='email' name='email' placeholder='email 등록' value={this.state.email} onChange={this.handleEmail} />
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Label for='exampleEmail' sm={2}>
+              Phone Number
+            </Label>
+            <Col>
+              <Input type='text' name='phonenumber' placeholder='phonenumber 등록' value={this.state.phone} onChange={this.handlePhone} />
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Label for='exampleAddress' sm={2}>
+              Address
+            </Label>
+            <Col>
+              <Input type='text' name='address' placeholder='address 등록' value={this.state.address} onChange={this.handleAddress} />
+            </Col>
+          </FormGroup>
 
-            <hr />
-            <Button
-              size="lg"
-              className="bg-gradient-theme-left border-0"
-              block
-              type="submit">Signup
-            </Button>
+          <RatingSweet onChange={this.handleInputSweet} />
+          <RatingSour onChange={this.handleInputSour} />
+          <RatingBitter onChange={this.handleInputBitter} />
+          <br></br>
 
-          </form>
+          <hr />
+          <Button size='lg' className='bg-gradient-theme-left border-0' block type='submit'>
+            Signup
+          </Button>
+        </form>
       </div>
     );
-  }  
-  
+  }
 }
 
 const RatingSweet = ({ onChange }) => {
