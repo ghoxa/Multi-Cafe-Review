@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -71,8 +70,9 @@ public class UserController {
 	}
 
 	@GetMapping("/review/my/{userId}")
-	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
-		return reviewService.listMyReview(userId);
+//	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
+	public List<Review> listMyReview(@SessionAttribute("user") Users users){
+		return reviewService.listMyReview(users.getUserId());
 	}
 	
 	@PostMapping("/review/good/count")
