@@ -70,9 +70,8 @@ public class UserController {
 	}
 
 	@GetMapping("/review/my/{userId}")
-//	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
-	public List<Review> listMyReview(@SessionAttribute("user") Users users){
-		return reviewService.listMyReview(users.getUserId());
+	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
+		return reviewService.listMyReview(userId);
 	}
 	
 	@PostMapping("/review/good/count")
