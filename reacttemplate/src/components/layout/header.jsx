@@ -127,7 +127,8 @@ class Header extends React.Component {
                         <div className='text'>
                           <span className='text-muted'>Welcome!</span>
                           <div>
-                            <Link to={login ? '/signout' : '/signin'}>{login ? 'signout' : 'signin'}</Link>|<Link to='/register'> Register</Link>
+                            <Link to={login ? '/signout' : '/signin'}>{login ? 'logout' : 'login'}</Link>
+                            |<Link to='/register'> Register</Link>
                           </div>
                         </div>
                       </div>

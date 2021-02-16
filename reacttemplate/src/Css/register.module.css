@@ -1,0 +1,34 @@
+
+
+.taste {
+    display: inline-flex;
+    margin-top: 5px;
+    padding: 15px;
+}
+
+.rating {
+    border : 2px solid black;
+}
+    
+.font {
+    padding: 0 15px;
+}
+
+.inputbox {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.head {
+    font-weight: bold;
+    font-size: large;
+}
+
+.content {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.btn {
+    text-align: center;
+}

@@ -9,14 +9,15 @@ class SignIn extends React.Component {
     this.state = {
       id: '',
       pw: '',
-      phone:'',
-      email:'',
-      address:'',
-      sweet:'',
-      sour:'',
-      bitter:'',
-      data:{},        // api 통해 받아오는 json 객체를 담음
-    }
+      phone: '',
+      email: '',
+      address: '',
+      sweet: '',
+      sour: '',
+      bitter: '',
+      data: {}, // api 통해 받아오는 json 객체를 담음
+      isAdmin: false
+    };
   }
 
   // id 입력창 관리
@@ -42,38 +43,40 @@ class SignIn extends React.Component {
       userId: id,
       pwd: pw,
     };
-    
+
     Promise.all([axios.post('/api/login', login_info)])
-      .then( (res) => {
+    .then((res) => {
+      this.setState({
+        data: res[0].data,
+      });
+      console.log(this.state.data);
+
+      if (this.state.data != '') {
+        alert('로그인되었습니다');
+        window.localStorage.setItem('userInfo', JSON.stringify(this.state.data));
+
         this.setState({
-          data:res[0].data,
+          id: this.state.data.userId,
+          phone: this.state.data.phone,
+          email: this.state.data.email,
+          address: this.state.data.address,
+          sweet: this.state.data.sweet,
+          sour: this.state.data.sour,
+          bitter: this.state.data.bitter,
+          isAdmin: this.state.data.adminCheck
         });
 
-        if(this.state.data != "") {
-          alert('로그인되었습니다');
-          window.localStorage.setItem('userInfo', JSON.stringify(this.state.data))
-  
-          this.setState({
-            id: this.state.data.userId,
-            phone: this.state.data.phone,
-            email: this.state.data.email,
-            address: this.state.data.address,
-            sweet:this.state.data.sweet,
-            sour: this.state.data.sour,
-            bitter: this.state.data.bitter,
-            //isAdmin: this.state.data.adminCheck
-          });
-
-          localStorage.setItem('isLogin', true);
-          window.location.replace('/');
-        } else {
-          alert('아이디 혹은 비밀번호를 확인하세요');
-          this.setState({
-            id:'',
-            pw:''
-          })
-        }
-      });
+        localStorage.setItem('userId', id);
+        localStorage.setItem('isLogin', true);
+        window.location.replace('/');
+      } else {
+        alert('아이디 혹은 비밀번호를 확인하세요');
+        this.setState({
+          id:'',
+          pw:''
+        });
+      }
+    });
   }
 
   render() {
