@@ -29,7 +29,7 @@ public interface MenuMapper {
 	public void minusGood(int menuId);
 	public int updateMenuTaste(int menuId);
 	public int updateMenuGrade(int menuId);
-	public List<Menu> listViewRecommendMenuByKeyword(@Param("menuId") int menuId, @Param("keyword") String keyword);
+	public List<Menu> listViewRecommendMenuByKeyword(@Param("menuId") int menuId, @Param("list") String[] list);
 	public Taste getMenuTaste(int menuId);
 	public List<Menu> listViewRecommendMenuByTaste(@Param("menuId") int menuId, @Param("list") List<String> list, @Param("max") double max);
 	

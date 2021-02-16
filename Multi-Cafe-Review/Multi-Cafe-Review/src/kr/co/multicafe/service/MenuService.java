@@ -114,7 +114,12 @@ public class MenuService {
 	
 	@Transactional
 	public List<Menu> listViewRecommendMenuByKeyword(int menuId) {
-		return menuMapper.listViewRecommendMenuByKeyword(menuId, menuMapper.getMenu(menuId).getKeyword());
+		String keyword = menuMapper.getMenu(menuId).getKeyword();
+		String[] list = keyword.split(" ");
+		for (String l : list) {
+			System.out.println(l);
+		}
+		return menuMapper.listViewRecommendMenuByKeyword(menuId, list);
 	}
 	
 	@Transactional
