@@ -8,6 +8,8 @@ class SignOut extends React.Component {
         console.log('get성공');
         alert('로그아웃');
         localStorage.removeItem('isLogin');
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('userId');
         window.location.replace('/');
       })
       .catch((err) => {

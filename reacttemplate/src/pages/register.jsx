@@ -93,7 +93,7 @@ class Register extends React.Component {
       bitter: bitter,
     };
 
-    Promise.all([axios.post('/api/register', signup_info)]).then((res) => {
+    Promise.all([axios.post('http://localhost:9090/multicafe/api/register', signup_info)]).then((res) => {
       alert('회원가입 완료');
       window.location.replace('/signin');
     });
