@@ -6,8 +6,6 @@ import axios from 'axios';
 import { ThemeProvider } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
 
-
-
 if (localStorage.getItem('cafeId') == null) {
   localStorage.setItem('cafeId', 0);
 }
@@ -22,17 +20,20 @@ class Header extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
+      myLike: [],
       login: localStorage.getItem('isLogin'),
     };
   }
 
   componentDidMount() {
-    const cafeApi = 'http://localhost:9090/multicafe/api/cafe';
-    
-    Promise.all([axios.get(cafeApi)])
-      .then(([res]) => {
+    const userId = localStorage.getItem('userId');
+    const cafeApi = axios.get('http://localhost:9090/multicafe/api/cafe');
+    const myLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/like`);
+    Promise.all([cafeApi, myLikeUrl])
+      .then(([res, res2]) => {
         this.setState({
           Cafe: res.data,
+          myLike: res2.data,
           isLoaded: true,
         });
         // console.log(this.state.Cafe);
@@ -58,8 +59,8 @@ class Header extends React.Component {
     window.location.replace('/');
   };
   checkLogid = () => {
-    alert("로그인을 해주세요!")
-  }
+    alert('로그인을 해주세요!');
+  };
 
   render() {
     // const login = localStorage.getItem('isLogin');
@@ -100,18 +101,23 @@ class Header extends React.Component {
                   <div className='col-lg-4 col-sm-6 col-12'>
                     <div className='widgets-wrap float-md-right'>
                       <div className='widget-header  mr-3'>
-                        <a href='#' className='icon icon-sm rounded-circle border'>
+                        <a href='/mylike' className='icon icon-sm rounded-circle border'>
                           <i className='fa fa-shopping-cart'></i>
                         </a>
-                        <span className='badge badge-pill badge-danger notify'>0</span>
+
+                        <span className='badge badge-pill badge-danger notify'>{this.state.myLike.length}</span>
                       </div>
                       <div className='widget-header icontext'>
-                      {login? <Link to='/formPage' className='icon icon-sm rounded-circle border'>
-                          <i className='fa fa-user'></i>
-                        </Link>: <a onClick={this.checkLogid} className='icon icon-sm rounded-circle border'>
-                          <i className='fa fa-user'></i>
-                        </a>}
-                        
+                        {login ? (
+                          <Link to='/formPage' className='icon icon-sm rounded-circle border'>
+                            <i className='fa fa-user'></i>
+                          </Link>
+                        ) : (
+                          <a onClick={this.checkLogid} className='icon icon-sm rounded-circle border'>
+                            <i className='fa fa-user'></i>
+                          </a>
+                        )}
+
                         <div className='text'>
                           <span className='text-muted'>Welcome!</span>
                           <div>

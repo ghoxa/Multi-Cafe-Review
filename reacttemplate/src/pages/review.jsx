@@ -17,15 +17,52 @@ class ReviewPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      myLike: false,
+      // myLike2: '',
       menuReivew: [],
+      selectMenuCheck: [],
       selectMenu: [],
       similarMenuByKeyWord: [],
       isLoaded: false,
     };
+
     this.onlikeChanged.bind(this);
   }
 
+  componentDidMount() {
+    // this.state.myLike2 = localStorage.getItem('myLike');
+    console.log('초기값' + this.state.myLike);
+    const menuId = localStorage.getItem('menuId');
+    const userId = localStorage.getItem('userId');
+    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+    const selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`);
+    const selectMenuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`);
+    const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
+    const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
+    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+
+    Promise.all([menuReivewUrl, selectMenuCheckUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, selectMenuUrl])
+      .then(([res, res2, res3, res4, res5, res6]) => {
+        this.setState({
+          menuReivew: res.data,
+          selectMenuCheck: res2.data,
+          similarMenuByKeyWord: res3.data,
+          similarMenuByTaste: res4.data,
+          myLike: res5.data,
+          selectMenu: res6.data,
+          isLoaded: true,
+        });
+
+        // localStorage.setItem('myLike', this.state.myLike);
+        // console.log(this.state.mylike);
+        // console.log(this.state.similarMenuByKeyWord);
+        console.log(this.state.menuReivew);
+        console.log(this.state.selectMenuCheck);
+        console.log(this.state.selectMenu);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   onlikeChanged = (e) => {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
@@ -34,44 +71,18 @@ class ReviewPage extends Component {
     Promise.all([changeLikeUrl, likeCheckUrl])
       .then(([res1, res2]) => {
         console.log(res1.data);
-        console.log(res2.data);
+        console.log('바꾼후현재db값' + res2.data);
+        console.log('초기값' + this.state.myLike2);
         this.setState({
-          myLike: res2.data,
+          myLike2: res2.data,
+          isLoaded: true,
         });
+        localStorage.setItem('myLike', this.state.myLike2);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  componentDidMount() {
-    const menuId = localStorage.getItem('menuId');
-    const userId = localStorage.getItem('userId');
-    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
-    const selectMenuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`);
-    const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
-    const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
-    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-
-    Promise.all([menuReivewUrl, selectMenuUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl])
-      .then(([res, res2, res3, res4, res5]) => {
-        this.setState({
-          menuReivew: res.data,
-          selectMenu: res2.data,
-          similarMenuByKeyWord: res3.data,
-          similarMenuByTaste: res4.data,
-          myLike: res5.data,
-          isLoaded: true,
-        });
-
-        localStorage.setItem('myLike', this.state.myLike);
-        console.log(this.state.mylike);
-        console.log(this.state.similarMenuByKeyWord);
-        console.log(this.state.selectMenu);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   handleClick = (value) => () => {
     localStorage.setItem('menuId', value);
     window.location.replace('/review');
@@ -135,7 +146,7 @@ class ReviewPage extends Component {
   }
 
   render() {
-    const { selectMenu, isLoaded } = this.state;
+    const { selectMenuCheck, isLoaded } = this.state;
     if (!isLoaded) {
       return (
         <div id='loader' style={{ position: 'absolute', top: '50%', left: '50%' }}>
@@ -164,28 +175,28 @@ class ReviewPage extends Component {
                   {/*Grid column*/}
                   <span className='col-md-6 mb-4'>
                     <div>
-                      <div style={{ fontSize: 30 }}>총점:{selectMenu.grade}</div>
+                      <div style={{ fontSize: 30 }}>총점:{selectMenuCheck.grade}</div>
 
-                      <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.grade} size={35} isHalf={true} />
+                      <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.grade} size={35} isHalf={true} />
                     </div>
 
-                    <img src={selectMenu.image} className='img-fluid' style={{ width: '80%', height: '80%' }} alt />
+                    <img src={selectMenuCheck.image} className='img-fluid' style={{ width: '80%', height: '80%' }} alt />
                   </span>
                   {/*Grid column*/}
                   {/*Grid column*/}
                   <div className='col-md-6 mb-4' st>
                     {/*Content*/}
                     <div className='p-4' style={{ fontSize: 20 }}>
-                      <span className='lead font-weight-bold'>{selectMenu.name} </span>
+                      <span className='lead font-weight-bold'>{selectMenuCheck.name} </span>
 
                       <a className='btn' onClick={() => this.onlikeChanged()}>
-                        <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
+                        <i style={{ color: 'red' }} className={this.state.myLike2 ? 'fa fa-heart' : 'far fa-heart'}></i>
                       </a>
 
                       <p className='lead font-weight-bold'>
-                        <span>{selectMenu.price}원 </span>
+                        <span>{selectMenuCheck.price}원 </span>
                       </p>
-                      <p>{selectMenu.description}</p>
+                      <p>{selectMenuCheck.description}</p>
                       <br />
                       <br />
                       <br />
@@ -194,19 +205,19 @@ class ReviewPage extends Component {
                         <div className='rating-wrap mb-3'>
                           단맛: &nbsp;
                           <ul className='rating-stars'>
-                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.sweet} size={25} isHalf={true} />
+                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sweet} size={25} isHalf={true} />
                           </ul>
                         </div>
                         <div className='rating-wrap mb-3'>
                           쓴맛: &nbsp;
                           <ul className='rating-stars'>
-                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.bitter} size={25} isHalf={true} />
+                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.bitter} size={25} isHalf={true} />
                           </ul>
                         </div>
                         <div className='rating-wrap mb-3'>
                           신맛: &nbsp;
                           <ul className='rating-stars'>
-                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenu.sour} size={25} isHalf={true} />
+                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
                           </ul>
                         </div>
                       </div>
@@ -222,6 +233,11 @@ class ReviewPage extends Component {
                 <div className='row d-flex justify-content-center wow fadeIn'>
                   {/*Grid column*/}
 
+                  <Link to='/home'>
+                    <button className='btn btn-primary btn-md my-0 p' type='submit' style={{ height: '70px' }}>
+                      목록 보기
+                    </button>
+                  </Link>
                   <Link to='/writereview'>
                     <button className='btn btn-primary btn-md my-0 p' type='submit' style={{ height: '70px' }}>
                       리뷰 작성
