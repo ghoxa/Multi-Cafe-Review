@@ -125,6 +125,7 @@ class Home extends React.Component {
                     <ul className='rating-stars'>
                       <span>평점: {menu[i]['grade']}&nbsp;</span>
                       <span style={{color : "silver", fontSize: 10}}>&nbsp;조회수: {menu[i]['click']}</span>
+                      <span style={{color : "red", fontSize: 10}}>&nbsp;좋아요수: {menu[i]['good']}</span>
                       <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={menu[i]['grade']} size={15} isHalf={true} />
                     </ul>
                     <div className='price-wrap'>
