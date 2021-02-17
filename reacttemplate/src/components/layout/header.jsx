@@ -6,7 +6,7 @@ import axios from 'axios';
 import { ThemeProvider } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
 
-const cafeApi = 'http://localhost:9090/multicafe/api/cafe';
+
 
 if (localStorage.getItem('cafeId') == null) {
   localStorage.setItem('cafeId', 0);
@@ -27,6 +27,8 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
+    const cafeApi = 'http://localhost:9090/multicafe/api/cafe';
+    
     Promise.all([axios.get(cafeApi)])
       .then(([res]) => {
         this.setState({
@@ -51,6 +53,8 @@ class Header extends React.Component {
   handleClick = (value) => () => {
     // console.log(value);
     localStorage.setItem('cafeId', value);
+    localStorage.setItem('categoryId', 0);
+    localStorage.setItem('keyword', 0);
     window.location.replace('/');
   };
   checkLogid = () => {
