@@ -48,6 +48,7 @@ public class MenuService {
 		return menuMapper.deleteMenu(menuId);
 	}
 	
+	@Transactional
 	public Menu getMenu(int menuId) {
 		Menu menu = menuMapper.getMenu(menuId);
 		if (reviewMapper.listViewReview(menuId) == null) {

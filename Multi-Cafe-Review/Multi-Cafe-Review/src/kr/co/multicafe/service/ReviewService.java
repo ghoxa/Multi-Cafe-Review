@@ -71,6 +71,7 @@ public class ReviewService {
 	
 	
 	//리뷰 업데이트
+	@Transactional
 	public int updateReview(Review review) throws RuntimeException{
 		int result = 0;
 		
