@@ -157,7 +157,7 @@ public class ReviewService {
 		return idx;
 //		System.out.println(reviewLike);
 
-//		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고 내가 쓴 리뷰가 아니면)
+//		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고)
 //
 //			return true;
 //		}
@@ -165,6 +165,18 @@ public class ReviewService {
 //			return false;
 //		}
 	}
+	
+	public boolean reviewGoodCheck(int reviewId, String userId) {
+		ReviewLike reviewLike= reviewLikeMapper.getReviewLike(reviewId,userId);
+		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고)
+
+			return false;
+		}
+		else { //좋아요 할 수 없는 상태(좋아요 한 상태)
+			return true;
+		}
+	}
+	
 	
 	public boolean isMyReview(int reviewId, String userId) {
 		Review review = reviewMapper.getReview2(reviewId);
