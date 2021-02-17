@@ -120,17 +120,15 @@ public class MenuService {
 	@Transactional
 	public List<Menu> listViewRecommendMenuByKeyword(int menuId) {
 		String keyword = menuMapper.getMenu(menuId).getKeyword();
-		String[] list;
 		if (keyword != null) {
-			list = keyword.split(" ");
+			String[] list = keyword.split(" ");
 			for (String l : list) {
 				System.out.println(l);
 			}
+			return menuMapper.listViewRecommendMenuByKeyword(menuId, list);
 		} else {
-			list = new String[1];
-			list[0] = "없음";
+			return null;
 		}
-		return menuMapper.listViewRecommendMenuByKeyword(menuId, list);
 	}
 	
 	@Transactional
@@ -138,16 +136,20 @@ public class MenuService {
 		Taste taste = menuMapper.getMenuTaste(menuId);
 		System.out.println(taste);
 		List<String> maxCol = new ArrayList<String>();
-		double max = Math.max(Math.max(taste.getSweet(), taste.getBitter()), taste.getSour());
-		if (taste.getSweet() == max) 
-			maxCol.add("sweet");
-		if (taste.getBitter() == max) 
-			maxCol.add("bitter");
-		if (taste.getSour() == max) 
-			maxCol.add("sour");
-		System.out.println(maxCol);
-		System.out.println(max);
-		return menuMapper.listViewRecommendMenuByTaste(menuId, maxCol, max);
+		if (taste != null) {
+			double max = Math.max(Math.max(taste.getSweet(), taste.getBitter()), taste.getSour());
+			if (taste.getSweet() == max) 
+				maxCol.add("sweet");
+			if (taste.getBitter() == max) 
+				maxCol.add("bitter");
+			if (taste.getSour() == max) 
+				maxCol.add("sour");
+			System.out.println(maxCol);
+			System.out.println(max);
+			return menuMapper.listViewRecommendMenuByTaste(menuId, maxCol, max);
+		} else {
+			return null;
+		}
 	}
 
 	public List<Menu> listViewLike(String userId) {
