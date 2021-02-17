@@ -22,9 +22,9 @@
 	</delete>
 	
 	<select id="getMenu" parameterType="int" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-		from menu
-		where menu_id=#{menuId}
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		from menu m, cafe c
+		where m.cafe_id = c.cafe_id and m.menu_id=#{menuId}
 	</select>
 	
 	<select id="listViewMenu" resultMap="menu_resultMap">
