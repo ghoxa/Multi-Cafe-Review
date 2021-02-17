@@ -71,11 +71,14 @@ public class ReviewService {
 	
 	
 	//리뷰 업데이트
+	@Transactional
 	public int updateReview(Review review) throws RuntimeException{
 		int result = 0;
 		
 		try {
 			result = reviewMapper.updateReview(review);
+			menuMapper.updateMenuGrade(review.getMenuId());
+			menuMapper.updateMenuTaste(review.getMenuId());
 	
 		}catch(Exception e) {
 			e.printStackTrace();

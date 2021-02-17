@@ -14,6 +14,7 @@ import kr.co.multicafe.common.utils.UserUtil;
 import kr.co.multicafe.dao.LikesMapper;
 import kr.co.multicafe.dao.MenuMapper;
 import kr.co.multicafe.dao.RecentMapper;
+import kr.co.multicafe.dao.ReviewMapper;
 import kr.co.multicafe.dto.Likes;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Recent;
@@ -31,6 +32,9 @@ public class MenuService {
 	
 	@Autowired
 	private RecentMapper recentMapper;
+
+	@Autowired
+	private ReviewMapper reviewMapper;
 	
 	public int insertMenu(Menu menu) {
 		return menuMapper.insertMenu(menu);
@@ -44,8 +48,16 @@ public class MenuService {
 		return menuMapper.deleteMenu(menuId);
 	}
 	
+	@Transactional
 	public Menu getMenu(int menuId) {
-		return menuMapper.getMenu(menuId);
+		Menu menu = menuMapper.getMenu(menuId);
+		if (reviewMapper.listViewReview(menuId) == null) {
+			menu.setGrade(0);
+		} else {
+			menuMapper.updateMenuGrade(menuId);
+			menuMapper.updateMenuTaste(menuId);
+		}
+		return menu;
 	}
 	
 	@Transactional
