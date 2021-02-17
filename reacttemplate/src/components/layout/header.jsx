@@ -29,6 +29,10 @@ class Header extends React.Component {
       login: localStorage.getItem('isLogin'),
     };
   }
+
+  clickedCafeImg = () =>  {
+    document.getElementById("cafe" + localStorage.getItem('cafeId')).style.borderColor = "orage"
+  }
   // 주석주석
   componentDidMount() {
     const userId = localStorage.getItem('userId');
@@ -59,10 +63,13 @@ class Header extends React.Component {
 
   handleClick = (value) => () => {
     // console.log(value);
+    console.log("cafe" + value);
+    // 
     localStorage.setItem('cafeId', value);
     localStorage.setItem('categoryId', 0);
     localStorage.setItem('keyword', 0);
     window.location.replace('/');
+    
   };
 
   checkLogid = () => {
@@ -86,8 +93,9 @@ class Header extends React.Component {
       for (let i = 0; i < cafe.length; i++) {
         cafelist.push(
           <SwiperSlide>
-            <div onClick={this.handleClick(cafe[i]['cafeId'])}>
-              <img className='rounded' style={{ width: 100, height: 100 }} src={cafe[i]['image']} />
+            <div 
+              onClick={this.handleClick(cafe[i]['cafeId'])}>
+              <img id ={"cafe" + cafe[i]['cafeId']} onClick={this.clickedCafeImg} className='rounded' style={{ width: 100, height: 100 }} src={cafe[i]['image']} />
             </div>
           </SwiperSlide>
         );
@@ -146,7 +154,7 @@ class Header extends React.Component {
               <nav className='mt-4' aria-label='Page navigation sample'>
                 <Swiper
                   // spaceBetween={0}
-                  slidesPerView={6}
+                  slidesPerView={9}
                 >
                   <SwiperSlide>
                     <div onClick={this.handleClick(0)}>
@@ -159,6 +167,7 @@ class Header extends React.Component {
                   </SwiperSlide>
                   {cafelist}
                 </Swiper>
+                
               </nav>
             </div>
           </section>
