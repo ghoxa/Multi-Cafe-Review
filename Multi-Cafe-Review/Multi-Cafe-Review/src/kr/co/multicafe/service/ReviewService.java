@@ -127,12 +127,10 @@ public class ReviewService {
 			reviewLike=new ReviewLike();
 			reviewLike.setReivewId(reviewId);
 			reviewLike.setUserId(userId);
-			reviewLikeMapper.insertReviewLike(reviewLike);
-			return 1;
+			return reviewLikeMapper.insertReviewLike(reviewLike);
 		}else {
 			reviewMapper.minusGood(reviewId);
-			reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
-			return 0;
+			return reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
 		}
 	}
 	
@@ -145,6 +143,6 @@ public class ReviewService {
 			return false;
 		}
 	}
-	
+
 
 }

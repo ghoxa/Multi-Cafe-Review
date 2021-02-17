@@ -62,6 +62,18 @@ public class UserController {
 		return false;
 	}
 	
+	//리뷰 좋아요 상태 체크
+	@GetMapping("/{userId}/{reviewId}/likecheck")
+	public boolean ReviewLikeCheck(@PathVariable String userId, @PathVariable int reviewId) {
+		return reviewService.isAlreadyGoodReview(reviewId, userId);
+	}
+	
+	//리뷰 좋아요 업데이트
+	@PostMapping("/{userId}/review/{reviewId}/like")
+	public int updateReviewGood(@PathVariable String userId, @PathVariable int reviewId) { 
+		return reviewService.updateGood(reviewId, userId);
+	}
+	
 	@GetMapping("/menu/{menuId}/review/{userId}")
 	public boolean isWriteReview(@PathVariable String userId, @PathVariable int menuId, HttpServletResponse response) throws Exception {
 		boolean check = reviewService.isWriteReview(userId, menuId);
@@ -98,10 +110,6 @@ public class UserController {
 		return reviewService.listMyReview(userId);
 	}
 	
-	@PostMapping("/review/good/count")
-	public int updateGood(@RequestBody ReviewLike reviewLike) { 
-		return reviewService.updateGood(reviewLike.getReviewId(), reviewLike.getUserId());
-	}
 	
 	@GetMapping("/recent/{userId}")
 	public List<Menu> listViewRecent(@PathVariable(name="userId")String userId){
