@@ -6,6 +6,8 @@
 		<result column="review_date" property="reviewDate"/>
 		<result column="user_id" property="userId"/>
 		<result column="menu_id" property="menuId"/>
+		<result column="cafe_name" property="cafeName"/>
+		<result column="menu_name" property="menuName"/>
 	</resultMap>
 	
 	
@@ -29,25 +31,25 @@
 	
 	<!-- ListView -->
 	<select id="listViewReview" parameterType="java.lang.Integer" resultMap="review_resultMap">
-		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
-		from review
-		where menu_id=#{menuId}
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		from review r, menu m, cafe c
+		where m.menu_id=#{menuId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 		order by review_date desc
 	</select>
 	
 	<!-- ListMyReview -->
 	<select id="listMyReview" parameterType="java.lang.String" resultMap="review_resultMap">
-		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
-		from review
-		where user_id=#{userId}
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		from review r, menu m, cafe c
+		where r.user_id=#{userId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 		order by review_date desc
 	</select>
 	
 	<!-- GoodListReview -->
 	<select id="goodListReview" parameterType="java.lang.Integer" resultMap="review_resultMap">
-		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
-		from review
-		where menu_id=#{menuId}
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		from review r, menu m, cafe c
+		where r.menu_id=#{menuId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 		order by good desc
 	</select>
 	
@@ -70,15 +72,15 @@
 
 	<!-- Get -->
 	<select id="getReview" resultMap="review_resultMap">
-		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
-		from review
-		where menu_id=#{menuId} and user_id=#{userId}
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		from review r, menu m, cafe c
+		where r.menu_id=#{menuId} and r.user_id=#{userId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 	</select>
 	
 	<select id="getReview2" resultMap="review_resultMap">
-		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
-		from review
-		where review_id=#{reviewId}
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		from review r, menu m, cafe c
+		where r.review_id=#{reviewId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 	</select>
 	
 	

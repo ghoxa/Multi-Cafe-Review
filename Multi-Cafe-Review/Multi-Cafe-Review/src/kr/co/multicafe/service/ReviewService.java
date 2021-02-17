@@ -106,7 +106,7 @@ public class ReviewService {
 	}
 	
 	//내가 쓴 리뷰 보여주기
-	public List<Review> listMyReview(String userId){
+	public List<Review> listMyReview(String userId){		
 		return reviewMapper.listMyReview(userId);
 	}
 	

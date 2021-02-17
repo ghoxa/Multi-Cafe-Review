@@ -12,7 +12,21 @@ public class Review {
 	private double sweet;
 	private double bitter;
 	private double sour;
+	private String cafeName;
+	private String menuName;
 	
+	public String getCafeName() {
+		return cafeName;
+	}
+	public void setCafeName(String cafeName) {
+		this.cafeName = cafeName;
+	}
+	public String getMenuName() {
+		return menuName;
+	}
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
 	public int getReviewId() {
 		return reviewId;
 	}

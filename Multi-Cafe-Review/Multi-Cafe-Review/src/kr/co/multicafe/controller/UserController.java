@@ -117,6 +117,7 @@ public class UserController {
 
 	@GetMapping("/review/my/{userId}")
 	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
+		
 		return reviewService.listMyReview(userId);
 	}
 	
