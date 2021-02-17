@@ -33,7 +33,7 @@
 		where m.cafe_id = c.cafe_id
 	</select>
 	
-	<select id="listViewMenuByCondition" parameterType="java.lang.String" resultMap="menu_resultMap">
+	<select id="listViewMenuByCondition" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 		from menu m, cafe c
 		where m.cafe_id = c.cafe_id
@@ -128,15 +128,11 @@
 	</update>
 	
 	<update id="updateMenuTaste" parameterType="int">
-		update menu set (sweet, bitter, sour)=(select avg(sweet), avg(bitter), avg(sour) from review where menu_id=#{menuId}) where menu_id=#{menuId}
+		update menu set (sweet, bitter, sour)=(select nvl(avg(sweet), 0), nvl(avg(bitter), 0), nvl(avg(sour), 0) from review where menu_id=#{menuId}) where menu_id=#{menuId}
 	</update>
 	
 	<update id="updateMenuGrade" parameterType="int">
-		update menu set grade=(select avg(grade) from review where menu_id=#{menuId}) where menu_id=#{menuId}
-	</update>
-	
-	<update id="updateMenuReset" parameterType="int">
-		update menu set grade=0, sweet=0, bitter=0, sour=0 where menu_id=#{menuId}
+		update menu set grade=(select nvl(avg(grade), 0) from review where menu_id=#{menuId}) where menu_id=#{menuId}
 	</update>
 	
 	<select id="getMenuTaste" resultType="Taste">

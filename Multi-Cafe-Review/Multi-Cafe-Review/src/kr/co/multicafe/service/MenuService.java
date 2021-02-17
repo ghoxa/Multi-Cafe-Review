@@ -1,16 +1,12 @@
 package kr.co.multicafe.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.multicafe.common.utils.UserUtil;
 import kr.co.multicafe.dao.LikesMapper;
 import kr.co.multicafe.dao.MenuMapper;
 import kr.co.multicafe.dao.RecentMapper;
@@ -50,12 +46,15 @@ public class MenuService {
 	
 	@Transactional
 	public Menu getMenu(int menuId) {
-		if (reviewMapper.listViewReview(menuId) == null) {
-			menuMapper.updateMenuReset(menuId);
-		} else {
-			menuMapper.updateMenuGrade(menuId);
-			menuMapper.updateMenuTaste(menuId);
-		}
+//		if (reviewMapper.listViewReview(menuId) == null) {
+//			System.out.println("리뷰없음 리셋");
+//			menuMapper.updateMenuReset(menuId);
+//		} else {
+//			System.out.println("리뷰있음 업뎃");
+//		}
+		menuMapper.addClick(menuId);
+		menuMapper.updateMenuGrade(menuId);
+		menuMapper.updateMenuTaste(menuId);
 		return menuMapper.getMenu(menuId);
 	}
 	
@@ -63,7 +62,6 @@ public class MenuService {
 	public Menu getMenuCheck(int menuId, String userId) {
 		//UserUtil userUtil = new UserUtil();
 		//if(userUtil.getCurrentUsers()!=null) { //로그인이 된 상태면 Recent에 추가하고 Menu 보여주기
-		menuMapper.addClick(menuId);
 		if(userId!=null) {	
 			//String userId = userUtil.getCurrentUserId(); 
 			Recent recent =recentMapper.getRecent(userId,menuId); 

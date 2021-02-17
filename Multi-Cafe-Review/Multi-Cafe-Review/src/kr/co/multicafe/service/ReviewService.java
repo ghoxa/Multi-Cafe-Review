@@ -2,13 +2,11 @@ package kr.co.multicafe.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.multicafe.common.utils.UserUtil;
 import kr.co.multicafe.dao.MenuMapper;
 import kr.co.multicafe.dao.ReviewLikeMapper;
 import kr.co.multicafe.dao.ReviewMapper;

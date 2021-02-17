@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.multicafe.dao.MenuMapper;
 import kr.co.multicafe.dao.RecentMapper;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Recent;
