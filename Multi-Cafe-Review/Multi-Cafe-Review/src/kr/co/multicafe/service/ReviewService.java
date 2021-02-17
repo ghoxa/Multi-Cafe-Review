@@ -139,10 +139,25 @@ public class ReviewService {
 	
 	public boolean isAlreadyGoodReview(int reviewId, String userId) {
 		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
-		if(reviewLike!=null) {
+		System.out.println(reviewLike);
+
+		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고 내가 쓴 리뷰가 아니면)
+
 			return true;
 		}
-		else {
+		else { //좋아요 할 수 없는 상태
+			return false;
+		}
+	}
+	
+	public boolean isMyReview(int reviewId, String userId) {
+		Review review = reviewMapper.getReview2(reviewId);
+		System.out.println(review);
+		if(userId.equals(review.getUserId())) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고 내가 쓴 리뷰가 아니면)
+			System.out.println("userId: "+userId+" getUser(): "+review.getUserId());
+			return true;
+		}
+		else { //좋아요 할 수 없는 상태
 			return false;
 		}
 	}

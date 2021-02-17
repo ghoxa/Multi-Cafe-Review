@@ -15,6 +15,7 @@ public interface ReviewMapper {
 	public List<Review> listViewReview(int menuId);
 	public List<Review> listMyReview(String userId);
 	public Review getReview(@Param("userId")String userId, @Param("menuId")int menuId);
+	public Review getReview2(@Param("reviewId")int reviewId);
 	public List<Review> goodListReview(int menuId);
 	public int plusGood(int reviewId);
 	public int minusGood(int reviewId);

@@ -68,9 +68,16 @@ public class UserController {
 		return reviewService.isAlreadyGoodReview(reviewId, userId);
 	}
 	
+	//내 리뷰인지 체크
+	@GetMapping("/{userId}/{reviewId}/MyReviewCheck")
+	public boolean isMyReview(@PathVariable String userId, @PathVariable int reviewId) {
+		return reviewService.isMyReview(reviewId, userId);
+	}
+	
 	//리뷰 좋아요 업데이트
 	@GetMapping("/{userId}/review/{reviewId}/like")
 	public int updateReviewGood(@PathVariable String userId, @PathVariable int reviewId) { 
+		
 		return reviewService.updateGood(reviewId, userId);
 	}
 	

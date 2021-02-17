@@ -75,5 +75,11 @@
 		where menu_id=#{menuId} and user_id=#{userId}
 	</select>
 	
+	<select id="getReview2" resultMap="review_resultMap">
+		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour 
+		from review
+		where review_id=#{reviewId}
+	</select>
+	
 	
 </mapper>
