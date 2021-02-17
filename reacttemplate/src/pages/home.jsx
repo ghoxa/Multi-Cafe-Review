@@ -20,6 +20,7 @@ class Home extends React.Component {
   handleClick = (value) => () => {
     // console.log(value);
     localStorage.setItem('menuId', value);
+    window.location.replace('/review');
   };
 
   handleClick2 = (value) => () => {
@@ -116,7 +117,6 @@ class Home extends React.Component {
         try {
           menulist.push(
             <div className='card col-md-4' onClick={this.handleClick(menu[i]['menuId'])}>
-              <Link to='/review'>
                 <div className='row no-gutters'>
                   <img style={{ height: 250 }} className='card-img-top' src={menu[i]['image']} alt='Card image' />
                   <div className='card-body'>
@@ -133,7 +133,6 @@ class Home extends React.Component {
                     <br />
                   </div>
                 </div>
-              </Link>
             </div>
           );
         } catch (error) {
