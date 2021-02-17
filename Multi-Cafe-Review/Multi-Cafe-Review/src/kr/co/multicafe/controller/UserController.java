@@ -60,7 +60,7 @@ public class UserController {
 		return result;
 		
 	}
-
+	
 	//리뷰 업데이트 
 	@PutMapping("/review")
 	public int updateReview(@RequestBody Review review) {
