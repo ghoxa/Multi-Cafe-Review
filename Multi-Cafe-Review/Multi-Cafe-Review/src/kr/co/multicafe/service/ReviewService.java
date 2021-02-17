@@ -1,5 +1,6 @@
 package kr.co.multicafe.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -135,17 +136,30 @@ public class ReviewService {
 		}
 	}
 	
-	public boolean isAlreadyGoodReview(int reviewId, String userId) {
-		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
-		System.out.println(reviewLike);
-
-		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고 내가 쓴 리뷰가 아니면)
-
-			return true;
+	public List<Integer> isAlreadyGoodReview(int menuId, String userId) {
+		List<Review> myList = reviewMapper.listViewReview(menuId);
+		List<Integer> idx = new ArrayList<Integer>();
+		
+		ReviewLike reviewLike;
+		for(int i=0;i<myList.size();i++) {
+			reviewLike = reviewLikeMapper.getReviewLike(myList.get(i).getReviewId(),userId);
+			System.out.println(reviewLike);
+			if(reviewLike!=null) {
+				idx.add(i);
+				System.out.println(i);
+			}
 		}
-		else { //좋아요 할 수 없는 상태
-			return false;
-		}
+		
+		return idx;
+//		System.out.println(reviewLike);
+
+//		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고 내가 쓴 리뷰가 아니면)
+//
+//			return true;
+//		}
+//		else { //좋아요 할 수 없는 상태
+//			return false;
+//		}
 	}
 	
 	public boolean isMyReview(int reviewId, String userId) {

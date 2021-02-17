@@ -63,9 +63,9 @@ public class UserController {
 	}
 	
 	//리뷰 좋아요 상태 체크
-	@GetMapping("/{userId}/{reviewId}/ReviewLikecheck")
-	public boolean ReviewLikeCheck(@PathVariable String userId, @PathVariable int reviewId) {
-		return reviewService.isAlreadyGoodReview(reviewId, userId);
+	@GetMapping("/{userId}/{menuId}/ReviewLikecheck")
+	public List<Integer> ReviewLikeCheck(@PathVariable int menuId, @PathVariable String userId) {
+		return reviewService.isAlreadyGoodReview(menuId,userId);
 	}
 	
 	//내 리뷰인지 체크
