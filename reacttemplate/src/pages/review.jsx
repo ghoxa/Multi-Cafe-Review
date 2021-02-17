@@ -387,13 +387,16 @@ class ReviewPage extends Component {
                   키워드 기반 메뉴 추천
                 </div>
                 <br />
-                <Swiper spaceBetween={0} slidesPerView={showsimimenukeyword} onSlideChange={() => console.log('slide change')} on Swiper={(swiper) => console.log('swiper')}>
-                  {/*Grid column*/}
-                  {this.similarcreateListOfsimilarMenuByKeyword()}
+                <div className='row wow fadeIn'>
+                  <Swiper spaceBetween={0} slidesPerView={showsimimenukeyword} onSlideChange={() => console.log('slide change')} on Swiper={(swiper) => console.log('swiper')}>
+                    {/*Grid column*/}
+                    {this.similarcreateListOfsimilarMenuByKeyword()}
 
-                  {/*Grid column*/}
-                </Swiper>
+                    {/*Grid column*/}
+                  </Swiper>
+                </div>
                 <br />
+
                 <div className='lead font-weight-bold' style={{ fontSize: 20 }}>
                   맛 기반 메뉴 추천
                 </div>
