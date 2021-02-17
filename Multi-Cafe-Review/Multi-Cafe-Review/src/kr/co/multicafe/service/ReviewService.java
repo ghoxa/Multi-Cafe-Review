@@ -61,10 +61,10 @@ public class ReviewService {
 	
 	public boolean isWriteReview(String userId, int menuId) {
 		Review review_tmp = reviewMapper.getReview(userId, menuId);
-		if(review_tmp!=null) {
+		if(review_tmp!=null) { //이미 작성한 리뷰가 있으면
 			return false;
 		}
-		else {
+		else { //작성한 리뷰가 없으면
 			return true;
 		}
 	}
