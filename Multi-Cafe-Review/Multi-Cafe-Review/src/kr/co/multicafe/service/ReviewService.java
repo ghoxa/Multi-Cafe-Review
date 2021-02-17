@@ -136,5 +136,15 @@ public class ReviewService {
 		}
 	}
 	
+	public boolean isAlreadyGoodReview(int reviewId, String userId) {
+		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
+		if(reviewLike!=null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 
 }
