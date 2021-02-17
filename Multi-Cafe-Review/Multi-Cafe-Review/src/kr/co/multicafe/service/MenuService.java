@@ -45,6 +45,8 @@ public class MenuService {
 	}
 	
 	public Menu getMenu(int menuId) {
+		menuMapper.updateMenuGrade(menuId);
+		menuMapper.updateMenuTaste(menuId);
 		return menuMapper.getMenu(menuId);
 	}
 	

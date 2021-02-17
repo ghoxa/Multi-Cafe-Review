@@ -76,6 +76,8 @@ public class ReviewService {
 		
 		try {
 			result = reviewMapper.updateReview(review);
+			menuMapper.updateMenuGrade(review.getMenuId());
+			menuMapper.updateMenuTaste(review.getMenuId());
 	
 		}catch(Exception e) {
 			e.printStackTrace();
