@@ -3,7 +3,7 @@ package kr.co.multicafe.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Review;
@@ -44,11 +43,22 @@ public class UserController {
 	private UsersService usersService;
 
 
-	@GetMapping("/menu/{menuId}/like")
-	public void updateGood(@SessionAttribute("user") Users users, @PathVariable int menuId) {
+	@GetMapping("/{userId}/menu/{menuId}/like")
+	public void updateGood(@PathVariable String userId, @PathVariable int menuId) {
 //		menuService.insertOrDeleteLike(UserUtil.getCurrentUserId(), menuId);
-		System.out.println(users);
-		menuService.insertOrDeleteLike(users.getUserId(), menuId);
+		menuService.insertOrDeleteLike(userId, menuId);
+	}
+	
+	@GetMapping("/{userId}/menu/like")
+	public List<Menu> listViewLike(@PathVariable String userId) {
+		return menuService.listViewLike(userId);
+	}
+
+	@GetMapping("/{userId}/{menuId}/likecheck")
+	public boolean likeCheck(@PathVariable String userId, @PathVariable int menuId) {
+		if (menuService.getLike(userId, menuId) != null)
+			return true;
+		return false;
 	}
 
 	//리뷰 추가

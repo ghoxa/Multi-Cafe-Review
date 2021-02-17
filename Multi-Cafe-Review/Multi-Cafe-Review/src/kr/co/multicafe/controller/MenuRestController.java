@@ -102,13 +102,6 @@ public class MenuRestController {
 		return menuService.listViewRecommendMenuByTaste(menuId);
 	}
 	
-	@GetMapping("/{menuId}/likecheck")
-	public boolean likeCheck(@PathVariable int menuId, HttpSession session) {
-		if (session.getAttribute("user") != null)
-			if (menuService.getLike(((Users)session.getAttribute("user")).getUserId(), menuId) != null)
-				return true;
-		return false;
-	}
 	
 	
 }
