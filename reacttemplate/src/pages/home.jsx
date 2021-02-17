@@ -9,6 +9,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
+      customColor: {},
       login: localStorage.getItem('isLogin'),
     };
     // this.handleClick = this.handleClick.bind(this);
@@ -40,6 +41,10 @@ class Home extends React.Component {
     localStorage.setItem('categoryId', 0);
     window.location.replace('/');
   };
+  pickCategorycolor() {
+    this.setState(() => ({ customColor: { borderColor: 'red' } }));
+    document.getElementById('cafe' + localStorage.getItem('cafeId'));
+  }
   componentDidMount() {
     const cafeId = localStorage.getItem('cafeId');
     const categoryId = localStorage.getItem('categoryId');

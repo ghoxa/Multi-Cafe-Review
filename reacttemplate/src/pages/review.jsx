@@ -31,44 +31,59 @@ class ReviewPage extends Component {
   onlikeChanged = (e) => {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
-    const changeLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
-    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-    Promise.all([changeLikeUrl, likeCheckUrl])
-      .then(([res1, res2]) => {
-        console.log(res1.data);
-        console.log(res2.data);
-        this.setState({
-          myLike: !res2.data,
+    let likeCheckUrl = '';
+    let changeLikeUrl = '';
+    if (this.state.login) {
+      changeLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
+      likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+
+      Promise.all([changeLikeUrl, likeCheckUrl])
+        .then(([res1, res2]) => {
+          console.log(res1.data);
+          console.log(res2.data);
+          this.setState({
+            myLike: !res2.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    } else {
+      alert('로그인 후 이용해 주세요');
+    }
   };
   reviewlikeChanged = (e) => {
     const menuId = localStorage.getItem('menuId');
-    Promise.all([axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`)]).then((res) => {
-      console.log(res[0].data[0].reviewId);
-      localStorage.setItem('reviewId', res[0].data[0].reviewId);
-    });
-    const reviewId = localStorage.getItem('reviewId');
-    const userId = localStorage.getItem('userId');
-    const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user//${userId}/review/${reviewId}/like`);
-    const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
-    Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
-      .then(([res1, res2]) => {
-        this.setState({
-          reviewLike: !res2.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    if (this.state.login) {
+      Promise.all([axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`)]).then((res) => {
+        console.log(res[0].data[0].reviewId);
+        localStorage.setItem('reviewId', res[0].data[0].reviewId);
       });
+      const reviewId = localStorage.getItem('reviewId');
+      const userId = localStorage.getItem('userId');
+      console.log(userId);
+      const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user//${userId}/review/${reviewId}/like`);
+      const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
+      Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
+        .then(([res1, res2]) => {
+          this.setState({
+            reviewLike: !res2.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert('로그인 후 이용해 주세요');
+    }
   };
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
-    let selectMenuCheckUrl;
+    let selectMenuCheckUrl = '';
+    let likeCheckUrl = '';
+    let ReviewLikeCheckUrl = '';
+
     console.log(this.state.login);
     this.state.login
       ? (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`))
@@ -79,8 +94,11 @@ class ReviewPage extends Component {
 
     const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
     const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
-    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-    const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
+    if (this.state.login) {
+      likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+      ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
+    }
+
     Promise.all([menuReivewUrl, selectMenuCheckUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl, ReviewLikeCheckUrl])
       .then(([res, res2, res3, res4, res5, res6]) => {
         this.setState({
@@ -178,22 +196,26 @@ class ReviewPage extends Component {
     }
     return list;
   }
-  writeban() {
+  writeban = (e) => {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
-    const writebanUrl = axios.get(`http://localhost:9090/multicafe/api/user/menu/${menuId}/review/${userId}`);
-    Promise.all([writebanUrl])
-      .then(([res]) => {
-        console.log(res.data);
-        if (res.data) {
-          window.location.replace('/writereview');
-        }
-      })
-      .catch((err) => {
-        alert('이미 등록한 리뷰입니다.');
-        console.log(err);
-      });
-  }
+    if (this.state.login) {
+      const writebanUrl = axios.get(`http://localhost:9090/multicafe/api/user/menu/${menuId}/review/${userId}`);
+      Promise.all([writebanUrl])
+        .then(([res]) => {
+          console.log(res.data);
+          if (res.data) {
+            window.location.replace('/writereview');
+          }
+        })
+        .catch((err) => {
+          alert('이미 등록한 리뷰입니다.');
+          console.log(err);
+        });
+    } else {
+      alert('로그인 후 이용해 주세요');
+    }
+  };
 
   render() {
     const { selectMenuCheck, isLoaded } = this.state;
