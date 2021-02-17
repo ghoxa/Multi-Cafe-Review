@@ -123,12 +123,20 @@
 		update menu set good=good-1 where menu_id=#{menuId}
 	</update>
 	
+	<update id="addClick" parameterType="int">
+		update menu set click=click+1 where menu_id=#{menuId}
+	</update>
+	
 	<update id="updateMenuTaste" parameterType="int">
 		update menu set (sweet, bitter, sour)=(select avg(sweet), avg(bitter), avg(sour) from review where menu_id=#{menuId}) where menu_id=#{menuId}
 	</update>
 	
 	<update id="updateMenuGrade" parameterType="int">
 		update menu set grade=(select avg(grade) from review where menu_id=#{menuId}) where menu_id=#{menuId}
+	</update>
+	
+	<update id="updateMenuReset" parameterType="int">
+		update menu set grade=0, sweet=0, bitter=0, sour=0 where menu_id=#{menuId}
 	</update>
 	
 	<select id="getMenuTaste" resultType="Taste">

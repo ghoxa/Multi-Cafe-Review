@@ -30,8 +30,10 @@ public interface MenuMapper {
 	public List<Menu> searchCafeMenuByCondition(@Param("cafeId") int cafeId, @Param("keyword") String keyword, @Param("condition") String condition); //(카페별 검색)메뉴이름, 설명, 키워드
 	public void addGood(int menuId);
 	public void minusGood(int menuId);
+	public void addClick(int menuId);
 	public int updateMenuTaste(int menuId);
 	public int updateMenuGrade(int menuId);
+	public int updateMenuReset(int menuId);
 	public List<Menu> listViewRecommendMenuByKeyword(@Param("menuId") int menuId, @Param("list") String[] list);
 	public Taste getMenuTaste(int menuId);
 	public List<Menu> listViewRecommendMenuByTaste(@Param("menuId") int menuId, @Param("list") List<String> list, @Param("max") double max);

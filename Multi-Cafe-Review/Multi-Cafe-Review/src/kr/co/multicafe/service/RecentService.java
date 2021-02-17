@@ -17,8 +17,6 @@ public class RecentService {
 	@Autowired
 	private RecentMapper recentMapper;
 	
-	@Autowired
-	private MenuMapper menuMapper;
 	
 	//최근 본 메뉴 보여주기
 	public List<Menu> listViewRecent(String userId){
