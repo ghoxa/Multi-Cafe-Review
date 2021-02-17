@@ -53,7 +53,7 @@ class FormPage extends React.Component {
     Promise.all([axios.put(`http://localhost:9090/multicafe/api/user`, signup_info)])
     .then((res) => {
       alert('수정완료');
-      // window.location.replace('/');
+      window.location.replace('/formPage');
     });
   };
   

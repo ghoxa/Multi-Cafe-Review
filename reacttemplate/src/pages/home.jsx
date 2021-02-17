@@ -9,6 +9,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
+      login: localStorage.getItem('isLogin'),
     };
     // this.handleClick = this.handleClick.bind(this);
   }
@@ -30,6 +31,13 @@ class Home extends React.Component {
     window.location.replace('/');
   };
 
+  checkLogid = () => {
+    alert("로그인을 해주세요!")
+  }
+
+  // handleClickSerche = (word) = () =>{
+  //   console.log(word);
+  // }
   componentDidMount() {
     const cafeId = localStorage.getItem('cafeId');
     const categoryId = localStorage.getItem('categoryId');
@@ -103,7 +111,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { isLoaded } = this.state;
+    const { isLoaded, login } = this.state;
 
     if (!isLoaded) {
       return (
@@ -172,9 +180,11 @@ class Home extends React.Component {
                       <div className='card-body'>
                         <form className='pb-3'>
                           <div className='input-group'>
-                            <input type='text' className='form-control' placeholder='Search' />
+                            <input type='text' id="inputkeyword"className='form-control' placeholder='Search' />
                             <div className='input-group-append'>
-                              <button className='btn btn-light' type='button'>
+                              <button className='btn btn-light' type='button'
+                              // onClick={this.keywordSerch(document.getElementById("inputkeyword").value)}
+                              >
                                 <i className='fa fa-search'></i>
                               </button>
                             </div>
@@ -201,7 +211,7 @@ class Home extends React.Component {
                       <div className='card-body'>
                         <ul className='list-menu'>
                           <li>
-                            <Link to='/formpage'>개인정보수정</Link>
+                            {login? <Link to='/formpage'>개인정보수정</Link>: <a onClick={this.checkLogid}>개인정보수정</a>}
                           </li>
                           <li>
                             <a href='/mylike'>찜 목록 </a>

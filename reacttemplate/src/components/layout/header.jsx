@@ -53,6 +53,9 @@ class Header extends React.Component {
     localStorage.setItem('cafeId', value);
     window.location.replace('/');
   };
+  checkLogid = () => {
+    alert("로그인을 해주세요!")
+  }
 
   render() {
     // const login = localStorage.getItem('isLogin');
@@ -99,9 +102,12 @@ class Header extends React.Component {
                         <span className='badge badge-pill badge-danger notify'>0</span>
                       </div>
                       <div className='widget-header icontext'>
-                        <Link to='/formPage' className='icon icon-sm rounded-circle border'>
+                      {login? <Link to='/formPage' className='icon icon-sm rounded-circle border'>
                           <i className='fa fa-user'></i>
-                        </Link>
+                        </Link>: <a onClick={this.checkLogid} className='icon icon-sm rounded-circle border'>
+                          <i className='fa fa-user'></i>
+                        </a>}
+                        
                         <div className='text'>
                           <span className='text-muted'>Welcome!</span>
                           <div>
