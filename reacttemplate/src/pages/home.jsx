@@ -11,11 +11,10 @@ class Home extends React.Component {
       isLoaded: false,
       customColor: {},
       login: localStorage.getItem('isLogin'),
-      cateName: "",
+      cateName: '',
     };
     // this.handleClick = this.handleClick.bind(this);
   }
-
 
   handleClick = (value) => () => {
     // console.log(value);
@@ -117,23 +116,23 @@ class Home extends React.Component {
         try {
           menulist.push(
             <div className='card col-md-4' onClick={this.handleClick(menu[i]['menuId'])}>
-                <div className='row no-gutters'>
-                  <img style={{ height: 250 }} className='card-img-top' src={menu[i]['image']} alt='Card image' />
-                  <div className='card-body'>
-                    <h6 className='card-title'>{menu[i]['name']}</h6>
-                    <p className='text-success'>{menu[i]['cafeName']}</p>
-                    <ul className='rating-stars'>
-                      <span>평점: {menu[i]['grade']}&nbsp;</span>
-                      <span style={{color : "silver", fontSize: 10}}>&nbsp;조회수: {menu[i]['click']}</span>
-                      <span style={{color : "silver", fontSize: 10}}>&nbsp;좋아요수: {menu[i]['good']}</span>
-                      <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={menu[i]['grade']} size={15} isHalf={true} />
-                    </ul>
-                    <div className='price-wrap'>
-                      <span className='price h5'>{menu[i]['price']}원</span>
-                    </div>
-                    <br />
+              <div className='row no-gutters'>
+                <img style={{ height: 250 }} className='card-img-top' src={menu[i]['image']} alt='Card image' />
+                <div className='card-body'>
+                  <h6 className='card-title'>{menu[i]['name']}</h6>
+                  <p className='text-success'>{menu[i]['cafeName']}</p>
+                  <ul className='rating-stars'>
+                    <span>평점: {menu[i]['grade']}&nbsp;</span>
+                    <span style={{ color: 'silver', fontSize: 10 }}>&nbsp;조회수: {menu[i]['click']}</span>
+                    <span style={{ color: 'silver', fontSize: 10 }}>&nbsp;좋아요수: {menu[i]['good']}</span>
+                    <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={menu[i]['grade']} size={15} isHalf={true} />
+                  </ul>
+                  <div className='price-wrap'>
+                    <span className='price h5'>{menu[i]['price']}원</span>
                   </div>
+                  <br />
                 </div>
+              </div>
             </div>
           );
         } catch (error) {
@@ -147,8 +146,9 @@ class Home extends React.Component {
         try {
           cateList.push(
             <li>
-              <a id = {"category" + category[i]['categoryId']}
-              onClick={this.handleClick2(category[i]['categoryId'])}>{category[i]['name']}</a>
+              <a id={'category' + category[i]['categoryId']} onClick={this.handleClick2(category[i]['categoryId'])}>
+                {category[i]['name']}
+              </a>
             </li>
           );
         } catch (error) {
@@ -180,7 +180,7 @@ class Home extends React.Component {
                             </div>
                           </div>
                         </form>
-          
+
                         <ul className='list-menu'>
                           {/* <li style={{color : "orange"}}>{localStorage.getItem('categoryId')}</li> */}
                           <li>
@@ -215,7 +215,7 @@ class Home extends React.Component {
                       </div>
                     </div>
                   </article>
-                  <article className='filter-group'>
+                  {/* <article className='filter-group'>
                     <header className='card-header'>
                       <Link to='/adminpage' data-toggle='collapse' data-target='#collapse_3' aria-expanded='false' className=''>
                         <i className='icon-control fa fa-chevron-down'></i>
@@ -234,7 +234,7 @@ class Home extends React.Component {
                         </ul>
                       </div>
                     </div>
-                  </article>
+                  </article> */}
                 </div>
               </aside>
 
@@ -242,9 +242,7 @@ class Home extends React.Component {
                 <header className='border-bottom mb-4 pb-3'>
                   <div className='form-inline'>
                     <span className='mr-md-auto'>{menu.length} Items found </span>
-                    <span className='mr-md-auto'>
-                      
-                    </span>
+                    <span className='mr-md-auto'></span>
                     <div class='dropdown'>
                       <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>
                         {localStorage.getItem('conditionId')}
