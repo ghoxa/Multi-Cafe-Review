@@ -46,9 +46,9 @@ public class ReviewService {
 //		}
 
 		try {
+			result=reviewMapper.insertReview(review);
 			menuMapper.updateMenuGrade(review.getMenuId());
 			menuMapper.updateMenuTaste(review.getMenuId());
-			result=reviewMapper.insertReview(review);
 	
 		}catch(Exception e) {
 			e.printStackTrace();
