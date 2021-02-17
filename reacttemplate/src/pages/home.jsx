@@ -111,7 +111,7 @@ class Home extends React.Component {
             <Link to='/review'>
               <span className='card card-product-list' onClick={this.handleClick(menu[i]['menuId'])}>
                 <div className='row no-gutters'>
-                  <img className='card-img-top' src={menu[i]['image']} alt='Card image' />
+                  <img style={{height:250}} className='card-img-top' src={menu[i]['image']} alt='Card image' />
                   <div className='card-body'>
                     <h6 className='card-title'>{menu[i]['name']}</h6>
                     <p className='text-success'>{menu[i]['cafeName']}</p>
