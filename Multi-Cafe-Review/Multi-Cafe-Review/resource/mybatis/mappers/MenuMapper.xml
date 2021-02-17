@@ -140,6 +140,7 @@
 		<foreach collection="list" item="item" separator=" or ">
 			keyword like '%'||#{item}||'%'
 		</foreach>
+		order by grade desc
 	</select>
 	
 	<select id="listViewRecommendMenuByTaste" resultMap="menu_resultMap">
