@@ -24,7 +24,7 @@ class Header extends React.Component {
       login: localStorage.getItem('isLogin'),
     };
   }
-
+  // 주석주석
   componentDidMount() {
     const userId = localStorage.getItem('userId');
     const cafeApi = axios.get('http://localhost:9090/multicafe/api/cafe');
