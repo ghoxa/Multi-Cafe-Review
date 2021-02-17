@@ -69,18 +69,18 @@ class WriteReview extends Component {
 
     console.log(data);
 
-    Promise.all([axios.post('/api/user/review', data)])
+    Promise.all([axios.post('http://localhost:9090/multicafe/api/user/review', data)])
       .then(([res]) => {
         console.log(res.data);
         console.log('post 성공');
         alert('입력완료');
+        window.location.replace('/review');
       })
       .catch((err) => {
         console.log(err);
-        alert('에러입니다.');
+        alert('이미 리뷰를 등록한 메뉴입니다.');
+        window.location.replace('/review');
       });
-
-    window.location.replace('/review');
   };
 
   render() {
