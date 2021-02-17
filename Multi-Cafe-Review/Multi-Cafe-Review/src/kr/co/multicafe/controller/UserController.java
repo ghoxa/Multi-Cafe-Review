@@ -60,6 +60,11 @@ public class UserController {
 			return true;
 		return false;
 	}
+	
+	@GetMapping("/menu/{menuId}/review/{userId}")
+	public boolean isWriteReview(@PathVariable String userId, @PathVariable int menuId) {
+		return reviewService.isWriteReview(userId, menuId);
+	}
 
 	//리뷰 추가
 	@PostMapping("/review")
