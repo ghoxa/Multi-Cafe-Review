@@ -83,8 +83,10 @@
 	
 	<select id="searchMenu" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id and m.name like '%'||#{keyword}||'%' or m.description like '%'||#{keyword}||'%' or m.keyword like '%'||#{keyword}||'%'
+        from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+            from menu
+            where name like ''%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%') m, cafe c
+        where m.cafe_id = c.cafe_id;
 	</select>
 	
 	<select id="searchCafeMenu" resultMap="menu_resultMap">
@@ -97,9 +99,11 @@
 	
 	<select id="searchMenuByCondition" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id and m.name like '%'||#{keyword}||'%' or m.description like '%'||#{keyword}||'%' or m.keyword like '%'||#{keyword}||'%'
-		order by #{condition} desc
+        from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+            from menu
+            where name like ''%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%') m, cafe c
+        where m.cafe_id = c.cafe_id
+        order by #{condition} desc
 	</select>
 	
 	<select id="searchCafeMenuByCondition" resultMap="menu_resultMap">
