@@ -5,20 +5,44 @@ import ReactStars from 'react-rating-stars-component';
 import { Table } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
 class MyReview extends React.Component {
-  state = {
-    menuReivew: [],
-    isLoaded: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuReivew: [],
+      reviewLike: false,
+      isLoaded: false,
+    };
+    this.reviewlikeChanged.bind(this);
+  }
+  reviewlikeChanged = e => {
 
+    const menuId = localStorage.getItem('menuId');
+    const userId = localStorage.getItem('userId');
+    const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
+    const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+    Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
+      .then(([res1, res2]) => {
+        console.log(res1.data);
+        console.log(res2.data);
+        this.setState({
+          reviewLike: res2.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   componentDidMount() {
+    const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
     console.log(typeof userId);
     const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/user/review/my/${userId}`);
-    Promise.all([menuReivewUrl])
-      .then(([res]) => {
+    const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+    Promise.all([menuReivewUrl, ReviewLikeCheckUrl])
+      .then(([res1, res2]) => {
         this.setState({
-          menuReivew: res.data,
-
+          menuReivew: res1.data,
+          reviewLike: res2.data,
           isLoaded: true,
         });
         console.log(this.state.menuReivew);
@@ -42,6 +66,11 @@ class MyReview extends React.Component {
           </td>
           <td>
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
+          </td>
+          <td>
+            <a className='btn' onClick={() => this.reviewlikeChanged()}>
+              <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
+            </a>
           </td>
         </tr>
       );

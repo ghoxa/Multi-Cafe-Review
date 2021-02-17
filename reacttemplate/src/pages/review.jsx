@@ -28,7 +28,8 @@ class ReviewPage extends Component {
     this.reviewlikeChanged.bind(this);
   }
 
-  onlikeChanged = (e) => {
+  onlikeChanged = e => {
+
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
     const changeLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
@@ -45,7 +46,54 @@ class ReviewPage extends Component {
         console.log(err);
       });
   };
+  reviewlikeChanged = e => {
+    /*
+    // reviewId 필요
+    const userId = localStorage.getItem('userId');
+    //const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
+    //const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/likecheck`);
+    Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
+      .then(([res1, res2]) => {
+        console.log(res1.data);
+        console.log(res2.data);
+        this.setState({
+          reviewLike: res2.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });*/
+  }
+  componentDidMount() {
+    const menuId = localStorage.getItem('menuId');
+    const userId = localStorage.getItem('userId');
+    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+    const selectMenuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`);
+    const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
+    const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
+    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+    const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
 
+    Promise.all([menuReivewUrl, selectMenuUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl, ReviewLikeCheckUrl])
+      .then(([res, res2, res3, res4, res5, res6]) => {
+        this.setState({
+          menuReivew: res.data,
+          selectMenu: res2.data,
+          similarMenuByKeyWord: res3.data,
+          similarMenuByTaste: res4.data,
+          myLike: res5.data,
+          reviewLike: res6.data,
+          isLoaded: true,
+        });
+
+        console.log(this.state.mylike);
+        console.log(this.state.similarMenuByKeyWord);
+        console.log(this.state.selectMenu);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   handleClick = (value) => () => {
     localStorage.setItem('menuId', value);
     window.location.replace('/review');
@@ -101,6 +149,11 @@ class ReviewPage extends Component {
           </td>
           <td>
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
+          </td>
+          <td>
+            <a className='btn' onClick={() => this.reviewlikeChanged()}>
+              <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
+            </a>
           </td>
         </tr>
       );

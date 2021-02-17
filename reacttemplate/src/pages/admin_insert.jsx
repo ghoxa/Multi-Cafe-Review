@@ -18,26 +18,26 @@ import {
   Row,
 } from "reactstrap";
 
-const state = {
-  "menuId": "",
-  "name": "dd",
-  "price": "",
-  "description": "",
-  "grade": "",
-  "keyword": "",
-  "image": "",
-  "good": "",
-  "click": "",
-  "hot": "",
-  "ice": "",
-  "categoryId": 3003,
-  "cafeId": 2007,
-  "sweet": "",
-  "bitter": "",
-  "sour": ""  
-};
-
 class Admin_Insert extends React.Component {  
+  state = {
+    menuId: '',
+    name: 'dd',
+    price: '',
+    description: '',
+    grade: '',
+    keyword: '',
+    image: '',
+    good: '',
+    click: '',
+    hot: '',
+    ice: '',
+    categoryId: 3003,
+    cafeId: 2007,
+    cafeName : '',
+    sweet: '',
+    bitter: '',
+    sour: ''  
+  };
 
   handleSubmit = () => {
     const { sweet, sour, bitter, grade, comment } = this.state;
@@ -78,75 +78,6 @@ class Admin_Insert extends React.Component {
           <div className="row">
           <aside className='col-md-3'>
               <div className='card'>
-                <article className='filter-group'>
-                  <header className='card-header'>
-                    <a href='#' data-toggle='collapse' data-target='#collapse_1' aria-expanded='true' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>Product type</h6>
-                    </a>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_1'>
-                    <div className='card-body'>
-                      <form className='pb-3'>
-                        <div className='input-group'>
-                          <input type='text' className='form-control' placeholder='Search' />
-                          <div className='input-group-append'>
-                            <button className='btn btn-light' type='button'>
-                              <i className='fa fa-search'></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-
-                      <ul className='list-menu'>
-                        <li>
-                          <a href='#'>커피</a>
-                        </li>
-                        <li>
-                          <a href='#'>주스</a>
-                        </li>
-                        <li>
-                          <a href='#'>스무디</a>
-                        </li>
-                        <li>
-                          <a href='#'>Home items </a>
-                        </li>
-                        <li>
-                          <a href='#'>Animals</a>
-                        </li>
-                        <li>
-                          <a href='#'>People </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-                <article className='filter-group'>
-                  <header className='card-header'>
-                    <a href='#' data-toggle='collapse' data-target='#collapse_2' aria-expanded='false' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>마이페이지</h6>
-                    </a>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_2'>
-                    <div className='card-body'>
-                      <ul className='list-menu'>
-                        <li>
-                          <Link to='/formpage'>개인정보수정</Link>
-                        </li>
-                        <li>
-                          <a href='#'>찜 목록 </a>
-                        </li>
-                        <li>
-                          <a href='#'>최근 본 메뉴 </a>
-                        </li>
-                        <li>
-                          <Link to='/mypage'>내 리뷰 관리</Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
                 <article className='filter-group'>
                   <header className='card-header'>
                     <a href='#' data-toggle='collapse' data-target='#collapse_3' aria-expanded='false' className=''>

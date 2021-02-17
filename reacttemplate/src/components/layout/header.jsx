@@ -6,6 +6,8 @@ import axios from 'axios';
 import { ThemeProvider } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
 
+const cafeApi = "http://localhost:9090/multicafe/api/cafe";
+
 if (localStorage.getItem('cafeId') == null) {
   localStorage.setItem('cafeId', 0);
 }
@@ -68,6 +70,7 @@ class Header extends React.Component {
   render() {
     // const login = localStorage.getItem('isLogin');
     const { isLoaded, login } = this.state;
+    const isAdmin = localStorage.getItem("admin");
 
     if (!isLoaded) {
       return (
@@ -112,8 +115,8 @@ class Header extends React.Component {
                       </div>
                       <div className='widget-header icontext'>
                         {login ? (
-                          <Link to='/formPage' className='icon icon-sm rounded-circle border'>
-                            <i className='fa fa-user'></i>
+                          <Link to={isAdmin? '/admin_insert' : '/formPage'} className="icon icon-sm rounded-circle border">
+                            <i className="fa fa-user"></i>
                           </Link>
                         ) : (
                           <a onClick={this.checkLogid} className='icon icon-sm rounded-circle border'>
@@ -124,7 +127,9 @@ class Header extends React.Component {
                         <div className='text'>
                           <span className='text-muted'>Welcome!</span>
                           <div>
-                            <Link to={login ? '/signout' : '/signin'}>{login ? 'logout' : 'login'}</Link>|<Link to='/register'> Register</Link>
+                            <Link to={login ? '/signout' : '/signin'}>{login ? 'logout' : 'login'}</Link>
+                             | <Link to='/register'> Register</Link>
+                             | {login ? <span>{localStorage.getItem('userId')}님</span> : <span></span>}
                           </div>
                         </div>
                       </div>
