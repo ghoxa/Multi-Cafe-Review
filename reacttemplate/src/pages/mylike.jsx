@@ -54,7 +54,7 @@ class Mylike extends React.Component {
                     <h6 className='card-title'>{myLike[i]['name']}</h6>
                     <p className='text-success'>{myLike[i]['cafeName']}</p>
                     <ul className='rating-stars'>
-                      총점: <span>{myLike[i]['grade']}</span>
+                      평점: <span>{myLike[i]['grade']}</span>
                       <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={myLike[i]['grade']} size={15} isHalf={true} />
                     </ul>
                     <div className='price-wrap'>

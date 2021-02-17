@@ -55,7 +55,7 @@ class MyRecent extends React.Component {
                     <h6 className='card-title'>{myRecent[i]['name']}</h6>
                     <p className='text-success'>{myRecent[i]['cafeName']}</p>
                     <ul className='rating-stars'>
-                      총점: <span>{myRecent[i]['grade']}</span>
+                      평점: <span>{myRecent[i]['grade']}</span>
                       <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={myRecent[i]['grade']} size={15} isHalf={true} />
                     </ul>
                     <div className='price-wrap'>

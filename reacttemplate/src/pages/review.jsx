@@ -17,7 +17,6 @@ class ReviewPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      myLike: false,
       menuReivew: [],
       selectMenuCheck: [],
       selectMenu: [],
@@ -37,7 +36,7 @@ class ReviewPage extends Component {
         console.log(res1.data);
         console.log(res2.data);
         this.setState({
-          myLike: res2.data,
+          myLike: !res2.data,
         });
       })
       .catch((err) => {
@@ -85,7 +84,6 @@ class ReviewPage extends Component {
           isLoaded: true,
         });
 
-        localStorage.setItem('myLike', this.state.myLike);
         // console.log(this.state.mylike);
         // console.log(this.state.similarMenuByKeyWord);
         console.log(this.state.menuReivew);
@@ -108,7 +106,10 @@ class ReviewPage extends Component {
         <SwiperSlide>
           <a onClick={this.handleClick(this.state.similarMenuByKeyWord[i].menuId)} style={{ textAlign: 'center' }}>
             <img src={this.state.similarMenuByKeyWord[i].image} alt='...' style={{ width: 200, height: 200 }} />
-            <div>{this.state.similarMenuByKeyWord[i].name}</div>
+            <div>{this.state.similarMenuByKeyWord[i].cafeName}</div>
+            <div className='lead font-weight-bold' style={{ fontSize: 15 }}>
+              {this.state.similarMenuByKeyWord[i].name}
+            </div>
           </a>
         </SwiperSlide>
       );
@@ -120,9 +121,12 @@ class ReviewPage extends Component {
     for (let i = 0; i < this.state.similarMenuByTaste.length; ++i) {
       list.push(
         <SwiperSlide>
-          <a style={{ textAlign: 'center' }}>
+          <a onClick={this.handleClick(this.state.similarMenuByTaste[i].menuId)} style={{ textAlign: 'center' }}>
             <img src={this.state.similarMenuByTaste[i].image} className='cafeImg' alt='...' style={{ width: 200, height: 200 }} />
-            <div>{this.state.similarMenuByTaste[i].name}</div>
+            <div>{this.state.similarMenuByTaste[i].cafeName}</div>
+            <div className='lead font-weight-bold' style={{ fontSize: 15 }}>
+              {this.state.similarMenuByTaste[i].name}
+            </div>
           </a>
         </SwiperSlide>
       );
@@ -193,7 +197,7 @@ class ReviewPage extends Component {
                   {/*Grid column*/}
                   <span className='col-md-6 mb-4'>
                     <div>
-                      <div style={{ fontSize: 30 }}>총점:{selectMenuCheck.grade}</div>
+                      <div style={{ fontSize: 30 }}>평점 &nbsp;{selectMenuCheck.grade}</div>
 
                       <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.grade} size={35} isHalf={true} />
                     </div>
@@ -204,8 +208,13 @@ class ReviewPage extends Component {
                   {/*Grid column*/}
                   <div className='col-md-6 mb-4' st>
                     {/*Content*/}
+
                     <div className='p-4' style={{ fontSize: 20 }}>
-                      <span className='lead font-weight-bold'>{selectMenuCheck.name} </span>
+                      <div className='lead font-weight-bold'>{selectMenuCheck.cafeName}</div>
+                      <br />
+                      <span className='lead font-weight-bold' style={{ fontSize: 25 }}>
+                        {selectMenuCheck.name}{' '}
+                      </span>
 
                       <a className='btn' onClick={() => this.onlikeChanged()}>
                         <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
@@ -257,7 +266,7 @@ class ReviewPage extends Component {
                     </button>
                   </Link>
                   <Link to='/writereview'>
-                    <button className='btn btn-primary btn-md my-0 p' type='submit' style={{ height: '70px' }}>
+                    <button className='btn btn-primary btn-md my-0 p' onClick={{}} type='submit' style={{ height: '70px' }}>
                       리뷰 작성
                     </button>
                   </Link>
@@ -278,19 +287,25 @@ class ReviewPage extends Component {
                   </thead>
                   <tbody>{this.createListOfReview()}</tbody>
                 </Table>
-
                 {/* <BootstrapTable keyField='id' data={products} columns={this.state.columns} /> */}
-
                 {/*Grid row*/}
                 {/*Grid row*/}
-
+                <br />
+                <div className='lead font-weight-bold' style={{ fontSize: 20 }}>
+                  키워드 기반 메뉴 추천
+                </div>
+                <br />
                 <Swiper spaceBetween={0} slidesPerView={showsimimenukeyword} onSlideChange={() => console.log('slide change')} on Swiper={(swiper) => console.log('swiper')}>
                   {/*Grid column*/}
                   {this.similarcreateListOfsimilarMenuByKeyword()}
 
                   {/*Grid column*/}
                 </Swiper>
-
+                <br />
+                <div className='lead font-weight-bold' style={{ fontSize: 20 }}>
+                  맛 기반 메뉴 추천
+                </div>
+                <br />
                 <div className='row wow fadeIn'>
                   <Swiper spaceBetween={0} slidesPerView={showsimimenutaste} onSlideChange={() => console.log('slide change')} on Swiper={(swiper) => console.log('swiper')}>
                     {/*Grid column*/}
@@ -299,7 +314,6 @@ class ReviewPage extends Component {
                     {/*Grid column*/}
                   </Swiper>
                 </div>
-
                 {/*Grid row*/}
               </div>
             </main>
