@@ -111,12 +111,12 @@ class Home extends React.Component {
             <Link to='/review'>
               <span className='card card-product-list' onClick={this.handleClick(menu[i]['menuId'])}>
                 <div className='row no-gutters'>
-                  <img style={{ height: 250 }} className='card-img-top' src={menu[i]['image']} alt='Card image' />
+                  <img style={{height:250}} className='card-img-top' src={menu[i]['image']} alt='Card image' />
                   <div className='card-body'>
                     <h6 className='card-title'>{menu[i]['name']}</h6>
                     <p className='text-success'>{menu[i]['cafeName']}</p>
                     <ul className='rating-stars'>
-                      평점: <span>{menu[i]['grade']}</span>
+                      총점: <span>{menu[i]['grade']}</span>
                       <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={menu[i]['grade']} size={15} isHalf={true} />
                     </ul>
                     <div className='price-wrap'>
