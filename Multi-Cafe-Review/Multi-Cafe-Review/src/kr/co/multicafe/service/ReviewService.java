@@ -136,17 +136,21 @@ public class ReviewService {
 		}
 	}
 	
-	public List<Integer> isAlreadyGoodReview(int menuId, String userId) {
+	public int[] isAlreadyGoodReview(int menuId, String userId) {
 		List<Review> myList = reviewMapper.listViewReview(menuId);
-		List<Integer> idx = new ArrayList<Integer>();
+//		List<Integer> idx = new ArrayList<Integer>();
+		int[] idx = new int[myList.size()];
 		
 		ReviewLike reviewLike;
 		for(int i=0;i<myList.size();i++) {
 			reviewLike = reviewLikeMapper.getReviewLike(myList.get(i).getReviewId(),userId);
 			System.out.println(reviewLike);
 			if(reviewLike!=null) {
-				idx.add(i);
+				idx[i]=1;
 				System.out.println(i);
+			}
+			else {
+				idx[i]=0;
 			}
 		}
 		
