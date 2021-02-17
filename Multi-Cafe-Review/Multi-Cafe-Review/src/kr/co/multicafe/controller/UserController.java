@@ -63,13 +63,13 @@ public class UserController {
 	}
 	
 	//리뷰 좋아요 상태 체크
-	@GetMapping("/{userId}/{reviewId}/likecheck")
+	@GetMapping("/{userId}/{reviewId}/ReviewLikecheck")
 	public boolean ReviewLikeCheck(@PathVariable String userId, @PathVariable int reviewId) {
 		return reviewService.isAlreadyGoodReview(reviewId, userId);
 	}
 	
 	//리뷰 좋아요 업데이트
-	@PostMapping("/{userId}/review/{reviewId}/like")
+	@GetMapping("/{userId}/review/{reviewId}/like")
 	public int updateReviewGood(@PathVariable String userId, @PathVariable int reviewId) { 
 		return reviewService.updateGood(reviewId, userId);
 	}
