@@ -63,6 +63,7 @@ public class MenuService {
 			
 			else if(recentMapper.countMyRecent(userId)>=20) { //userId의 최근 본 메뉴가 20개 이상일 경우 가장 오래된 recent 삭제
 				Recent tmp = recentMapper.getRecentPast(userId);
+				System.out.println(tmp);
 				recentMapper.deleteRecent(tmp.getRecentId());
 			}
 
