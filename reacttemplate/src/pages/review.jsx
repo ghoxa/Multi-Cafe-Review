@@ -17,52 +17,17 @@ class ReviewPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // myLike2: '',
+      myLike: false,
+      reviewLike: false,
       menuReivew: [],
-      selectMenuCheck: [],
       selectMenu: [],
       similarMenuByKeyWord: [],
       isLoaded: false,
     };
-
     this.onlikeChanged.bind(this);
+    this.reviewlikeChanged.bind(this);
   }
 
-  componentDidMount() {
-    // this.state.myLike2 = localStorage.getItem('myLike');
-    console.log('초기값' + this.state.myLike);
-    const menuId = localStorage.getItem('menuId');
-    const userId = localStorage.getItem('userId');
-    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
-    const selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`);
-    const selectMenuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`);
-    const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
-    const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
-    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-
-    Promise.all([menuReivewUrl, selectMenuCheckUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, selectMenuUrl])
-      .then(([res, res2, res3, res4, res5, res6]) => {
-        this.setState({
-          menuReivew: res.data,
-          selectMenuCheck: res2.data,
-          similarMenuByKeyWord: res3.data,
-          similarMenuByTaste: res4.data,
-          myLike: res5.data,
-          selectMenu: res6.data,
-          isLoaded: true,
-        });
-
-        // localStorage.setItem('myLike', this.state.myLike);
-        // console.log(this.state.mylike);
-        // console.log(this.state.similarMenuByKeyWord);
-        console.log(this.state.menuReivew);
-        console.log(this.state.selectMenuCheck);
-        console.log(this.state.selectMenu);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   onlikeChanged = (e) => {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
@@ -71,18 +36,16 @@ class ReviewPage extends Component {
     Promise.all([changeLikeUrl, likeCheckUrl])
       .then(([res1, res2]) => {
         console.log(res1.data);
-        console.log('바꾼후현재db값' + res2.data);
-        console.log('초기값' + this.state.myLike2);
+        console.log(res2.data);
         this.setState({
-          myLike2: res2.data,
-          isLoaded: true,
+          myLike: res2.data,
         });
-        localStorage.setItem('myLike', this.state.myLike2);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   handleClick = (value) => () => {
     localStorage.setItem('menuId', value);
     window.location.replace('/review');

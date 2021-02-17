@@ -17,16 +17,6 @@ class Home extends React.Component {
   handleClick = (value) => () => {
     // console.log(value);
     localStorage.setItem('menuId', value);
-    const menuId = localStorage.getItem('menuId');
-    const userId = localStorage.getItem('userId');
-    const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-    Promise.all([likeCheckUrl])
-      .then(([res]) => {
-        localStorage.setItem('myLike', res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   handleClick2 = (value) => () => {
