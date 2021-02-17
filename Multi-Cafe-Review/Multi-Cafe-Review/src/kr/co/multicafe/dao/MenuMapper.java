@@ -26,6 +26,8 @@ public interface MenuMapper {
 	public List<Menu> listViewCafeCategoryMenuByCondition(@Param("cafeId") int cafeId, @Param("categoryId") int categoryId, @Param("condition") String condition);
 	public List<Menu> searchMenu(String keyword); //메뉴이름, 설명, 키워드
 	public List<Menu> searchCafeMenu(@Param("cafeId") int cafeId, @Param("keyword") String keyword); //(카페별 검색)메뉴이름, 설명, 키워드
+	public List<Menu> searchMenuByCondition(@Param("keyword") String keyword, @Param("condition") String condition); //메뉴이름, 설명, 키워드
+	public List<Menu> searchCafeMenuByCondition(@Param("cafeId") int cafeId, @Param("keyword") String keyword, @Param("condition") String condition); //(카페별 검색)메뉴이름, 설명, 키워드
 	public void addGood(int menuId);
 	public void minusGood(int menuId);
 	public int updateMenuTaste(int menuId);

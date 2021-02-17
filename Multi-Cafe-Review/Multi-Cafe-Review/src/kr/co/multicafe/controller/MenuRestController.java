@@ -85,9 +85,19 @@ public class MenuRestController {
 		return menuService.searchMenu(keyword);
 	}
 
-	@GetMapping("/search/{cafeId}/{keyword}")
+	@GetMapping("/cafe/{cafeId}/search/{keyword}")
 	public List<Menu> searchCafeMenu(@PathVariable int cafeId, @PathVariable String keyword) { //(카페별 검색)메뉴이름, 설명, 키워드
 		return menuService.searchCafeMenu(cafeId, keyword);
+	}
+
+	@GetMapping("/search/{keyword}/{condition}")
+	public List<Menu> searchMenuByCondition(@PathVariable String keyword, @PathVariable String condition) { //메뉴이름, 설명, 키워드
+		return menuService.searchMenuByCondition(keyword, condition);
+	}
+
+	@GetMapping("/cafe/{cafeId}/search/{keyword}/{condition}")
+	public List<Menu> searchCafeMenuByCondition(@PathVariable int cafeId, @PathVariable String keyword, @PathVariable String condition) { //(카페별 검색)메뉴이름, 설명, 키워드
+		return menuService.searchCafeMenuByCondition(cafeId, keyword, condition);
 	}
 	
 	@GetMapping("/{menuId}/recommend/keyword")

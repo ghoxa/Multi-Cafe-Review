@@ -117,6 +117,14 @@ public class MenuService {
 		return menuMapper.searchCafeMenu(cafeId, keyword);
 	}
 	
+	public List<Menu> searchMenuByCondition(String keyword, String condition) { //메뉴이름, 설명, 키워드
+		return menuMapper.searchMenuByCondition(keyword, condition);
+	}
+	
+	public List<Menu> searchCafeMenuByCondition(int cafeId, String keyword, String condition) { //(카페별 검색)메뉴이름, 설명, 키워드
+		return menuMapper.searchCafeMenuByCondition(cafeId, keyword, condition);
+	}
+	
 	@Transactional
 	public List<Menu> listViewRecommendMenuByKeyword(int menuId) {
 		String keyword = menuMapper.getMenu(menuId).getKeyword();
