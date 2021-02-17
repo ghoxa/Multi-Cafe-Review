@@ -11,9 +11,11 @@ class Home extends React.Component {
       isLoaded: false,
       customColor: {},
       login: localStorage.getItem('isLogin'),
+      cateName: "",
     };
     // this.handleClick = this.handleClick.bind(this);
   }
+
 
   handleClick = (value) => () => {
     // console.log(value);
@@ -121,7 +123,8 @@ class Home extends React.Component {
                     <h6 className='card-title'>{menu[i]['name']}</h6>
                     <p className='text-success'>{menu[i]['cafeName']}</p>
                     <ul className='rating-stars'>
-                      총점: <span>{menu[i]['grade']}</span>
+                      <span>평점: {menu[i]['grade']}&nbsp;</span>
+                      <span style={{color : "silver", fontSize: 10}}>&nbsp;조회수: {menu[i]['click']}</span>
                       <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={menu[i]['grade']} size={15} isHalf={true} />
                     </ul>
                     <div className='price-wrap'>
@@ -144,7 +147,8 @@ class Home extends React.Component {
         try {
           cateList.push(
             <li>
-              <a onClick={this.handleClick2(category[i]['categoryId'])}>{category[i]['name']}</a>
+              <a id = {"category" + category[i]['categoryId']}
+              onClick={this.handleClick2(category[i]['categoryId'])}>{category[i]['name']}</a>
             </li>
           );
         } catch (error) {
@@ -176,8 +180,9 @@ class Home extends React.Component {
                             </div>
                           </div>
                         </form>
-
+          
                         <ul className='list-menu'>
+                          {/* <li style={{color : "orange"}}>{localStorage.getItem('categoryId')}</li> */}
                           <li>
                             <a onClick={this.handleClick2(0)}>모든카테고리</a>
                           </li>
@@ -237,19 +242,22 @@ class Home extends React.Component {
                 <header className='border-bottom mb-4 pb-3'>
                   <div className='form-inline'>
                     <span className='mr-md-auto'>{menu.length} Items found </span>
+                    <span className='mr-md-auto'>
+                      
+                    </span>
                     <div class='dropdown'>
                       <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>
-                        정렬순서
+                        {localStorage.getItem('conditionId')}
                       </button>
                       <div class='dropdown-menu'>
                         <a class='dropdown-item' onClick={this.handleClick3('good')}>
-                          좋아요순
+                          good
                         </a>
                         <a class='dropdown-item' onClick={this.handleClick3('click')}>
-                          조회순
+                          click
                         </a>
                         <a class='dropdown-item' onClick={this.handleClick3('grade')}>
-                          평점순
+                          grade
                         </a>
                       </div>
                     </div>
