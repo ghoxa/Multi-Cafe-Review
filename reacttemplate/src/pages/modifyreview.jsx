@@ -6,7 +6,7 @@ import styles from '../Css/writeReview.module.css';
 import ReactStars from 'react-rating-stars-component';
 import axios from 'axios';
 
-class WriteReview extends Component {
+class ModifyReview extends Component {
   state = {
     sweet: '',
     sour: '',
@@ -48,6 +48,7 @@ class WriteReview extends Component {
   handleSubmit = () => {
     const { sweet, sour, bitter, grade, comment } = this.state;
     const menuId = parseInt(localStorage.getItem('menuId'));
+    const reviewId = parseInt(localStorage.getItem('reviewId'));
     console.log(menuId);
     if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '') {
       alert('모든 입력을 완료해 주세요');
@@ -55,26 +56,25 @@ class WriteReview extends Component {
     }
 
     const data = {
-      reviewId: '',
+      reviewId: reviewId,
       reviewDate: '',
       content: comment,
       good: '',
       grade: grade,
       userId: localStorage.getItem('userId'),
-      menuId: menuId,
+      menuId: '',
       sweet: sweet,
       bitter: bitter,
       sour: sour,
     };
 
     console.log(data);
-
-    Promise.all([axios.post('http://localhost:9090/multicafe/api/user/review', data)])
+    Promise.all([axios.put('http://localhost:9090/multicafe/api/user/review', data)])
       .then(([res]) => {
         console.log(res.data);
-        console.log('post 성공');
+        console.log('put 성공');
         alert('입력완료');
-        window.location.replace('/review');
+        window.location.replace('/myreview');
       })
       .catch((err) => {
         console.log(err);
@@ -84,7 +84,7 @@ class WriteReview extends Component {
   render() {
     return (
       <>
-        <h2> Review InputForm </h2>
+        <h2> Review ModifyForm </h2>
 
         <div className={styles.ratingForm}>
           <RatingSweet onChange={this.handleInputSweet} />
@@ -165,4 +165,4 @@ const InputBox = ({ comment, onChange }) => {
   );
 };
 
-export default WriteReview;
+export default ModifyReview;

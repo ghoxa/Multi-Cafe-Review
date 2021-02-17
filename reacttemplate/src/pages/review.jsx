@@ -156,6 +156,7 @@ class ReviewPage extends Component {
           <td>
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
           </td>
+          <td>{this.state.menuReivew[i].grade}</td>
           <td>
             <a className='btn' onClick={() => this.reviewlikeChanged()}>
               <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
@@ -165,6 +166,22 @@ class ReviewPage extends Component {
       );
     }
     return list;
+  }
+  writeban() {
+    const menuId = localStorage.getItem('menuId');
+    const userId = localStorage.getItem('userId');
+    const writebanUrl = axios.get(`http://localhost:9090/multicafe/api/user/menu/${menuId}/review/${userId}`);
+    Promise.all([writebanUrl])
+      .then(([res]) => {
+        console.log(res.data);
+        if (res.data) {
+          window.location.replace('/writereview');
+        }
+      })
+      .catch((err) => {
+        alert('이미 등록한 리뷰입니다.');
+        console.log(err);
+      });
   }
 
   render() {
@@ -265,11 +282,10 @@ class ReviewPage extends Component {
                       목록 보기
                     </button>
                   </Link>
-                  <Link to='/writereview'>
-                    <button className='btn btn-primary btn-md my-0 p' onClick={{}} type='submit' style={{ height: '70px' }}>
-                      리뷰 작성
-                    </button>
-                  </Link>
+
+                  <button className='btn btn-primary btn-md my-0 p' onClick={this.writeban} type='submit' style={{ height: '70px' }}>
+                    리뷰 작성
+                  </button>
 
                   {/*Grid column*/}
                 </div>
@@ -282,6 +298,7 @@ class ReviewPage extends Component {
                       <th>단맛</th>
                       <th>쓴맛</th>
                       <th>신맛</th>
+                      <th>평점</th>
                       <th>좋아요</th>
                     </tr>
                   </thead>

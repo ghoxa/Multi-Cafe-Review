@@ -14,8 +14,7 @@ class MyReview extends React.Component {
     };
     this.reviewlikeChanged.bind(this);
   }
-  reviewlikeChanged = e => {
-
+  reviewlikeChanged = (e) => {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
     const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
@@ -31,7 +30,29 @@ class MyReview extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
+  handleClick = (value) => () => {
+    // console.log(value);
+    localStorage.setItem('reviewId', value);
+  };
+
+  handleClick2 = (value) => () => {
+    // console.log(value);
+    localStorage.setItem('reviewId', value);
+    const reviewId = localStorage.getItem('reviewId');
+    const reviewDeleteUrl = axios.delete(`http://localhost:9090/multicafe/api/user/review/${reviewId}`);
+    Promise.all([reviewDeleteUrl])
+      .then(([res]) => {
+        this.setState({
+          isLoaded: true,
+        });
+        alert('삭제완료');
+        window.location.replace('/myreview');
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
@@ -51,6 +72,7 @@ class MyReview extends React.Component {
         console.log(err.response);
       });
   }
+
   createListOfReview() {
     let list = [];
     for (let i = 0; i < this.state.menuReivew.length; ++i) {
@@ -67,10 +89,16 @@ class MyReview extends React.Component {
           <td>
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
           </td>
+          <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
           <td>
-            <a className='btn' onClick={() => this.reviewlikeChanged()}>
-              <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
-            </a>
+            <Link to='/modifyreview' onClick={this.handleClick(this.state.menuReivew[i].reviewId)} className='btn'>
+              수정
+            </Link>
+          </td>
+          <td>
+            <div onClick={this.handleClick2(this.state.menuReivew[i].reviewId)} className='btn'>
+              삭제
+            </div>
           </td>
         </tr>
       );
@@ -139,7 +167,9 @@ class MyReview extends React.Component {
                       <th>단맛</th>
                       <th>쓴맛</th>
                       <th>신맛</th>
-                      <th>좋아요</th>
+                      <th>평점</th>
+                      <th style={{ textAlign: 'center' }}>수정</th>
+                      <th style={{ textAlign: 'center' }}>삭제</th>
                     </tr>
                   </thead>
                   <tbody>{this.createListOfReview()}</tbody>

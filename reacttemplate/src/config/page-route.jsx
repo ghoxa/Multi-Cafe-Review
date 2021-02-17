@@ -15,6 +15,7 @@ import AdminPage from '../pages/adminpage.jsx';
 import SignIn from '../pages/signin.jsx';
 import SignOut from '../pages/signout.jsx';
 import Register from '../pages/register.jsx';
+import ModifyReview from '../pages/modifyreview.jsx';
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
     path: '/writereview',
     component: () => <WriteReview />,
   },
+  {
+    path: '/modifyreview',
+    component: () => <ModifyReview />,
+  },
+
   {
     path: '/formpage',
     component: () => <Formpage />,
