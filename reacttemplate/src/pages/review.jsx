@@ -54,7 +54,7 @@ class ReviewPage extends Component {
     const reviewId = localStorage.getItem('reviewId');
     const userId = localStorage.getItem('userId');
     const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user//${userId}/review/${reviewId}/like`);
-    const ReviewlikeCheckUrl = axios.get(` http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
+    const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
     Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
       .then(([res1, res2]) => {
         this.setState({
@@ -68,13 +68,14 @@ class ReviewPage extends Component {
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
+    const reviewId = localStorage.getItem('reviewId');
     const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
     const selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`);
     const selectMenuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`);
     const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
     const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
     const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-    const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+    const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
     Promise.all([menuReivewUrl, selectMenuCheckUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl, selectMenuUrl, ReviewLikeCheckUrl])
       .then(([res, res2, res3, res4, res5, res6, res7]) => {
         this.setState({
@@ -160,8 +161,9 @@ class ReviewPage extends Component {
           <td>
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
           </td>
-          <td>{this.state.menuReivew[i].grade}</td>
+          <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
           <td>
+            <span>{this.state.menuReivew[i].good}</span>&nbsp;
             <a className='btn' onClick={() => this.reviewlikeChanged()}>
               <i style={{ color: 'red' }} className={this.state.reviewLike ? 'fa fa-heart' : 'far fa-heart'}></i>
             </a>
