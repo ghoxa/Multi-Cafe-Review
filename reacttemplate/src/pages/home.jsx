@@ -34,10 +34,10 @@ class Home extends React.Component {
   checkLogid = () => {
     alert("로그인을 해주세요!")
   }
-
-  // handleClickSerche = (word) = () =>{
-  //   console.log(word);
-  // }
+  handleClickSerch = () => {
+    localStorage.setItem('keyword', document.getElementById("inputkeyword").value);
+    window.location.replace('/');    
+  }
   componentDidMount() {
     const cafeId = localStorage.getItem('cafeId');
     const categoryId = localStorage.getItem('categoryId');
@@ -183,7 +183,7 @@ class Home extends React.Component {
                             <input type='text' id="inputkeyword"className='form-control' placeholder='Search' />
                             <div className='input-group-append'>
                               <button className='btn btn-light' type='button'
-                              // onClick={this.keywordSerch(document.getElementById("inputkeyword").value)}
+                                onClick={this.handleClickSerch}
                               >
                                 <i className='fa fa-search'></i>
                               </button>
