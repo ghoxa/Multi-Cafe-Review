@@ -53,6 +53,10 @@ class ReviewPage extends Component {
     }
   };
   reviewlikeChanged = (e) => {
+    this.setState({
+      isLoaded: false,
+    });
+
     const menuId = localStorage.getItem('menuId');
     if (this.state.login) {
       Promise.all([axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`)]).then((res) => {
@@ -61,21 +65,57 @@ class ReviewPage extends Component {
       });
       const reviewId = localStorage.getItem('reviewId');
       const userId = localStorage.getItem('userId');
-      console.log(userId);
-      const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user//${userId}/review/${reviewId}/like`);
-      const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/ReviewLikecheck`);
-      Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
-        .then(([res1, res2]) => {
+      const isMyLike = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/MyReviewCheck`);
+      Promise.all([isMyLike])
+        .then(([res]) => {
           this.setState({
-            reviewLike: res2.data,
+            myReviewCheck: res.data,
           });
+          console.log(this.state.myReviewCheck);
+          if (this.state.myReviewCheck) {
+            alert('본인 리뷰입니다.');
+            return;
+          } else {
+            console.log(userId);
+            const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/review/${reviewId}/like`);
+            const ReviewgoodCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheckIn`);
+            Promise.all([changeReviewLikeUrl])
+              .then(([res1]) => {
+                console.log(res1);
+                Promise.all([ReviewgoodCheckUrl])
+                  .then(([res2]) => {
+                    this.setState({
+                      reviewgood: res2.data,
+                    });
+                    if (this.state.reviewgood) {
+                      this.state.reviewLike[e] = 1;
+                    } else {
+                      this.state.reviewLike[e] = 0;
+                    }
+                  })
+
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              })
+
+              .catch((err) => {
+                console.log(err);
+              });
+          }
         })
         .catch((err) => {
           console.log(err);
         });
+      setTimeout(() => {
+        window.location.replace('/review');
+      }, 500); //ㅡ,ㅡ 과유불급
     } else {
       alert('로그인 후 이용해 주세요');
     }
+    this.setState({
+      isLoaded: true,
+    });
   };
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
@@ -121,6 +161,7 @@ class ReviewPage extends Component {
       .catch((err) => {
         console.log(err);
       });
+    // window.location.replace('/review');
   }
   handleClick = (value) => () => {
     localStorage.setItem('menuId', value);
@@ -187,9 +228,9 @@ class ReviewPage extends Component {
           <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
           <td>
             <span>{this.state.menuReivew[i].good}</span>&nbsp;
-              <a className='btn' onClick={() => this.reviewlikeChanged()}>
-                <i style={{ color: 'red' }} className={this.state.reviewLike[i]==1 ? 'fa fa-heart' : 'far fa-heart'}></i>
-              </a>
+            <a className='btn' onClick={() => this.reviewlikeChanged(i)}>
+              <i style={{ color: 'red' }} className={this.state.reviewLike[i] == 1 ? 'fa fa-heart' : 'far fa-heart'}></i>
+            </a>
           </td>
         </tr>
       );
@@ -337,6 +378,7 @@ class ReviewPage extends Component {
                   </thead>
                   <tbody>{this.createListOfReview()}</tbody>
                 </Table>
+
                 {/* <BootstrapTable keyField='id' data={products} columns={this.state.columns} /> */}
                 {/*Grid row*/}
                 {/*Grid row*/}
