@@ -85,7 +85,7 @@
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
         from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
             from menu
-            where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%') m, cafe c
+            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m, cafe c
         where m.cafe_id = c.cafe_id
 	</select>
 	
@@ -94,14 +94,14 @@
 		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 				from menu m, cafe c
 				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
-		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
+		where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
 	</select>
 	
 	<select id="searchMenuByCondition" resultMap="menu_resultMap">
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
         from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
             from menu
-            where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%') m, cafe c
+            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m, cafe c
         where m.cafe_id = c.cafe_id
         order by #{condition} desc
 	</select>
@@ -111,7 +111,7 @@
 		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 				from menu m, cafe c
 				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
-		where name like '%'||#{keyword}||'%' or description like '%'||#{keyword}||'%' or keyword like '%'||#{keyword}||'%'
+		where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
 		order by #{condition} desc
 	</select>
 	
