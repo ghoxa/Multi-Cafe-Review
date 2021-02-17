@@ -59,16 +59,22 @@ class MyReview extends React.Component {
     const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/user/review/my/${userId}`);
     const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
     Promise.all([menuReivewUrl, ReviewLikeCheckUrl])
-      .then(([res1, res2]) => {
+      .then(([res1, res2, res3]) => {
         this.setState({
           menuReivew: res1.data,
           reviewLike: res2.data,
           isLoaded: true,
         });
         console.log(this.state.menuReivew);
+        let myReviewMenuId = this.state.menuReivew.map((pick) => pick.menuId);
+        for (let i = 0; i < myReviewMenuId.length; ++i) {
+          console.log(myReviewMenuId[i]);
+        }
+        //  localStorage.setItem('myReviewMenuId', this.state.menuReivew);
       })
+
       .catch((err) => {
-        console.log(err.response);
+        console.log(err);
       });
   }
 
@@ -77,6 +83,8 @@ class MyReview extends React.Component {
     for (let i = 0; i < this.state.menuReivew.length; ++i) {
       list.push(
         <tr>
+          <td>{this.state.menuReivew[i].userId}</td>
+          <td>{this.state.menuReivew[i].userId}</td>
           <td>{this.state.menuReivew[i].userId}</td>
           <td>{this.state.menuReivew[i].content}</td>
           <td>
@@ -161,6 +169,8 @@ class MyReview extends React.Component {
                 <Table striped bordered hover>
                   <thead>
                     <tr>
+                      <th>카페</th>
+                      <th>음료</th>
                       <th>이름</th>
                       <th>리뷰내용</th>
                       <th>단맛</th>

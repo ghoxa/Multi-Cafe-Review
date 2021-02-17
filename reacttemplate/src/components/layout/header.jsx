@@ -130,7 +130,7 @@ class Header extends React.Component {
                           <span className='text-muted'>Welcome! </span>
                           {login ? <span>{localStorage.getItem('userId')}님</span> : <span></span>}
                           <div>
-                            <Link to={login ? '/signout' : '/signin'}>{login ? 'Logout' : 'Login'}</Link>| <Link to='/register'> Register</Link>
+                            <Link to={login ? '/signout' : '/signin'}>{login ? 'Logout' : 'Login'}</Link> {login ? '' : <Link to='/register'>| register</Link>}
                           </div>
                         </div>
                       </div>

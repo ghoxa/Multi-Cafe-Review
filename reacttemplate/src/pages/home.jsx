@@ -108,10 +108,10 @@ class Home extends React.Component {
       for (let i = 0; i < menu.length; i++) {
         try {
           menulist.push(
-            <Link to='/review'>
-              <span className='card card-product-list' onClick={this.handleClick(menu[i]['menuId'])}>
+            <div className='card col-md-4' onClick={this.handleClick(menu[i]['menuId'])}>
+              <Link to='/review'>
                 <div className='row no-gutters'>
-                  <img style={{height:250}} className='card-img-top' src={menu[i]['image']} alt='Card image' />
+                  <img style={{ height: 250 }} className='card-img-top' src={menu[i]['image']} alt='Card image' />
                   <div className='card-body'>
                     <h6 className='card-title'>{menu[i]['name']}</h6>
                     <p className='text-success'>{menu[i]['cafeName']}</p>
@@ -125,8 +125,8 @@ class Home extends React.Component {
                     <br />
                   </div>
                 </div>
-              </span>
-            </Link>
+              </Link>
+            </div>
           );
         } catch (error) {
           console.log(error);
@@ -252,7 +252,7 @@ class Home extends React.Component {
                 </header>
 
                 {/* {this.createListOfSimilarMenu()} */}
-                <div className='card-columns'>{menulist}</div>
+                <div className='row'>{menulist}</div>
 
                 <nav className='mt-4' aria-label='Page navigation sample'>
                   <ul className='pagination justify-content-center'>

@@ -22,6 +22,7 @@ class ReviewPage extends Component {
       selectMenu: [],
       similarMenuByKeyWord: [],
       isLoaded: false,
+      login: localStorage.getItem('isLogin'),
     };
     this.onlikeChanged.bind(this);
     this.reviewlikeChanged.bind(this);
@@ -46,8 +47,7 @@ class ReviewPage extends Component {
   };
   reviewlikeChanged = (e) => {
     const menuId = localStorage.getItem('menuId');
-    Promise.all([axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`)])
-    .then((res) => {
+    Promise.all([axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`)]).then((res) => {
       console.log(res[0].data[0].reviewId);
       localStorage.setItem('reviewId', res[0].data[0].reviewId);
     });
@@ -68,24 +68,29 @@ class ReviewPage extends Component {
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
+    let selectMenuCheckUrl;
+    console.log(this.state.login);
+    this.state.login
+      ? (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`))
+      : (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`));
+
     const reviewId = localStorage.getItem('reviewId');
     const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
-    const selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`);
-    const selectMenuUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`);
+
     const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
     const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
     const likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
     const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
-    Promise.all([menuReivewUrl, selectMenuCheckUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl, selectMenuUrl, ReviewLikeCheckUrl])
-      .then(([res, res2, res3, res4, res5, res6, res7]) => {
+    Promise.all([menuReivewUrl, selectMenuCheckUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl, ReviewLikeCheckUrl])
+      .then(([res, res2, res3, res4, res5, res6]) => {
         this.setState({
           menuReivew: res.data,
           selectMenuCheck: res2.data,
           similarMenuByKeyWord: res3.data,
           similarMenuByTaste: res4.data,
           myLike: res5.data,
-          selectMenu: res6.data,
-          reviewLike: res7.data,
+          // selectMenu: res6.data,
+          reviewLike: res6.data,
           isLoaded: true,
         });
 
@@ -93,7 +98,7 @@ class ReviewPage extends Component {
         // console.log(this.state.similarMenuByKeyWord);
         console.log(this.state.menuReivew);
         console.log(this.state.selectMenuCheck);
-        console.log(this.state.selectMenu);
+        // console.log(this.state.selectMenu);
       })
       .catch((err) => {
         console.log(err);
