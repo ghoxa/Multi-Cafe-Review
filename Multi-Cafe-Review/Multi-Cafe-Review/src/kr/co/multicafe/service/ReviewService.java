@@ -32,25 +32,43 @@ public class ReviewService {
 	
 	//리뷰 추가
 	@Transactional
-	public int insertReview(Review review) {
+	public int insertReview(Review review) throws RuntimeException{
 		int result=0;
-		//로그인 한 사용자가 이미 리뷰 작성한 메뉴인지 확인
-//		UserUtil userUtil = new UserUtil();
-//		String userId = userUtil.getCurrentUserId();
-		Review review_tmp = reviewMapper.getReview(review.getUserId(), review.getMenuId());
+//		Review review_tmp = reviewMapper.getReview(review.getUserId(), review.getMenuId());
 		
-		if(review_tmp==null) {
+//		if(review_tmp==null) {
+//			menuMapper.updateMenuGrade(review.getMenuId());
+//			menuMapper.updateMenuTaste(review.getMenuId());
+//			result=reviewMapper.insertReview(review);
+//		}
+//		else {
+//			result=0;
+//		}
+
+		try {
+			result=reviewMapper.insertReview(review);
 			menuMapper.updateMenuGrade(review.getMenuId());
 			menuMapper.updateMenuTaste(review.getMenuId());
-			result=reviewMapper.insertReview(review);
+	
+		}catch(Exception e) {
+			e.printStackTrace();
+			result = 0;
 		}
-		else {
-			result=0;
-		}
-
 		return result;
 		
 	}
+	
+	
+	public boolean isWriteReview(String userId, int menuId) {
+		Review review_tmp = reviewMapper.getReview(userId, menuId);
+		if(review_tmp!=null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
 	
 	//리뷰 업데이트
 	public int updateReview(Review review) throws RuntimeException{
@@ -115,6 +133,16 @@ public class ReviewService {
 			reviewMapper.minusGood(reviewId);
 			reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
 			return 0;
+		}
+	}
+	
+	public boolean isAlreadyGoodReview(int reviewId, String userId) {
+		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
+		if(reviewLike!=null) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	
