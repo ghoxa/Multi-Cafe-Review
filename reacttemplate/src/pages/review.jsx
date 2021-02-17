@@ -63,11 +63,11 @@ class ReviewPage extends Component {
       const userId = localStorage.getItem('userId');
       console.log(userId);
       const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user//${userId}/review/${reviewId}/like`);
-      const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
+      const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/ReviewLikecheck`);
       Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
         .then(([res1, res2]) => {
           this.setState({
-            reviewLike: !res2.data,
+            reviewLike: res2.data,
           });
         })
         .catch((err) => {
@@ -96,7 +96,7 @@ class ReviewPage extends Component {
     const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
     if (this.state.login) {
       likeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-      ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
+      ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/ReviewLikecheck`);
     }
 
     Promise.all([menuReivewUrl, selectMenuCheckUrl, similarMenuByKeyWordUrl, similarMenuByTasteUrl, likeCheckUrl, ReviewLikeCheckUrl])
@@ -111,7 +111,7 @@ class ReviewPage extends Component {
           reviewLike: res6.data,
           isLoaded: true,
         });
-
+        console.log(this.state.reviewLike);
         // console.log(this.state.mylike);
         // console.log(this.state.similarMenuByKeyWord);
         console.log(this.state.menuReivew);
@@ -187,9 +187,9 @@ class ReviewPage extends Component {
           <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
           <td>
             <span>{this.state.menuReivew[i].good}</span>&nbsp;
-            <a className='btn' onClick={() => this.reviewlikeChanged()}>
-              <i style={{ color: 'red' }} className={this.state.reviewLike ? 'fa fa-heart' : 'far fa-heart'}></i>
-            </a>
+              <a className='btn' onClick={() => this.reviewlikeChanged()}>
+                <i style={{ color: 'red' }} className={this.state.reviewLike[i]==1 ? 'fa fa-heart' : 'far fa-heart'}></i>
+              </a>
           </td>
         </tr>
       );

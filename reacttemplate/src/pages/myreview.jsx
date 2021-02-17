@@ -18,6 +18,7 @@ class MyReview extends React.Component {
     const userId = localStorage.getItem('userId');
     const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
     const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
+    
     Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
       .then(([res1, res2]) => {
         console.log(res1.data);
@@ -74,6 +75,8 @@ class MyReview extends React.Component {
 
   createListOfReview() {
     let list = [];
+
+    //console.log(menuId);
     for (let i = 0; i < this.state.menuReivew.length; ++i) {
       list.push(
         <tr style={{ height: '100px' }}>
