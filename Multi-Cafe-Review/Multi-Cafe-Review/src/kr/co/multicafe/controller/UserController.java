@@ -1,5 +1,6 @@
 package kr.co.multicafe.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -62,16 +63,21 @@ public class UserController {
 	}
 	
 	@GetMapping("/menu/{menuId}/review/{userId}")
-	public boolean isWriteReview(@PathVariable String userId, @PathVariable int menuId) {
-		return reviewService.isWriteReview(userId, menuId);
+	public boolean isWriteReview(@PathVariable String userId, @PathVariable int menuId, HttpServletResponse response) throws Exception {
+		boolean check = reviewService.isWriteReview(userId, menuId);
+		if(check==false) {
+			response.sendError(5000, "해당 메뉴에 대한 리뷰를 이미 등록하셨습니다.");
+		}
+
+		return check;
 	}
 
 	//리뷰 추가
 	@PostMapping("/review")
-	public int insertReview(@RequestBody Review review, HttpServletResponse response) throws Exception {
+	public int insertReview(@RequestBody Review review){
 		int result=reviewService.insertReview(review);
-		if(result==0)
-			response.sendError(5000, "해당 메뉴에 대한 리뷰를 이미 등록하셨습니다.");
+//		if(result==0)
+//			response.sendError(5000, "해당 메뉴에 대한 리뷰를 이미 등록하셨습니다.");
 		return result;
 		
 	}
