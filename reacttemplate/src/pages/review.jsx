@@ -416,16 +416,7 @@ class ReviewPage extends Component {
             {/*Footer*/}
             <footer className='page-footer text-center font-small mt-4 wow fadeIn'>
               {/*Call to action*/}
-              <div className='pt-4'>
-                <a className='btn btn-outline-white' href='https://mdbootstrap.com/docs/jquery/getting-started/download/' target='_blank' role='button'>
-                  Download MDB
-                  <i className='fas fa-download ml-2' />
-                </a>
-                <a className='btn btn-outline-white' href='https://mdbootstrap.com/education/bootstrap/' target='_blank' role='button'>
-                  Start free tutorial
-                  <i className='fas fa-graduation-cap ml-2' />
-                </a>
-              </div>
+
               {/*/.Call to action*/}
               <hr className='my-4' />
               {/* Social icons */}
@@ -457,13 +448,7 @@ class ReviewPage extends Component {
               </div>
               {/* Social icons */}
               {/*Copyright*/}
-              <div className='footer-copyright py-3'>
-                © 2019 Copyright:
-                <a href='https://mdbootstrap.com/education/bootstrap/' target='_blank'>
-                  {' '}
-                  MDBootstrap.com{' '}
-                </a>
-              </div>
+              <div className='footer-copyright py-3'>© 2021 Copyright: Oh!Cafe </div>
               {/*/.Copyright*/}
             </footer>
           </div>
