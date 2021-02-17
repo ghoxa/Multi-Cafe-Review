@@ -24,6 +24,7 @@ class ReviewPage extends Component {
       isLoaded: false,
     };
     this.onlikeChanged.bind(this);
+    this.reviewlikeChanged.bind(this);
   }
 
   onlikeChanged = (e) => {
@@ -44,22 +45,25 @@ class ReviewPage extends Component {
       });
   };
   reviewlikeChanged = (e) => {
-    /*
-    // reviewId 필요
+    const menuId = localStorage.getItem('menuId');
+    Promise.all([axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`)])
+    .then((res) => {
+      console.log(res[0].data[0].reviewId);
+      localStorage.setItem('reviewId', res[0].data[0].reviewId);
+    });
+    const reviewId = localStorage.getItem('reviewId');
     const userId = localStorage.getItem('userId');
-    //const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
-    //const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/likecheck`);
+    const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user//${userId}/review/${reviewId}/like`);
+    const ReviewlikeCheckUrl = axios.get(` http://localhost:9090/multicafe/api/user/${userId}/${reviewId}/ReviewLikecheck`);
     Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
       .then(([res1, res2]) => {
-        console.log(res1.data);
-        console.log(res2.data);
         this.setState({
-          reviewLike: res2.data,
+          reviewLike: !res2.data,
         });
       })
       .catch((err) => {
         console.log(err);
-      });*/
+      });
   };
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
@@ -159,7 +163,7 @@ class ReviewPage extends Component {
           <td>{this.state.menuReivew[i].grade}</td>
           <td>
             <a className='btn' onClick={() => this.reviewlikeChanged()}>
-              <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
+              <i style={{ color: 'red' }} className={this.state.reviewLike ? 'fa fa-heart' : 'far fa-heart'}></i>
             </a>
           </td>
         </tr>

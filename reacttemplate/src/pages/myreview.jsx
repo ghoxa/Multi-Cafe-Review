@@ -9,10 +9,9 @@ class MyReview extends React.Component {
     super(props);
     this.state = {
       menuReivew: [],
-      reviewLike: false,
+      reviewLike: [],
       isLoaded: false,
     };
-    this.reviewlikeChanged.bind(this);
   }
   reviewlikeChanged = (e) => {
     const menuId = localStorage.getItem('menuId');
