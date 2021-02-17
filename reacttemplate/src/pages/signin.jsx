@@ -52,7 +52,7 @@ class SignIn extends React.Component {
 
       if (this.state.data != '') {
         alert('로그인되었습니다');
-        window.localStorage.setItem('userInfo', JSON.stringify(this.state.data));
+        // window.localStorage.setItem('userInfo', JSON.stringify(this.state.data));
 
         this.setState({
           id: this.state.data.userId,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup, FormText, Input, Label, Row } from 'reactstrap';
+import axios from 'axios';
 
-import axios from "axios";
 
 const userId = localStorage.getItem('userId');
 class FormPage extends React.Component {
@@ -10,33 +10,32 @@ class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isLoaded: false,
-      user: JSON.parse(localStorage.getItem('userInfo')),
+       userInfo:"",
     };
   }
-
-  // componentDidMount() {
-  //   Promise.all([axios.get(`http://localhost:9090/multicafe/api/user/${userId}`)])
-  //     .then(([res]) => {
-  //       this.setState({
-  //         user: res.data,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  componentDidMount() {
+    Promise.all([axios.get(`http://localhost:9090/multicafe/api/user/${userId}`)])
+      .then(([res]) => {
+        this.setState({
+          userInfo: res.data,          
+        });
+        // console.log(this.state.userInfo.address)
+      })           
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   modUserVal = (id) => () => {
-    document.getElementById(id).value = prompt("수정 ㄱㄱ")
+    let temp = document.getElementById(id).value
+    let userData = prompt("데이터를 수정해 주세요")
+    if(userData){
+      document.getElementById(id).value = userData
+    }else{
+      document.getElementById(id).value = temp
+    }
+    
   }
   handleSubmit = () => {
-    const { id, pw, email, phone, address, sweet, sour, bitter } = this.state;
-    // e.preventDefault();
-
-    if (id === '' || pw === '' || email === '' || phone === '' || address === '' || sweet === '' || sour === '' || bitter === '') {
-      alert('모든 입력을 완료해 주세요');
-      return;
-    }
 
     const signup_info = {
       userId: document.getElementById("id").value,
@@ -45,21 +44,21 @@ class FormPage extends React.Component {
       email: document.getElementById("email").value,
       address: document.getElementById("address").value,
       joinDate: '',
-      sweet: this.state.user.sweet,
-      sour: this.state.user.sour,
-      bitter: this.state.user.bitter,
+      sweet: this.state.userInfo.sweet,
+      sour: this.state.userInfo.sour,
+      bitter: this.state.userInfo.bitter,
     };
     
-    console.log(signup_info)
+    // console.log(signup_info)
     Promise.all([axios.put(`http://localhost:9090/multicafe/api/user`, signup_info)])
     .then((res) => {
       alert('수정완료');
-      window.location.replace('/');
+      // window.location.replace('/');
     });
   };
-
+  
   render(){
-    console.log(this.state.user)
+
     return (
       <section className="section-content padding-y">
         <div className="container">
@@ -79,20 +78,20 @@ class FormPage extends React.Component {
                       <h6 className="title">마이페이지</h6>
                     </a>
                   </header>
-                  <div className="filter-content collapse show" id="collapse_2">
-                    <div className="card-body">
-                      <ul className="list-menu">
+                  <div className='filter-content collapse show' id='collapse_2'>
+                    <div className='card-body'>
+                      <ul className='list-menu'>
                         <li>
-                          <Link to="/formPage">개인정보수정</Link>
+                          <Link to='/formPage'>개인정보수정</Link>
                         </li>
                         <li>
-                          <Link to="/mylike">찜 목록 </Link>
+                          <Link to='/mylike'>찜 목록 </Link>
                         </li>
                         <li>
-                          <Link to="/myrecent">최근 본 메뉴 </Link>
+                          <Link to='/myrecent'>최근 본 메뉴 </Link>
                         </li>
                         <li>
-                          <Link to="/myreview">내 리뷰 관리</Link>
+                          <Link to='/myreview'>내 리뷰 관리</Link>
                         </li>
                       </ul>
                     </div>
@@ -115,7 +114,7 @@ class FormPage extends React.Component {
                           type="id"
                           id="id"
                           placeholder="id placeholder"
-                          value={this.state.user.userId}
+                          value={this.state.userInfo.userId}
                           // onClick = {this.modUserVal("id")}
                         />
                       </Col>
@@ -129,7 +128,7 @@ class FormPage extends React.Component {
                           type="password"
                           id="password" 
                           placeholder="password placeholder"
-                          value={this.state.user.pwd}
+                          value={this.state.userInfo.pwd}
                           onClick = {this.modUserVal("password")}
                         />
                       </Col>
@@ -143,7 +142,7 @@ class FormPage extends React.Component {
                           type="email"
                           id="email"
                           placeholder="with a placeholder"
-                          value={this.state.user.email}
+                          value={this.state.userInfo.email}
                           onClick = {this.modUserVal("email")}
                         />
                       </Col>
@@ -157,7 +156,7 @@ class FormPage extends React.Component {
                           type="text"
                           id="phonenumber"
                           placeholder="with a placeholder"
-                          value={this.state.user.phone}
+                          value={this.state.userInfo.phone}
                           onClick = {this.modUserVal("phonenumber")}
                         />
                       </Col>
@@ -171,7 +170,7 @@ class FormPage extends React.Component {
                           type="text"
                           id="address" 
                           placeholder="address placeholder"
-                          value={this.state.user.address}
+                          value={this.state.userInfo.address}
                           onClick = {this.modUserVal("address")}
                         />
                       </Col>
