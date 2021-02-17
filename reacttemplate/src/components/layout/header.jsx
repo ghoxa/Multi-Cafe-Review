@@ -53,6 +53,7 @@ class Header extends React.Component {
     localStorage.setItem('cafeId', 0);
     localStorage.setItem('categoryId', 0);
     localStorage.setItem('conditionId', 'good');
+    localStorage.setItem('keyword', 0);
     window.location.replace('/');
   };
 
@@ -63,6 +64,7 @@ class Header extends React.Component {
     localStorage.setItem('keyword', 0);
     window.location.replace('/');
   };
+
   checkLogid = () => {
     alert('로그인을 해주세요!');
   };

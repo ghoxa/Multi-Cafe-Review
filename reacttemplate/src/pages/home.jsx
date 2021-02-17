@@ -238,10 +238,13 @@ class Home extends React.Component {
                       </button>
                       <div class='dropdown-menu'>
                         <a class='dropdown-item' onClick={this.handleClick3('good')}>
-                          추천순
+                          좋아요순
                         </a>
                         <a class='dropdown-item' onClick={this.handleClick3('click')}>
                           조회순
+                        </a>
+                        <a class='dropdown-item' onClick={this.handleClick3('grade')}>
+                          평점순
                         </a>
                       </div>
                     </div>
