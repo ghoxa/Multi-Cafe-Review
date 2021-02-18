@@ -12,9 +12,7 @@ import kr.co.multicafe.dto.Category;
 @Service
 @Transactional
 public class CategoryService {
-//	public List<Category> listViewCategory();
-//	public Category getCategory(int category_id);
-	
+
 	@Autowired
 	CategoryMapper categoryMapper;
 	

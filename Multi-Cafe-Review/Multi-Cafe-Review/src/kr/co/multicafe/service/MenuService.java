@@ -58,10 +58,9 @@ public class MenuService {
 		return menuMapper.getMenu(menuId);
 	}
 	
+	//메뉴 가져올때 로그인한 사용자의 최근 본 메뉴에 추가
 	@Transactional
 	public Menu getMenuCheck(int menuId, String userId) {
-		//UserUtil userUtil = new UserUtil();
-		//if(userUtil.getCurrentUsers()!=null) { //로그인이 된 상태면 Recent에 추가하고 Menu 보여주기
 		menuMapper.addClick(menuId);
 		menuMapper.updateMenuGrade(menuId);
 		menuMapper.updateMenuTaste(menuId);

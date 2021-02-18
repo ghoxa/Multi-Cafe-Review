@@ -33,16 +33,6 @@ public class ReviewService {
 	@Transactional
 	public int insertReview(Review review) throws RuntimeException{
 		int result=0;
-//		Review review_tmp = reviewMapper.getReview(review.getUserId(), review.getMenuId());
-		
-//		if(review_tmp==null) {
-//			menuMapper.updateMenuGrade(review.getMenuId());
-//			menuMapper.updateMenuTaste(review.getMenuId());
-//			result=reviewMapper.insertReview(review);
-//		}
-//		else {
-//			result=0;
-//		}
 
 		try {
 			result=reviewMapper.insertReview(review);
@@ -57,7 +47,7 @@ public class ReviewService {
 		
 	}
 	
-	
+	//이미 작성한 메뉴의 리뷰인지 체크
 	public boolean isWriteReview(String userId, int menuId) {
 		Review review_tmp = reviewMapper.getReview(userId, menuId);
 		if(review_tmp!=null) { //이미 작성한 리뷰가 있으면
@@ -110,17 +100,17 @@ public class ReviewService {
 	public List<Review> listMyReview(String userId){		
 		return reviewMapper.listMyReview(userId);
 	}
-	
-	//리뷰 하나 얻어오기
-//	public Review getReview(int reviewId) {
-//		return reviewMapper.getReview(reviewId);
-//	}
+
 	
 	//좋아요 많은 순서로 리뷰 보여주기
 	public List<Review> goodListReview(int menuId){
 		return reviewMapper.goodListReview(menuId);
 	}
 
+	
+	/** 리뷰 좋아요 **/
+	
+	//리뷰 좋아요 업데이트
 	@Transactional
 	public int updateGood(int reviewId,String userId) {
 		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
@@ -136,12 +126,13 @@ public class ReviewService {
 		}
 	}
 	
+	//메뉴 클릭시 리뷰 좋아요 체크
 	public int[] isAlreadyGoodReview(int menuId, String userId) {
 		List<Review> myList = reviewMapper.listViewReview(menuId);
-//		List<Integer> idx = new ArrayList<Integer>();
 		int[] idx = new int[myList.size()];
 		
 		ReviewLike reviewLike;
+
 		for(int i=0;i<myList.size();i++) {
 			reviewLike = reviewLikeMapper.getReviewLike(myList.get(i).getReviewId(),userId);
 			System.out.println(reviewLike);
@@ -153,22 +144,15 @@ public class ReviewService {
 				idx[i]=0;
 			}
 		}
-		
-		return idx;
-//		System.out.println(reviewLike);
 
-//		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고)
-//
-//			return true;
-//		}
-//		else { //좋아요 할 수 없는 상태
-//			return false;
-//		}
+		return idx;
+
 	}
 	
+	//리뷰 좋아요 상태 체크
 	public boolean reviewGoodCheck(int reviewId, String userId) {
 		ReviewLike reviewLike= reviewLikeMapper.getReviewLike(reviewId,userId);
-		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고)
+		if(reviewLike==null) { //좋아요 할 수 있는 상태 (좋아요 하지 않음)
 
 			return false;
 		}
@@ -177,15 +161,15 @@ public class ReviewService {
 		}
 	}
 	
-	
+	//내 리뷰인지 체크
 	public boolean isMyReview(int reviewId, String userId) {
 		Review review = reviewMapper.getReview2(reviewId);
 		System.out.println(review);
-		if(userId.equals(review.getUserId())) { //좋아요 할 수 있는 상태 (좋아요 하지 않았고 내가 쓴 리뷰가 아니면)
+		if(userId.equals(review.getUserId())) { //좋아요 할 수 없는 상태 (내가 쓴 리뷰임)
 			System.out.println("userId: "+userId+" getUser(): "+review.getUserId());
 			return true;
 		}
-		else { //좋아요 할 수 없는 상태
+		else { //좋아요 할 수 있는 상태(내가 쓴 리뷰 아님)
 			return false;
 		}
 	}

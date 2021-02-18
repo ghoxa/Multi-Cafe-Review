@@ -87,6 +87,7 @@ public class UserController {
 		return reviewService.updateGood(reviewId, userId);
 	}
 	
+	//이미 리뷰 작성한 메뉴인지 체크
 	@GetMapping("/menu/{menuId}/review/{userId}")
 	public boolean isWriteReview(@PathVariable String userId, @PathVariable int menuId, HttpServletResponse response) throws Exception {
 		boolean check = reviewService.isWriteReview(userId, menuId);
@@ -104,8 +105,7 @@ public class UserController {
 	@PostMapping("/review")
 	public int insertReview(@RequestBody Review review){
 		int result=reviewService.insertReview(review);
-//		if(result==0)
-//			response.sendError(5000, "해당 메뉴에 대한 리뷰를 이미 등록하셨습니다.");
+
 		return result;
 		
 	}
