@@ -21,7 +21,8 @@ public class ApplicationConfig {
 	public DataSource dataSource() {
 		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 		dataSource.setDriverClass(oracle.jdbc.driver.OracleDriver.class);
-		dataSource.setUrl("jdbc:oracle:thin:@m5cafe.cowdwiadhrlr.ap-northeast-2.rds.amazonaws.com:1521:M5CAFE");
+		//dataSource.setUrl("jdbc:oracle:thin:@m5cafe.cowdwiadhrlr.ap-northeast-2.rds.amazonaws.com:1521:M5CAFE");
+		dataSource.setUrl("jdbc:oracle:thin:@3.35.208.147:1521:XE");
 		dataSource.setUsername("multicafe");
 		dataSource.setPassword("multicafe2021");
 		return dataSource;
