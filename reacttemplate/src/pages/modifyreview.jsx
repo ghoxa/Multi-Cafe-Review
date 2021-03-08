@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../Css/writeReview.module.css';
 import ReactStars from 'react-rating-stars-component';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 class ModifyReview extends Component {
@@ -13,6 +17,7 @@ class ModifyReview extends Component {
     bitter: '',
     grade: '',
     comment: '',
+    open: false
   };
 
   handleInputSweet = (rating) => {
@@ -74,35 +79,61 @@ class ModifyReview extends Component {
         console.log(res.data);
         console.log('put 성공');
         alert('입력완료');
-        window.location.replace('/myreview');
+        this.props.stateRefresh();
+        this.setState({
+          sweet: '',
+          sour: '',
+          bitter: '',
+          grade: '',
+          comment: '',
+          open: false
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  handleClickOpen = () => {
+    this.setState({
+      open: true
+    });
+  }
+
+  handleClose = () => {
+      this.setState({
+        sweet: '',
+        sour: '',
+        bitter: '',
+        grade: '',
+        comment: '',
+        open: false
+      })
+  }
+
   render() {
     return (
       <>
-        <h2> Review ModifyForm </h2>
+        <Button variant="contained" color="primary" onClick={this.handleClickOpen}>수정</Button>
+        
+        <Dialog open={this.state.open} onClose={this.handleClose} fullWidth={true}>
+          <DialogTitle>Review ModifyForm</DialogTitle>
 
-        <div className={styles.ratingForm}>
-          <RatingSweet onChange={this.handleInputSweet} />
-          <br></br>
-          <RatingSour onChange={this.handleInputSour} />
-          <br></br>
-          <RatingBitter onChange={this.handleInputBitter} />
-          <br></br>
-          <RatingGrade onChange={this.handleInputGrade}></RatingGrade>
-        </div>
+          <DialogContent>
+            <div className={styles.ratingForm}>
+              <RatingSweet onChange={this.handleInputSweet} /> <br/>
+              <RatingSour onChange={this.handleInputSour} /> <br/>
+              <RatingBitter onChange={this.handleInputBitter} /> <br/>
+              <RatingGrade onChange={this.handleInputGrade}></RatingGrade> <br/>
+              <InputBox className={styles.inputBox} comment={this.state.comment} onChange={this.handleInputComment} />
+            </div>
+          </DialogContent>
 
-        <InputBox comment={this.state.comment} onChange={this.handleInputComment} />
-
-        <div className={styles.btn}>
-          <Button variant='primary' type='submit' onClick={this.handleSubmit}>
-            Submit
-          </Button>
-        </div>
+          <DialogActions>
+            <Button variant="contained" color="primary" onClick={this.handleSubmit}>추가</Button>
+            <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+          </DialogActions>
+        </Dialog>
       </>
     );
   }

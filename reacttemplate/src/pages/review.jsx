@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import { Table } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
+import WriteReview from './writereview';
 class ReviewPage extends Component {
   // createListOfFiles() {
   //   let listOfFiles = [];
@@ -256,6 +257,22 @@ class ReviewPage extends Component {
     }
     return list;
   }
+  // 리뷰목록만 새로고침
+  stateRefresh = () => {
+    this.setState({
+      menuReivew: []
+    });
+    this.callReviewList();
+    this.createListOfReview();
+  }
+  // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
+  callReviewList = async () => {
+    const menuId = localStorage.getItem('menuId');
+    const res = await axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+    this.setState({
+      menuReivew: res.data
+    });
+  }
   writeban = (e) => {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
@@ -376,9 +393,8 @@ class ReviewPage extends Component {
                     </button>
                   </Link>
 
-                  <button className='btn btn-primary btn-md my-0 p' onClick={this.writeban} type='submit' style={{ height: '70px' }}>
-                    리뷰 작성
-                  </button>
+                  {/* 리뷰 추가하기 */}
+                  <WriteReview stateRefresh={this.stateRefresh}/>
 
                   {/*Grid column*/}
                 </div>

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../Css/writeReview.module.css';
 import ReactStars from 'react-rating-stars-component';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 class WriteReview extends Component {
@@ -13,6 +17,7 @@ class WriteReview extends Component {
     bitter: '',
     grade: '',
     comment: '',
+    open: false
   };
 
   handleInputSweet = (rating) => {
@@ -67,42 +72,66 @@ class WriteReview extends Component {
       sour: sour,
     };
 
-    console.log(data);
-
+    // post 통신으로 데이터베이스에 리뷰데이터 저장
     Promise.all([axios.post('http://localhost:9090/multicafe/api/user/review', data)])
       .then(([res]) => {
-        console.log(res.data);
         console.log('post 성공');
         alert('입력완료');
-        window.location.replace('/review');
+        this.props.stateRefresh();
+        this.setState({
+          sweet: '',
+          sour: '',
+          bitter: '',
+          grade: '',
+          comment: '',
+          open: false
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  handleClickOpen = () => {
+    this.setState({
+      open: true
+    });
+  }
+
+  handleClose = () => {
+      this.setState({
+        sweet: '',
+        sour: '',
+        bitter: '',
+        grade: '',
+        comment: '',
+        open: false
+      })
+  }
+
   render() {
     return (
       <>
-        <h2> Review InputForm </h2>
+        <Button variant="contained" color="primary" onClick={this.handleClickOpen}>리뷰 추가하기</Button>
+        
+        <Dialog open={this.state.open} onClose={this.handleClose} fullWidth={true}>
+          <DialogTitle>Review InputForm</DialogTitle>
 
-        <div className={styles.ratingForm}>
-          <RatingSweet onChange={this.handleInputSweet} />
-          <br></br>
-          <RatingSour onChange={this.handleInputSour} />
-          <br></br>
-          <RatingBitter onChange={this.handleInputBitter} />
-          <br></br>
-          <RatingGrade onChange={this.handleInputGrade}></RatingGrade>
-        </div>
+          <DialogContent>
+            <div className={styles.ratingForm}>
+              <RatingSweet onChange={this.handleInputSweet} /> <br/>
+              <RatingSour onChange={this.handleInputSour} /> <br/>
+              <RatingBitter onChange={this.handleInputBitter} /> <br/>
+              <RatingGrade onChange={this.handleInputGrade}></RatingGrade> <br/>
+              <InputBox className={styles.inputBox} comment={this.state.comment} onChange={this.handleInputComment} />
+            </div>
+          </DialogContent>
 
-        <InputBox comment={this.state.comment} onChange={this.handleInputComment} />
-
-        <div className={styles.btn}>
-          <Button variant='primary' type='submit' onClick={this.handleSubmit}>
-            Submit
-          </Button>
-        </div>
+          <DialogActions>
+            <Button variant="contained" color="primary" onClick={this.handleSubmit}>추가</Button>
+            <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+          </DialogActions>
+        </Dialog>
       </>
     );
   }
@@ -113,7 +142,7 @@ const RatingSweet = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>단맛 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
       </span>
     </div>
   );
@@ -124,7 +153,7 @@ const RatingSour = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>신맛 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
       </span>
     </div>
   );
@@ -135,7 +164,7 @@ const RatingBitter = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>쓴맛 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
       </span>
     </div>
   );
@@ -146,7 +175,7 @@ const RatingGrade = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>평점 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
       </span>
     </div>
   );

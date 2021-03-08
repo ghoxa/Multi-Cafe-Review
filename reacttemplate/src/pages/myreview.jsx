@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReactStars from 'react-rating-stars-component';
 import { Table } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
+import ModifyReview from './modifyreview';
 class MyReview extends React.Component {
   constructor(props) {
     super(props);
@@ -95,9 +96,7 @@ class MyReview extends React.Component {
           </td>
           <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
           <td>
-            <Link to='/modifyreview' onClick={this.handleClick(this.state.menuReivew[i].reviewId)} className='btn'>
-              수정
-            </Link>
+            <ModifyReview stateRefresh={this.stateRefresh} />
           </td>
           <td>
             <Link onClick={this.handleClick2(this.state.menuReivew[i].reviewId)} className='btn'>
@@ -108,6 +107,22 @@ class MyReview extends React.Component {
       );
     }
     return list;
+  }
+  // 리뷰목록만 새로고침
+  stateRefresh = () => {
+    this.setState({
+      menuReivew: []
+    });
+    this.callReviewList();
+    this.createListOfReview();
+  }
+  // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
+  callReviewList = async () => {
+    const userId = localStorage.getItem('userId');
+    const res = await axios.get(`http://localhost:9090/multicafe/api/user/review/my/${userId}`);
+    this.setState({
+      menuReivew: res.data
+    });
   }
   render() {
     const { isLoaded } = this.state;
