@@ -144,9 +144,7 @@ public class ReviewService {
 				idx[i]=0;
 			}
 		}
-
 		return idx;
-
 	}
 	
 	//리뷰 좋아요 상태 체크
