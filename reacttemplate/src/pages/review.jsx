@@ -180,6 +180,25 @@ class ReviewPage extends Component {
       });
     // window.location.replace('/review');
   }
+//   componentDidUpdate(prevProps) {
+//     아주 위험한 방법 무한루프 돌면 요금 과금 될수도 있다.
+//     const menuId = localStorage.getItem('menuId');
+//     const userId = localStorage.getItem('userId');
+//     let selectMenuCheckUrl = '';
+//     this.state.login
+//       ? (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`))
+//       : (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`));
+//       Promise.all([ selectMenuCheckUrl])
+//       .then(([res]) => {
+//         this.setState({
+//           selectMenuCheck: res.data,
+//         });
+//       })
+  
+  
+//  }
+
+
   handleClick = (value) => () => {
     localStorage.setItem('menuId', value);
     window.location.replace('/review');
@@ -219,13 +238,7 @@ class ReviewPage extends Component {
     }
     return list;
   }
-  createListOfFiles() {
-    let listOfFiles = [];
-    for (let i = 0; i < this.files.length; ++i) {
-      listOfFiles.push(<p key={i}>{this.files[i].name}</p>);
-    }
-    return listOfFiles;
-  }
+  
   createListOfReview() {
     let list = [];
     if (!this.state.login) {
@@ -256,14 +269,86 @@ class ReviewPage extends Component {
       );
     }
     return list;
+   
   }
+
+  showMenuInfo(){
+    let info=[];
+    const { selectMenuCheck} = this.state;
+    info.push( <div className='row wow fadeIn'>
+    {/*Grid column*/}
+    <span className='col-md-6 mb-4'>
+      <div>
+        <div style={{ fontSize: 30 }}>평점 &nbsp;{selectMenuCheck.grade}</div>
+
+        <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.grade} size={35} isHalf={true} />
+      </div>
+
+      <img src={selectMenuCheck.image} className='img-fluid' style={{ width: '80%', height: '80%' }} alt />
+    </span>
+    {/*Grid column*/}
+    {/*Grid column*/}
+    <div className='col-md-6 mb-4' st>
+      {/*Content*/}
+
+      <div className='p-4' style={{ fontSize: 20 }}>
+        <div className='lead font-weight-bold'>{selectMenuCheck.cafeName}</div>
+        <br />
+        <span className='lead font-weight-bold' style={{ fontSize: 25 }}>
+          {selectMenuCheck.name}{' '}
+        </span>
+
+        <a className='btn' onClick={() => this.onlikeChanged()}>
+          <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
+        </a>
+
+        <p className='lead font-weight-bold'>
+          <span>{selectMenuCheck.price}원 </span>
+        </p>
+        <p>{selectMenuCheck.description}</p>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div className='col-md-6 text-right'>
+          <div className='rating-wrap mb-3'>
+            단맛: &nbsp;
+            <ul className='rating-stars'>
+              <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sweet} size={25} isHalf={true} />
+            </ul>
+          </div>
+          <div className='rating-wrap mb-3'>
+            쓴맛: &nbsp;
+            <ul className='rating-stars'>
+              <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.bitter} size={25} isHalf={true} />
+            </ul>
+          </div>
+          <div className='rating-wrap mb-3'>
+            신맛: &nbsp;
+            <ul className='rating-stars'>
+              <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
+            </ul>
+          </div>
+        </div>
+        <form className='d-flex justify-content-left'>{/* Default input */}</form>
+      </div>
+      {/*Content*/}
+    </div>
+    {/*Grid column*/}
+  </div>)
+  return info;
+   
+  };
   // 리뷰목록만 새로고침
   stateRefresh = () => {
     this.setState({
       menuReivew: []
     });
+    this.calMenuInfo();
     this.callReviewList();
+    this.showMenuInfo();
     this.createListOfReview();
+    
   }
   // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
   callReviewList = async () => {
@@ -271,6 +356,18 @@ class ReviewPage extends Component {
     const res = await axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
     this.setState({
       menuReivew: res.data
+    });
+  }
+  calMenuInfo = async () => {
+   const menuId = localStorage.getItem('menuId');
+    const userId = localStorage.getItem('userId');
+    let selectMenuCheckUrl = '';
+    this.state.login
+      ? (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`))
+      : (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`));
+     const res= await selectMenuCheckUrl
+     this.setState({
+      selectMenuCheck: res.data
     });
   }
   writeban = (e) => {
@@ -320,67 +417,7 @@ class ReviewPage extends Component {
             <main className='mt-5 pt-4'>
               <div className='container dark-grey-text mt-5'>
                 {/*Grid row*/}
-                <div className='row wow fadeIn'>
-                  {/*Grid column*/}
-                  <span className='col-md-6 mb-4'>
-                    <div>
-                      <div style={{ fontSize: 30 }}>평점 &nbsp;{selectMenuCheck.grade}</div>
-
-                      <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.grade} size={35} isHalf={true} />
-                    </div>
-
-                    <img src={selectMenuCheck.image} className='img-fluid' style={{ width: '80%', height: '80%' }} alt />
-                  </span>
-                  {/*Grid column*/}
-                  {/*Grid column*/}
-                  <div className='col-md-6 mb-4' st>
-                    {/*Content*/}
-
-                    <div className='p-4' style={{ fontSize: 20 }}>
-                      <div className='lead font-weight-bold'>{selectMenuCheck.cafeName}</div>
-                      <br />
-                      <span className='lead font-weight-bold' style={{ fontSize: 25 }}>
-                        {selectMenuCheck.name}{' '}
-                      </span>
-
-                      <a className='btn' onClick={() => this.onlikeChanged()}>
-                        <i style={{ color: 'red' }} className={this.state.myLike ? 'fa fa-heart' : 'far fa-heart'}></i>
-                      </a>
-
-                      <p className='lead font-weight-bold'>
-                        <span>{selectMenuCheck.price}원 </span>
-                      </p>
-                      <p>{selectMenuCheck.description}</p>
-                      <br />
-                      <br />
-                      <br />
-                      <br />
-                      <div className='col-md-6 text-right'>
-                        <div className='rating-wrap mb-3'>
-                          단맛: &nbsp;
-                          <ul className='rating-stars'>
-                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sweet} size={25} isHalf={true} />
-                          </ul>
-                        </div>
-                        <div className='rating-wrap mb-3'>
-                          쓴맛: &nbsp;
-                          <ul className='rating-stars'>
-                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.bitter} size={25} isHalf={true} />
-                          </ul>
-                        </div>
-                        <div className='rating-wrap mb-3'>
-                          신맛: &nbsp;
-                          <ul className='rating-stars'>
-                            <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
-                          </ul>
-                        </div>
-                      </div>
-                      <form className='d-flex justify-content-left'>{/* Default input */}</form>
-                    </div>
-                    {/*Content*/}
-                  </div>
-                  {/*Grid column*/}
-                </div>
+                {this.showMenuInfo()}
                 {/*Grid row*/}
                 <hr />
                 {/*Grid row*/}
