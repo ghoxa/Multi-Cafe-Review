@@ -370,26 +370,26 @@ class ReviewPage extends Component {
       selectMenuCheck: res.data
     });
   }
-  writeban = (e) => {
-    const menuId = localStorage.getItem('menuId');
-    const userId = localStorage.getItem('userId');
-    if (this.state.login) {
-      const writebanUrl = axios.get(`http://localhost:9090/multicafe/api/user/menu/${menuId}/review/${userId}`);
-      Promise.all([writebanUrl])
-        .then(([res]) => {
-          console.log(res.data);
-          if (res.data) {
-            window.location.replace('/writereview');
-          }
-        })
-        .catch((err) => {
-          alert('이미 등록한 리뷰입니다.');
-          console.log(err);
-        });
-    } else {
-      alert('로그인 후 이용해 주세요');
-    }
-  };
+  // writeban = (e) => {
+  //   const menuId = localStorage.getItem('menuId');
+  //   const userId = localStorage.getItem('userId');
+  //   if (this.state.login) {
+  //     const writebanUrl = axios.get(`http://localhost:9090/multicafe/api/user/menu/${menuId}/review/${userId}`);
+  //     Promise.all([writebanUrl])
+  //       .then(([res]) => {
+  //         console.log(res.data);
+  //         if (res.data) {
+  //           window.location.replace('/writereview');
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         alert('이미 등록한 리뷰입니다.');
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     alert('로그인 후 이용해 주세요');
+  //   }
+  // };
 
   render() {
     const { selectMenuCheck, isLoaded } = this.state;
