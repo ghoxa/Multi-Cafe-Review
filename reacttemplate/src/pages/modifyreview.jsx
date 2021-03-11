@@ -50,10 +50,11 @@ class ModifyReview extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit(e) {
+    localStorage.setItem('reviewId', e);
     const { sweet, sour, bitter, grade, comment } = this.state;
     const menuId = parseInt(localStorage.getItem('menuId'));
-    const reviewId = parseInt(localStorage.getItem('reviewId'));
+    const reviewId = localStorage.getItem('reviewId');
     console.log(menuId);
     if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '') {
       alert('모든 입력을 완료해 주세요');
@@ -94,7 +95,7 @@ class ModifyReview extends Component {
       });
   };
 
-  handleClickOpen = () => {
+  handleClickOpen = (e) => {
     this.setState({
       open: true
     });
@@ -130,7 +131,7 @@ class ModifyReview extends Component {
           </DialogContent>
 
           <DialogActions>
-            <Button variant="contained" color="primary" onClick={this.handleSubmit}>추가</Button>
+            <Button variant="contained" color="primary" onClick={(e) => this.handleSubmit(this.props.reviewId)}>수정</Button>
             <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
           </DialogActions>
         </Dialog>

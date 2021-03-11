@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReactStars from 'react-rating-stars-component';
 import { Table } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
+import DeleteReview from './deletereview';
 import ModifyReview from './modifyreview';
 class MyReview extends React.Component {
   constructor(props) {
@@ -14,57 +15,18 @@ class MyReview extends React.Component {
       isLoaded: false,
     };
   }
-  reviewlikeChanged = (e) => {
-    const menuId = localStorage.getItem('menuId');
-    const userId = localStorage.getItem('userId');
-    const changeReviewLikeUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/menu/${menuId}/like`);
-    const ReviewlikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-    
-    Promise.all([changeReviewLikeUrl, ReviewlikeCheckUrl])
-      .then(([res1, res2]) => {
-        console.log(res1.data);
-        console.log(res2.data);
-        this.setState({
-          reviewLike: res2.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   handleClick = (value) => () => {
     // console.log(value);
     localStorage.setItem('reviewId', value);
   };
-
-  handleClick2 = (value) => () => {
-    // console.log(value);
-    localStorage.setItem('reviewId', value);
-    const reviewId = localStorage.getItem('reviewId');
-    const reviewDeleteUrl = axios.delete(`http://localhost:9090/multicafe/api/user/review/${reviewId}`);
-    Promise.all([reviewDeleteUrl])
-      .then(([res]) => {
-        this.setState({
-          isLoaded: true,
-        });
-        alert('삭제완료');
-        window.location.replace('/myreview');
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  };
   componentDidMount() {
-    const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
     console.log(typeof userId);
     const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/user/review/my/${userId}`);
-    const ReviewLikeCheckUrl = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/${menuId}/likecheck`);
-    Promise.all([menuReivewUrl, ReviewLikeCheckUrl])
-      .then(([res1, res2]) => {
+    Promise.all([menuReivewUrl])
+      .then(([res1]) => {
         this.setState({
           menuReivew: res1.data,
-          reviewLike: res2.data,
           isLoaded: true,
         });
         console.log(this.state.menuReivew);
@@ -96,12 +58,10 @@ class MyReview extends React.Component {
           </td>
           <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
           <td>
-            <ModifyReview stateRefresh={this.stateRefresh} />
+            <ModifyReview stateRefresh={this.stateRefresh} reviewId={this.state.menuReivew[i].reviewId} />
           </td>
           <td>
-            <Link onClick={this.handleClick2(this.state.menuReivew[i].reviewId)} className='btn'>
-              삭제
-            </Link>
+            <DeleteReview stateRefresh={this.stateRefresh} reviewId={this.state.menuReivew[i].reviewId} />
           </td>
         </tr>
       );
@@ -111,10 +71,16 @@ class MyReview extends React.Component {
   // 리뷰목록만 새로고침
   stateRefresh = () => {
     this.setState({
-      menuReivew: []
+      menuReivew: [],
+      isLoaded: false
     });
+    console.log("stateRefresh함수 실행");
     this.callReviewList();
     this.createListOfReview();
+
+    this.setState({
+      isLoaded: true
+    });
   }
   // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
   callReviewList = async () => {
@@ -123,7 +89,9 @@ class MyReview extends React.Component {
     this.setState({
       menuReivew: res.data
     });
+    console.log("callReviewList함수 실행");
   }
+
   render() {
     const { isLoaded } = this.state;
     if (!isLoaded) {
