@@ -273,6 +273,7 @@ class ReviewPage extends Component {
   }
 
   showMenuInfo(){
+  
     let info=[];
     const { selectMenuCheck} = this.state;
     info.push( <div className='row wow fadeIn'>
@@ -280,7 +281,7 @@ class ReviewPage extends Component {
     <span className='col-md-6 mb-4'>
       <div>
         <div style={{ fontSize: 30 }}>평점 &nbsp;{selectMenuCheck.grade}</div>
-
+    
         <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.grade} size={35} isHalf={true} />
       </div>
 
@@ -342,12 +343,14 @@ class ReviewPage extends Component {
   // 리뷰목록만 새로고침
   stateRefresh = () => {
     this.setState({
-      menuReivew: []
+      menuReivew: [],
+      selectMenuCheck:[]
     });
-    this.calMenuInfo();
+    // this.calMenuInfo();
     this.callReviewList();
-    this.showMenuInfo();
+      // this.showMenuInfo(); //나중에 해결  
     this.createListOfReview();
+    window.location.replace('/review');
     
   }
   // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
@@ -355,7 +358,9 @@ class ReviewPage extends Component {
     const menuId = localStorage.getItem('menuId');
     const res = await axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
     this.setState({
-      menuReivew: res.data
+      menuReivew: res.data,
+      isLoaded: true,
+
     });
   }
   calMenuInfo = async () => {
@@ -367,8 +372,10 @@ class ReviewPage extends Component {
       : (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`));
      const res= await selectMenuCheckUrl
      this.setState({
-      selectMenuCheck: res.data
+      selectMenuCheck: res.data,
+         isLoaded: true,
     });
+
   }
   // writeban = (e) => {
   //   const menuId = localStorage.getItem('menuId');
@@ -430,6 +437,7 @@ class ReviewPage extends Component {
                     </button>
                   </Link>
 
+                
                   {/* 리뷰 추가하기 */}
                   <WriteReview stateRefresh={this.stateRefresh}/>
 
