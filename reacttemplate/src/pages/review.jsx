@@ -281,7 +281,7 @@ class ReviewPage extends Component {
     <span className='col-md-6 mb-4'>
       <div>
         <div style={{ fontSize: 30 }}>평점 &nbsp;{selectMenuCheck.grade}</div>
-    
+        {console.log("별점" + selectMenuCheck.grade)}
         <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.grade} size={35} isHalf={true} />
       </div>
 
