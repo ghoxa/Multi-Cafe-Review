@@ -18,87 +18,29 @@ import {
   Row,
 } from "reactstrap";
 
-class Admin_Insert extends React.Component {
+class Admin_Cafe extends React.Component {
   //   post메소드에 들어가야 하는 값(insert) :
   // name, price, description, keyword, image, hot, ice, categoryId, cafeId
   constructor(props) {
     super(props);
     this.state = {
-      categoryList: "",
-      cafeList: "",
-
-      menuName: "",
-      price: 0,
-      description: "",
-      keyword: "",
-      image: "",
-      hot: 0,
-      ice: 0,
-      categoryId: 0,
-      cafeId: 0,
+      
     };
 }
-handleMenuName = (e) => {this.setState({menuName: e.target.value,});};
-handlePrice = (e) => {this.setState({price: Number(e.target.value),});};
-handleDescription = (e) => {this.setState({description: e.target.value,});};
-handleKeyword = (e) => {this.setState({keyword: e.target.value,});};
-handleImage = (e) => {this.setState({image: e.target.value,});};
-handleCategoryId = (e) => {this.setState({categoryId: Number(e.target.value),});};
-handleCafeId = (e) => {this.setState({cafeId: Number(e.target.value),});};
-handleHot = () => {this.setState({hot: (this.state.hot^1)});};
-handleIce = () => {this.setState({ice: (this.state.ice^1)});};
+
 
   componentDidMount() {
-    const categoryListApi = axios.get(
-      `http://localhost:9090/multicafe/api/category`
-    );
-    const cafeListApi = axios.get("http://localhost:9090/multicafe/api/cafe");
-    Promise.all([categoryListApi, cafeListApi])
-      .then(([res, res2]) => {
+   
+    Promise.all([])
+      .then(([res]) => {
         this.setState({
-          categoryList: res.data,
-          cafeList: res2.data,
-
-          categoryId: Number(res.data[0]["categoryId"]),
-          cafeId: Number(res2.data[0]["cafeId"]),
+          
         });
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-
-  // 메뉴 추가시 카테고리 선택 옵션
-  setCategoryList() {
-    let categoryList = [];
-    let category = this.state.categoryList;
-
-    for (let i = 0; i < category.length; i++) {
-      try {
-        categoryList.push(<option value={Number(category[i]["categoryId"])}>{category[i]["name"]}</option>);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    return categoryList;
-  }
-
-  // 메뉴 추가시 카페 선택 옵션
-  setCafeList() {
-    let cafeList = [];
-    let cafe = this.state.cafeList;
-
-    for (let i = 0; i < cafe.length; i++) {
-      try {
-        cafeList.push(<option value={Number(cafe[i]["cafeId"])}>{cafe[i]["name"]}</option>);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    return cafeList;
-  }
-
-
+  }  
 
   handleSubmit = (e) => {
     const menuInputApi = `http://localhost:9090/multicafe/api/admin/menu`;
@@ -133,15 +75,14 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
     }
 
     console.log(inputData);
-    Promise.all([axios.post(menuInputApi, inputData)])
-      .then(([res]) => {
-        alert("메뉴추가완료");
-        //console.log("post 성공");
-      })
-      .catch((err) => {
-        alert("메뉴추가실패");
-        console.log(err);
-      });
+    // Promise.all([axios.post(menuInputApi, inputData)])
+    //   .then(([res]) => {
+    //     alert("입력완료");
+    //     //console.log("post 성공");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
     
     //window.location.replace('/review');
@@ -235,10 +176,10 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
                         />
                       </FormGroup>
                       <FormGroup>
-                        <button type="button" onClick={this.handleHot} className={(this.state.hot) == 1? "btn btn-danger btn-lg" : "btn btn-outline-danger btn-lg"} >
+                        <button type="button" onClick={this.handleHot} className={this.state.hot? "btn btn-danger btn-lg" : "btn btn-outline-danger btn-lg"} >
                           HOT
                         </button>
-                        <button type="button" onClick={this.handleIce} className={(this.state.ice) == 1?"btn btn-primary btn-lg":"btn btn-outline-primary btn-lg"}>
+                        <button type="button" onClick={this.handleIce} className={this.state.ice?"btn btn-primary btn-lg":"btn btn-outline-primary btn-lg"}>
                           ICE
                         </button>
                       </FormGroup>
@@ -278,4 +219,4 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
   }
 }
 
-export default Admin_Insert;
+export default Admin_Cafe;

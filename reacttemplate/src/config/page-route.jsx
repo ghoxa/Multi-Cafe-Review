@@ -16,6 +16,7 @@ import SignIn from '../pages/signin.jsx';
 import SignOut from '../pages/signout.jsx';
 import Register from '../pages/register.jsx';
 import ModifyReview from '../pages/modifyreview.jsx';
+import Admin_Cafe from '../pages/admin_cafe.jsx';
 
 const routes = [
   {
@@ -51,6 +52,10 @@ const routes = [
   {
     path: '/admin_insert',
     component: () => <Admin_Insert />,
+  },
+  {
+    path: '/admin_cafe',
+    component: () => <Admin_Cafe />,
   },
   {
     path: '/admin_update',

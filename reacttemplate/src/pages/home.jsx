@@ -314,7 +314,7 @@ class Home extends React.Component {
                       </div>
                     </div>
                   </article>
-                  {/* <article className='filter-group'>
+                  <article className='filter-group'>
                     <header className='card-header'>
                       <Link to='/adminpage' data-toggle='collapse' data-target='#collapse_3' aria-expanded='false' className=''>
                         <i className='icon-control fa fa-chevron-down'></i>
@@ -333,7 +333,7 @@ class Home extends React.Component {
                         </ul>
                       </div>
                     </div>
-                  </article> */}
+                  </article>
                 </div>
               </aside>
 
