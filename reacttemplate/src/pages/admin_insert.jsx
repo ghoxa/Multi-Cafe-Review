@@ -101,20 +101,6 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
 
 
   handleSubmit = (e) => {
-    const menuInputApi = `http://localhost:9090/multicafe/api/admin/menu`;
-
-    const {menuName, price, description, keyword, image, hot, ice, categoryId, cafeId} = this.state;
-    const inputData = {
-      menuName: menuName,
-      price: price,
-      description: description,
-      keyword: keyword,
-      image: image,
-      hot: hot,
-      ice: ice,
-      categoryId: categoryId,
-      cafeId: cafeId,
-    };
 
     if (
       menuName === '' ||
@@ -131,10 +117,36 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
       return;
     }
 
+    const menuInputApi = `http://localhost:9090/multicafe/api/admin/menu`;
+    const {menuName, price, description, keyword, image, hot, ice, categoryId, cafeId} = this.state;
+    const inputData = {
+      menuName: menuName,
+      price: price,
+      description: description,
+      keyword: keyword,
+      image: image,
+      hot: hot,
+      ice: ice,
+      categoryId: categoryId,
+      cafeId: cafeId,
+    };
+    e.preventDefault();
+
+    
+
     console.log(inputData);
-    Promise.all([axios.post(menuInputApi, inputData)]).then((res) => {
-      alert("메뉴추가완료");
-    });
+    Promise.all([axios.post(menuInputApi, inputData)])
+      .then(([res]) => {
+        alert("메뉴추가완료");
+        //console.log("post 성공");
+      })
+      .catch((err) => {
+        alert("메뉴추가실패");
+        console.log(err);
+      });
+
+    
+    //window.location.replace('/review');
   };
   render() {
     return (

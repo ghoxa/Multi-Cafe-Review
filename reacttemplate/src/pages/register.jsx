@@ -19,6 +19,7 @@ class Register extends React.Component {
       sweet: '',
       sour: '',
       bitter: '',
+      acidity: '',
     };
   }
 
@@ -71,9 +72,15 @@ class Register extends React.Component {
     });
   };
 
+  handleInputAcidity = (rating) => {
+    this.setState({
+      acidity: rating,
+    });
+  };
+
   // Signup 버튼 클릭시 서버로 데이터 전송
   handleSubmit = (e) => {
-    const { id, pw, email, phone, address, sweet, sour, bitter } = this.state;
+    const { id, pw, email, phone, address, sweet, sour, bitter, acidity } = this.state;
     e.preventDefault();
 
     if (id === '' || pw === '' || email === '' || phone === '' || address === '' || sweet === '' || sour === '' || bitter === '') {
@@ -91,6 +98,7 @@ class Register extends React.Component {
       sweet: sweet,
       sour: sour,
       bitter: bitter,
+      acidity: acidity,
     };
 
     Promise.all([axios.post('http://localhost:9090/multicafe/api/register', signup_info)]).then((res) => {
@@ -169,6 +177,7 @@ class Register extends React.Component {
           <RatingSweet onChange={this.handleInputSweet} />
           <RatingSour onChange={this.handleInputSour} />
           <RatingBitter onChange={this.handleInputBitter} />
+          <RatingAcidity onChange={this.handleInputAcidity} />
           <br></br>
 
           <hr />
@@ -214,4 +223,14 @@ const RatingBitter = ({ onChange }) => {
   );
 };
 
+const RatingAcidity = ({ onChange }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>산미 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
 export default Register;

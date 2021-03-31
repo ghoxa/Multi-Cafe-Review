@@ -56,6 +56,10 @@ class MyReview extends React.Component {
           <td>
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
           </td>
+          <td>
+            {/* value={this.state.menuReivew[i].acidity} */}
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
+          </td>
           <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
           <td>
             <ModifyReview stateRefresh={this.stateRefresh} reviewId={this.state.menuReivew[i].reviewId} />
@@ -155,6 +159,7 @@ class MyReview extends React.Component {
                     <th>단맛</th>
                     <th>쓴맛</th>
                     <th>신맛</th>
+                    <th>산미</th>
                     <th>평점</th>
                     <th style={{ textAlign: 'center' }}>수정</th>
                     <th style={{ textAlign: 'center' }}>삭제</th>
