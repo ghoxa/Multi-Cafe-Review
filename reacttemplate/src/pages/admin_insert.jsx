@@ -115,7 +115,6 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
       categoryId: categoryId,
       cafeId: cafeId,
     };
-    e.preventDefault();
 
     if (
       menuName === '' ||
@@ -133,18 +132,9 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
     }
 
     console.log(inputData);
-    Promise.all([axios.post(menuInputApi, inputData)])
-      .then(([res]) => {
-        alert("메뉴추가완료");
-        //console.log("post 성공");
-      })
-      .catch((err) => {
-        alert("메뉴추가실패");
-        console.log(err);
-      });
-
-    
-    //window.location.replace('/review');
+    Promise.all([axios.post(menuInputApi, inputData)]).then((res) => {
+      alert("메뉴추가완료");
+    });
   };
   render() {
     return (

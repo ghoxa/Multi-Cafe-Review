@@ -123,6 +123,10 @@ class Home extends React.Component {
     const keyword = localStorage.getItem('keyword');
     const conditionId = localStorage.getItem('conditionId');    
     
+    this.setState({
+      isLoaded: false,
+    });
+
     let menuApi = '';
     if (cafeId == 0) {
       //모든 카페
@@ -154,7 +158,8 @@ class Home extends React.Component {
     //console.log(menuApi)
     const res = await axios.get(menuApi);
     this.setState({
-      Menu: res.data
+      Menu: res.data,
+      isLoaded: true,
     });
     //console.log(this.state.Menu)
   }
