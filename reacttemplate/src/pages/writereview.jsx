@@ -58,12 +58,63 @@ class WriteReview extends Component {
     });
   };
 
+  // 리뷰 입력길이 제한
+  getTextLength = (str) => {
+    let len = 0;
+    for (let i=0; i<str.length; i++) {
+      if (escape(str.charAt(i)).length == 6) {
+        len++;
+      }
+      len++;
+    }
+    return len;
+  }
+
+  // 리뷰 입력시 중복된 문자 제한
+  // ㅋㅋㅋㅋㅋ, ㅎㅎㅎㅎ, !!!, ... 는 막을수 있음
+  // ㅋㅋㅎㅎㅁㅁㅂㅂ 이런식으로 의미없는 문자 두개씩 번갈아 잡는 경우는 못걸러냄
+  checkInput = (str) => {
+    let cnt = 0;
+    let check_char = '';
+    let dupYn = false;
+    for (let i=0; i<str.length; i++) {
+      if (check_char !== str[i]) {
+        if (cnt >= 3) {
+          dupYn = true;
+          break;
+        }
+
+        check_char = str[i];
+        cnt = 1;
+      } else {
+        cnt++;
+      }
+    }
+
+    if (str[0] === str[str.length-1] && str[str.length-1] === str[str.length-2]) {
+      dupYn = true;
+    }
+    // 연속으로 중복된 값 3개 이상 존재할 경우 true 반환
+    return dupYn;
+  }
+
   handleSubmit = () => {
     const { sweet, sour, bitter, grade, comment, acidity } = this.state;
     const menuId = parseInt(localStorage.getItem('menuId'));
     console.log(menuId);
     if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '' || acidity === '') {
       alert('모든 입력을 완료해 주세요');
+      return;
+    }
+
+    if (this.getTextLength(comment) < 20) {
+      alert('리뷰를 10자 이상 입력해 주세요');
+      return;
+    }
+    
+    // 세글자 이상 중복해서 작성할 경우
+    if (this.checkInput(comment)) {
+      alert('중복문자 방지');
       return;
     }
 
