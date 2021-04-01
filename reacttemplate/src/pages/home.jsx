@@ -387,6 +387,33 @@ class Home extends React.Component {
                         className=""
                       >
                         <i className="icon-control fa fa-chevron-down"></i>
+                        <h6 className="title">지도</h6>
+                      </a>
+                    </header>
+                    <div
+                      className="filter-content collapse show"
+                      id="collapse_2"
+                    >
+                      <div className="card-body">
+                        <ul className="list-menu">
+                          <li>
+                            <Link to="/map">내 주변 매장 찾기</Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article className="filter-group">
+                    <header className="card-header">
+                      <a
+                        href="#"
+                        data-toggle="collapse"
+                        data-target="#collapse_2"
+                        aria-expanded="false"
+                        className=""
+                      >
+                        <i className="icon-control fa fa-chevron-down"></i>
                         <h6 className="title">마이페이지</h6>
                       </a>
                     </header>
