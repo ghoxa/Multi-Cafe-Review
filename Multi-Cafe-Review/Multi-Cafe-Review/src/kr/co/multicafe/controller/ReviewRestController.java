@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,18 @@ public class ReviewRestController {
 	@GetMapping("/good/{menuId}")
 	public List<Review> goodListReview(@PathVariable(name="menuId")int menuId){
 		return reviewService.goodListReview(menuId);
+	}
+	
+	//리뷰 신고 건수 증가
+	@PutMapping("/{reviewId}/{userId}/reports")
+	public int updateReviewReport(@PathVariable String userId, @PathVariable int reviewId) {
+		return reviewService.updateReport(userId, reviewId);
+	}
+	
+	//신고 테이블에 (reviewId, userId)가 있는지 확인 => 이미 신고한 리뷰인지 판단에 사용
+	@GetMapping("/{reviewId}/{userId}/reports")
+	public int getReportCnt(@PathVariable(name="userId")String userId, @PathVariable(name="reviewId")int reviewId) {
+		return reviewService.getReportCnt(userId, reviewId);
 	}
 
 }

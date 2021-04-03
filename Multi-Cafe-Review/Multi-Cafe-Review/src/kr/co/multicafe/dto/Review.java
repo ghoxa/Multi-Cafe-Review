@@ -14,6 +14,7 @@ public class Review {
 	private double sour;
 	private String cafeName;
 	private String menuName;
+	private int report;
 	
 	public String getCafeName() {
 		return cafeName;
@@ -89,6 +90,15 @@ public class Review {
 	public void setSour(double sour) {
 		this.sour = sour;
 	}
+	
+	
+	public int getReport() {
+		return report;
+	}
+	public void setReport(int report) {
+		this.report = report;
+	}
+	
 	@Override
 	public String toString() {
 		return "Review [reviewId=" + reviewId + ", reviewDate=" + reviewDate + ", content=" + content + ", good=" + good

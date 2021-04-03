@@ -11,6 +11,7 @@ import kr.co.multicafe.dto.Cafe;
 
 
 @Service
+@Transactional
 public class CafeService {
 	@Autowired
 	private CafeMapper cafeMapper;

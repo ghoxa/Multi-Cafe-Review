@@ -46,4 +46,11 @@ public class UsersService {
 		return adminMapper.getAdmin();
 	}
 	
+	//20번 이상 신고당한 사용자인지 확인
+	public boolean checkReportCnt(String userId) {
+		Users user = usersMapper.getUser(userId);
+		if(user.getReport()>=20) return false;
+		else return true;
+	}
+	
 }

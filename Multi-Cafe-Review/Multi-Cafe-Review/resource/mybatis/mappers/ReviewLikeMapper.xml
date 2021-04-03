@@ -19,10 +19,14 @@
 		insert into review_like(review_like_id, review_id, user_id) values(review_like_seq.nextval,#{reviewId}, #{userId})
 	</insert>
 	
-	<!-- Delete -->	
+	<!-- Delete By reviewLikeId-->	
 	<delete id="deleteReviewLike" parameterType="java.lang.Integer" >
 		delete from review_like where review_like_id = #{reviewLikeId}
 	</delete>
-
+	
+	<!-- Delete By reviewId -->
+	<delete id="deleteReviewLikeByReviewId" parameterType="java.lang.Integer">
+		delete from review_like where review_id=#{reviewId}
+	</delete>
 
 </mapper>

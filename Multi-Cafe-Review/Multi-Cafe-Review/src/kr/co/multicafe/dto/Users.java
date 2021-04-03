@@ -12,6 +12,7 @@ public class Users {
 	private double bitter;
 	private double sour;
 	private boolean adminCheck;
+	private int report;
 	
 	public Users(String userId, String pwd) {
 		super();
@@ -103,6 +104,14 @@ public class Users {
 
 	public void setAdminCheck(boolean adminCheck) {
 		this.adminCheck = adminCheck;
+	}
+	
+	public int getReport() {
+		return report;
+	}
+	
+	public void setReport(int report) {
+		this.report = report;
 	}
 
 }

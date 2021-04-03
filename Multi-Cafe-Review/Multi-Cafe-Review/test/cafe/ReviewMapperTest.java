@@ -23,9 +23,9 @@ public class ReviewMapperTest {
 	@Test
 	public void insertRecent() throws Exception{
 		Review review = new Review();
-		review.setMenuId(50000128);
+		review.setMenuId(50000497);
 		review.setUserId("sunga");
-		review.setContent("리뷰내용");
+		review.setContent("콜드브루 굿굿");
 		System.out.println(review);
 		int resultCount = reviewMapper.insertReview(review); 
 		Assert.assertEquals(1, resultCount);

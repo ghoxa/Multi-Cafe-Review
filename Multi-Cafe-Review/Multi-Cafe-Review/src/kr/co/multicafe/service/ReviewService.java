@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.multicafe.dao.MenuMapper;
+import kr.co.multicafe.dao.ReportMapper;
 import kr.co.multicafe.dao.ReviewLikeMapper;
 import kr.co.multicafe.dao.ReviewMapper;
+import kr.co.multicafe.dao.UsersMapper;
+import kr.co.multicafe.dto.Report;
 import kr.co.multicafe.dto.Review;
 import kr.co.multicafe.dto.ReviewLike;
 
@@ -28,6 +31,11 @@ public class ReviewService {
 	@Autowired
 	private MenuMapper menuMapper;
 	
+	@Autowired
+	private ReportMapper reportMapper;
+	
+	@Autowired
+	private UsersMapper usersMapper;
 	
 	//리뷰 추가
 	@Transactional
@@ -59,6 +67,7 @@ public class ReviewService {
 	}
 	
 	
+	
 	//리뷰 업데이트
 	@Transactional
 	public int updateReview(Review review) throws RuntimeException{
@@ -77,10 +86,12 @@ public class ReviewService {
 	}
 	
 	
-	//리뷰 삭제
+	//리뷰 삭제 (리뷰를 참조하는 report, reviewLike 테이블 데이터도 같이 삭제)
 	public int deleteReview(int reviewId) throws RuntimeException{
 		int result = 0;
 		try {
+			reportMapper.deleteReportByReviewId(reviewId);
+			reviewLikeMapper.deleteReviewLikeByReviewId(reviewId);
 			result = reviewMapper.deleteReview(reviewId);
 	
 		}catch(Exception e) {
@@ -90,6 +101,7 @@ public class ReviewService {
 		
 		return result;
 	}
+	
 	
 	//메뉴에 대한 리뷰 목록 
 	public List<Review> listViewReview(int menuId){
@@ -161,7 +173,7 @@ public class ReviewService {
 	
 	//내 리뷰인지 체크
 	public boolean isMyReview(int reviewId, String userId) {
-		Review review = reviewMapper.getReview2(reviewId);
+		Review review = reviewMapper.getReviewById(reviewId);
 		System.out.println(review);
 		if(userId.equals(review.getUserId())) { //좋아요 할 수 없는 상태 (내가 쓴 리뷰임)
 			System.out.println("userId: "+userId+" getUser(): "+review.getUserId());
@@ -171,6 +183,40 @@ public class ReviewService {
 			return false;
 		}
 	}
+	
+	//신고 횟수 업데이트시 처리할 일
+	@Transactional
+	public int updateReport(String userId, int reviewId) {
+		int result=0;
+		Review reportReview = reviewMapper.getReviewById(reviewId);
+		try {
+			Report report = new Report();
+			reviewMapper.updateReport(reviewId); //신고 횟수 증가
+			usersMapper.updateReport(reportReview.getUserId()); //신고되는 리뷰의 사용자ID 신고횟수 증가
+			report.setReviewId(reviewId);
+			report.setUserId(userId);
+			result=reportMapper.insertReport(report); //report 테이블에 추가
+	
+		}catch(Exception e) {
+			e.printStackTrace();
+			result = 0;
+		}
+		return result;
+	}
+	
+	//Report 테이블에 (userId, reviewId)에 해당하는 데이터가 있는지 확인
+	public int getReportCnt(String userId, int reviewId) {
+		if(reportMapper.getReportCnt(userId, reviewId)==1) { //데이터가 있음
+			return 1;
+		}
+		else
+			return 0;
+	}
+
+	public List<Review> getReportedReview() {
+		return reviewMapper.listReportedReview();
+	}
+	
 
 
 }

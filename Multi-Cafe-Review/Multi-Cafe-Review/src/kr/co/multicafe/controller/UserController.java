@@ -143,5 +143,10 @@ public class UserController {
 		return usersService.getUser(userId);
 	}
 	
+	//신고횟수로 리뷰를 작성할 수 있는 사용자인지 판단
+	@GetMapping("/{userId}/reports")
+	public boolean checkReportCnt(@PathVariable String userId) {
+		return usersService.checkReportCnt(userId);
+	}
 
 }
