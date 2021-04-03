@@ -1,7 +1,9 @@
 package kr.co.multicafe.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,12 @@ import kr.co.multicafe.dao.LikesMapper;
 import kr.co.multicafe.dao.MenuMapper;
 import kr.co.multicafe.dao.RecentMapper;
 import kr.co.multicafe.dao.ReviewMapper;
+import kr.co.multicafe.dao.UsersMapper;
 import kr.co.multicafe.dto.Likes;
 import kr.co.multicafe.dto.Menu;
 import kr.co.multicafe.dto.Recent;
 import kr.co.multicafe.dto.Taste;
+import kr.co.multicafe.dto.Users;
 
 @Service
 @Transactional
@@ -31,6 +35,10 @@ public class MenuService {
 
 	@Autowired
 	private ReviewMapper reviewMapper;
+	
+
+	@Autowired
+	private UsersMapper usersMapper;
 	
 	public int insertMenu(Menu menu) {
 		return menuMapper.insertMenu(menu);
@@ -154,23 +162,35 @@ public class MenuService {
 	
 	@Transactional
 	public List<Menu> listViewRecommendMenuByTaste(int menuId) {
-		Taste taste = menuMapper.getMenuTaste(menuId);
-		System.out.println(taste);
-		List<String> maxCol = new ArrayList<String>();
-		if (taste != null) {
-			double max = Math.max(Math.max(taste.getSweet(), taste.getBitter()), taste.getSour());
-			if (taste.getSweet() == max) 
-				maxCol.add("sweet");
-			if (taste.getBitter() == max) 
-				maxCol.add("bitter");
-			if (taste.getSour() == max) 
-				maxCol.add("sour");
-			System.out.println(maxCol);
-			System.out.println(max);
-			return menuMapper.listViewRecommendMenuByTaste(menuId, maxCol, max);
-		} else {
-			return null;
-		}
+		Taste taste = menuMapper.getMenuTaste(menuId); 
+	       System.out.println(taste); 
+	      Map<String, Double> map = new HashMap<String, Double>();
+	       if (taste != null) { 
+	         map.put("sweet", taste.getSweet());
+	         map.put("bitter", taste.getBitter());
+	         map.put("sour", taste.getSour());
+	          return menuMapper.listViewRecommendMenuByTaste(menuId, map); 
+	       } else { 
+	          return null; 
+	       } 
+
+	}
+	
+	@Transactional
+	public List<Menu> listViewRecommendMenuByUser(String userId) {
+		Taste taste = usersMapper.getTaste(userId); 
+	       System.out.println(taste); 
+	      Map<String, Double> map = new HashMap<String, Double>();
+	       if (taste != null) { 
+	         map.put("sweet", taste.getSweet());
+	         map.put("bitter", taste.getBitter());
+	         map.put("sour", taste.getSour());
+	         map.put("coffee_sour", taste.getCoffee_sour());
+	          return menuMapper.listViewRecommendMenuByUser(userId, map); 
+	       } else { 
+	          return null; 
+	       } 
+
 	}
 
 	public List<Menu> listViewLike(String userId) {
