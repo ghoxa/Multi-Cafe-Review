@@ -14,4 +14,5 @@ public interface UsersMapper {
 	public Users getUser(String userId);
 	public Taste getTaste(String userId); 
 	public Users login(@Param("userId") String userId, @Param("pwd") String pwd);
+	public int updateReport(String userId);
 }

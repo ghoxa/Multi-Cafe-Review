@@ -1,8 +1,11 @@
 package kr.co.multicafe.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.multicafe.dto.Cafe;
 import kr.co.multicafe.dto.Menu;
+import kr.co.multicafe.dto.Review;
 import kr.co.multicafe.service.CafeService;
 import kr.co.multicafe.service.MenuService;
+import kr.co.multicafe.service.ReviewService;
 @CrossOrigin("*")
 @RestController
 @RequestMapping(path="/api/admin")
@@ -23,6 +28,9 @@ public class AdminController {
 	
 	@Autowired
 	private MenuService menuService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	//카페 추가
 	@PostMapping("/cafe")
@@ -53,6 +61,17 @@ public class AdminController {
 	@DeleteMapping("/menu/{menuId}")
 	public void deleteMenu(@PathVariable(name="menuId")int menuId) {
 		menuService.deleteMenu(menuId);
+	}
+	
+	//신고된 리뷰 조회
+	@GetMapping("/review/reports")
+	public List<Review> getReportedReview() {
+		return reviewService.getReportedReview();
+	}
+	
+	@DeleteMapping("/review/{reviewId}")
+	public int deleteReview(@PathVariable(name="reviewId")int reviewId) {
+		return reviewService.deleteReview(reviewId);
 	}
 
 }

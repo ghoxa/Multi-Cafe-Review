@@ -72,16 +72,28 @@
 
 	<!-- Get -->
 	<select id="getReview" resultMap="review_resultMap">
-		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, r.report, m.name as menu_name, c.name as cafe_name  
 		from review r, menu m, cafe c
 		where r.menu_id=#{menuId} and r.user_id=#{userId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 	</select>
 	
-	<select id="getReview2" resultMap="review_resultMap">
+	<select id="getReviewById" resultMap="review_resultMap">
 		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
 		from review r, menu m, cafe c
 		where r.review_id=#{reviewId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 	</select>
 	
+	<!-- Update Report -->
+	<update id="updateReport" parameterType="java.lang.Integer">
+		update review
+		set report = report+1
+		where review_id=#{reviewId}
+	</update>
+	
+	<select id="listReportedReview" resultMap="review_resultMap">
+		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour, report
+		from review
+		where report>=1
+	</select>
 	
 </mapper>

@@ -10,4 +10,5 @@ public interface ReviewLikeMapper {
 	public ReviewLike getReviewLike(@Param("reviewId")int reviewId, @Param("userId")String userId);
 	public int insertReviewLike(ReviewLike reviewLike);
 	public int deleteReviewLike(int reviewLikeId);
+	public int deleteReviewLikeByReviewId(int reviewId);
 }

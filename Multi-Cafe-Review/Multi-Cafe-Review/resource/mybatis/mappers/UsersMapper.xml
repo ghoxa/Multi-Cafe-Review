@@ -37,4 +37,9 @@
 		where user_id=#{userId} and pwd=#{pwd}
 	</select>
 	
+	<!-- 신고횟수 1 증가 -->
+	<update id="updateReport" parameterType="java.lang.String">
+		update users set report=report+1 where user_id=#{userId}
+	</update>
+	
 </mapper>
