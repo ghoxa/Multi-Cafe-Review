@@ -33,14 +33,14 @@ public class ReviewMapperTest {
 	
 	@Test
 	public void listViewReview() throws Exception{
-		List<Review> review = reviewMapper.listViewReview(50000126);
-		Assert.assertEquals(1,review.size());
+		List<Review> review = reviewMapper.listViewReviewSortByGood(50000283);
+		Assert.assertEquals(20,review.size());
 	}
 	
 	@Test
 	public void listMyReview() throws Exception{
 		List<Review> review = reviewMapper.listMyReview("sunga");
-		Assert.assertEquals(2,review.size());
+		Assert.assertEquals(20,review.size());
 	}
 	
 	@Test

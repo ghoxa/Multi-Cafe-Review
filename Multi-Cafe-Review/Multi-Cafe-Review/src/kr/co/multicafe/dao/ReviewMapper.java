@@ -13,6 +13,7 @@ public interface ReviewMapper {
 	public int updateReview(Review review);
 	public int deleteReview(int reviewId);
 	public List<Review> listViewReview(int menuId);
+	public List<Review> listViewReviewSortByGood(int menuId);
 	public List<Review> listMyReview(String userId);
 	public Review getReview(@Param("userId")String userId, @Param("menuId")int menuId);
 	public Review getReviewById(@Param("reviewId")int reviewId);

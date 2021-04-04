@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.multicafe.dao.ReportMapper">
+	<resultMap type="Report" id="report_resultMap">
+		<result column="report_id" property="reportId"/>
+		<result column="review_id" property="reviewId"/>
+		<result column="user_id" property="userId"/>
+	</resultMap>
+	
+	<!-- (userId,reviewId)인 데이터가 있는지 확인 -->
+	<select id="getReportCnt" resultType="java.lang.Integer">
+		select 1 
+		from dual
+		where exists (select 1 from report where user_id=#{userId} and review_id=#{reviewId})
+	</select>
+	
+	<!-- Insert -->
+	<insert id="insertReport" parameterType="Report">
+		insert into report(report_id, user_id, review_id) values(report_seq.nextval, #{userId}, #{reviewId})
+	</insert>
+	
+	<!-- Delete -->
+	<delete id="deleteReportByReviewId">
+		delete from report where review_id=#{reviewId}
+	</delete>
+
+</mapper>
