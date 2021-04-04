@@ -27,6 +27,10 @@
 		where user_id=#{userId}
 	</select>
 	
+	<select id="getTaste" resultType="Taste">
+		select sweet, bitter, sour, coffee_sour from users where user_id=#{userId}
+	</select>
+	
 	<select id="login" resultMap="users_resultMap">
 		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
 		from users

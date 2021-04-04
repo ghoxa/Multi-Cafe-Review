@@ -34,25 +34,30 @@
 	</select>
 	
 	<select id="listViewMenuByCondition" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
 		where m.cafe_id = c.cafe_id
 		order by ${condition} desc
 	</select>
 	
 	<select id="listViewCafeMenuByCondition" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-				from menu m, cafe c
-				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
+		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} 
 		order by ${condition} desc
 	</select>
 	
 	<select id="listViewCategoryMenuByCondition" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-				from menu m, cafe c
-				where m.cafe_id = c.cafe_id and m.category_id=#{categoryId})
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
+		where m.cafe_id = c.cafe_id and m.category_id=#{categoryId}
+		order by ${condition} desc
+	</select>
+	
+	<select id="listViewCafeCategoryMenuByCondition" resultMap="menu_resultMap">
+		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
+		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
 		order by ${condition} desc
 	</select>
 	
@@ -72,13 +77,6 @@
 		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
 		from menu m, cafe c
 		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
-	</select>
-	
-	<select id="listViewCafeCategoryMenuByCondition" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
-		order by ${condition} desc
 	</select>
 	
 	<select id="searchMenu" resultMap="menu_resultMap">
@@ -151,19 +149,49 @@
 		order by grade desc
 	</select>
 	
-	<select id="listViewRecommendMenuByTaste" resultMap="menu_resultMap">
-		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-		from (select a.*, rownum rn
-				from (
-					select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-					from menu m, cafe c
-					where m.cafe_id = c.cafe_id and m.menu_id!=#{menuId}
-					order by
-					<foreach collection="list" item="item" separator=", ">
-						abs(#{max}-${item})
-					</foreach>
-					) a
-				) b
-		where 20 >= rn
-	</select>
+	<select id="listViewRecommendMenuByTaste" parameterType="java.util.HashMap" resultMap="menu_resultMap"> 
+       select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName 
+       from (select a.*, rownum rn 
+             from ( 
+                select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName 
+                from menu m, cafe c 
+                where m.cafe_id = c.cafe_id and m.menu_id!=#{menuId} 
+                order by 
+                <foreach collection="map" item="item" index="key" separator=" + "> 
+                   abs(#{item}-${key}) 
+                </foreach> 
+                ) a 
+             ) b 
+       where 20 >= rn 
+    </select> 
+
+	
+	<select id="listViewRecommendMenuByUser" parameterType="java.util.HashMap" resultMap="menu_resultMap"> 
+       select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName 
+       from (select a.*, rownum rn 
+             from ( 
+                select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName 
+                from menu m, cafe c 
+                where m.cafe_id = c.cafe_id
+	            order by 
+	                (case when category_id = 3000 then
+		                <foreach collection="map" item="item" index="key" separator=" + "> 
+	                  		<if test='key.equals("coffee_sour")'>
+		                        abs(#{item}-sour) 
+		                    </if>
+			                <if test='key.equals("sweet") or key.equals("bitter")'>
+			                	abs(#{item}-${key}) 
+			                </if>
+		                </foreach> 
+				    else
+		                <foreach collection="map" item="item" index="key" separator=" + "> 
+	                  		<if test='key.equals("sweet") or key.equals("bitter") or key.equals("sour")'>
+	                   			abs(#{item}-${key}) 
+	                   		</if>
+		                </foreach> 
+	                end)
+                ) a 
+             ) b 
+       where 20 >= rn 
+    </select> 
 </mapper>

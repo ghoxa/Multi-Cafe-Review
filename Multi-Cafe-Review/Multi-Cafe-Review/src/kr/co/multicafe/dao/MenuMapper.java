@@ -36,6 +36,7 @@ public interface MenuMapper {
 	public int updateMenuReset(int menuId);
 	public List<Menu> listViewRecommendMenuByKeyword(@Param("menuId") int menuId, @Param("list") String[] list);
 	public Taste getMenuTaste(int menuId);
-	public List<Menu> listViewRecommendMenuByTaste(@Param("menuId") int menuId, @Param("list") List<String> list, @Param("max") double max);
+	public List<Menu> listViewRecommendMenuByTaste(@Param("menuId") int menuId, @Param("map") Map<String, Double> map);
+	public List<Menu> listViewRecommendMenuByUser(@Param("userId") String userId, @Param("map") Map<String, Double> map);
 	
 }

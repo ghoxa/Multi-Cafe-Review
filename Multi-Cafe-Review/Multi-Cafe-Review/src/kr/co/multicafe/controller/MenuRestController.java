@@ -112,6 +112,10 @@ public class MenuRestController {
 		return menuService.listViewRecommendMenuByTaste(menuId);
 	}
 	
+	@GetMapping("/recommend/{userId}")
+	public List<Menu> listViewRecommendMenuByUser(@PathVariable String userId) {
+		return menuService.listViewRecommendMenuByUser(userId);
+	}
 	
 	
 }
