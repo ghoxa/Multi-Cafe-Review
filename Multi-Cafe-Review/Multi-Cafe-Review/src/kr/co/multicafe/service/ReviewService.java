@@ -101,10 +101,27 @@ public class ReviewService {
 		return result;
 	}
 	
-	
 	//메뉴에 대한 리뷰 목록 
 	public List<Review> listViewReview(int menuId){
+
 		return reviewMapper.listViewReview(menuId);
+
+	}
+	
+	//메뉴에 대한 리뷰 목록(정렬)
+	public List<Review> listViewReviewByOption(int menuId, int option){
+		List<Review> list = null;
+		if(option==0)
+			list = reviewMapper.listViewReview(menuId);
+		else if(option==1)
+			list = reviewMapper.listViewReviewSortByGood(menuId);
+		
+		return list;
+	}
+	
+	//메뉴에 대한 리뷰 목록(좋아요 순 정렬)
+	public List<Review> listViewReviewSortByGood(int menuId){
+		return reviewMapper.listViewReviewSortByGood(menuId);
 	}
 	
 	//내가 쓴 리뷰 보여주기

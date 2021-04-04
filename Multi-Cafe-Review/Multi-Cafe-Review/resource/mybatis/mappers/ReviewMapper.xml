@@ -37,6 +37,14 @@
 		order by review_date desc
 	</select>
 	
+	<!-- ListViewSortByGood -->
+	<select id="listViewReviewSortByGood" parameterType="java.lang.Integer" resultMap="review_resultMap">
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		from review r, menu m, cafe c
+		where m.menu_id=#{menuId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
+		order by r.good desc
+	</select>
+	
 	<!-- ListMyReview -->
 	<select id="listMyReview" parameterType="java.lang.String" resultMap="review_resultMap">
 		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
