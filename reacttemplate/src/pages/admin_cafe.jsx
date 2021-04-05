@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import menuDataJson from "./menudata.json";
 import Page from "../components/layout/page";
 import axios from "axios";
+import { Table } from "react-bootstrap";
 import {
   Button,
   Card,
@@ -24,69 +25,57 @@ class Admin_Cafe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      cafeList: [],
+      cafeName: "",
+      logoImage: "",
     };
 }
 
-
   componentDidMount() {
-   
-    Promise.all([])
-      .then(([res]) => {
-        this.setState({
-          
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }  
+    const cafeApi = axios.get("http://localhost:9090/multicafe/api/cafe");
 
-  handleSubmit = (e) => {
-    const menuInputApi = `http://localhost:9090/multicafe/api/admin/menu`;
+    Promise.all([cafeApi])
+    .then(([res]) => {
+      this.setState({
+        cafeList: res.data,
+      });      
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
 
-    const {menuName, price, description, keyword, image, hot, ice, categoryId, cafeId} = this.state;
-    const inputData = {
-      menuName: menuName,
-      price: price,
-      description: description,
-      keyword: keyword,
-      image: image,
-      hot: hot,
-      ice: ice,
-      categoryId: categoryId,
-      cafeId: cafeId,
-    };
-    e.preventDefault();
-
-    if (
-      menuName === '' ||
-      price === '' ||
-      description === '' ||
-      keyword === '' ||
-      image === '' || 
-      hot === '' || 
-      ice === '' || 
-      categoryId === '' || 
-      cafeId === ''
-    ) {
-      alert("모든 입력을 완료해 주세요");
-      return;
+  printCafeList(){
+    let cafes = [];
+    let cafe = this.state.cafeList;
+    
+    for (let i = 0; i < cafe.length; i++) {
+      cafes.push(
+        <tr>
+          <td>{cafe[i]["name"]}</td>
+          <td>
+            <img
+              className="rounded"
+              style={{ width: 100, height: 100 }}
+              src={cafe[i]["image"]}
+            />
+          </td>
+          <td><button>수정</button></td>
+          <td><button>삭제</button></td>
+        </tr>
+      );
     }
 
-    console.log(inputData);
-    // Promise.all([axios.post(menuInputApi, inputData)])
-    //   .then(([res]) => {
-    //     alert("입력완료");
-    //     //console.log("post 성공");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    return cafes;
+  }
 
-    
-    //window.location.replace('/review');
-  };
+  insertCafe(){
+
+  }
+
+  handleCafeName = (e) => {this.setState({cafeName: e.target.value,});};
+  handleLogoImage = (e) => {this.setState({logoImage: e.target.value,});};
+  
   render() {
     return (
       <section className="section-content padding-y">
@@ -110,12 +99,15 @@ class Admin_Cafe extends React.Component {
                   <div className="filter-content collapse show" id="collapse_3">
                     <div className="card-body">
                       <ul className="list-menu">
-                        <li>
-                          <Link to="/admin_insert">메뉴 추가</Link>
-                        </li>
-                        <li>
-                          <Link to="/admin_update">메뉴 수정</Link>
-                        </li>
+                      <li>
+                            <Link to="/admin_insert">메뉴 추가</Link>
+                          </li>
+                          <li>
+                            <Link to="/admin_update">메뉴 수정</Link>
+                          </li>
+                          <li>
+                            <Link to="/admin_cafe">카페 관리</Link>
+                          </li>
                       </ul>
                     </div>
                   </div>
@@ -128,86 +120,42 @@ class Admin_Cafe extends React.Component {
             <row>
               <Col xl={6} lg={12} md={12}>
                 <Card style={{ width: "700px" }}>
-                  <CardHeader>메뉴추가</CardHeader>
+                  <CardHeader>카페 관리</CardHeader>
                   <CardBody>
                     <Form onSubmit={this.handleSubmit}>
                       <FormGroup>
-                        <Label for="exampleName">Name</Label>
+                        <Label for="exampleName">카페이름</Label>
                         <Input
                           type="text"
                           name="name"
-                          placeholder="ex) 아메리카노"
-                          onChange={this.handleMenuName}
+                          placeholder="ex) 스타벅스"
+                          onChange={this.handleCafeName}
                         />
-                      </FormGroup>
+                      </FormGroup>                      
                       <FormGroup>
-                        <Label for="examplePrice">Price</Label>
-                        <Input
-                          type="number"
-                          name="price"
-                          placeholder="ex) 4200"
-                          onChange={this.handlePrice}
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label for="exampleDescription">Description</Label>
-                        <Input
-                          type="textarea"
-                          name="Description"
-                          onChange={this.handleDescription}
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label for="exampleCafeName">Keyword</Label>
-                        <Input
-                          type="text"
-                          name="keyword"
-                          placeholder="키워드"
-                          onChange={this.handleKeyword}
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label for="exampleImagepath">image URL</Label>
+                        <Label for="exampleImagepath">카페 로고</Label>
                         <Input
                           type="url"
                           name="imageurl"
                           placeholder="image URL"
-                          onChange={this.handleImage}
+                          onChange={this.handleLogoImage}
                         />
                       </FormGroup>
-                      <FormGroup>
-                        <button type="button" onClick={this.handleHot} className={this.state.hot? "btn btn-danger btn-lg" : "btn btn-outline-danger btn-lg"} >
-                          HOT
-                        </button>
-                        <button type="button" onClick={this.handleIce} className={this.state.ice?"btn btn-primary btn-lg":"btn btn-outline-primary btn-lg"}>
-                          ICE
-                        </button>
-                      </FormGroup>
-
-                      <FormGroup>
-                        <Label for="exampleSelect">카테고리</Label>
-                        <Input
-                          type="select"
-                          name="categoryId"
-                          onChange={this.handleCategoryId}
-                        >
-                          {this.setCategoryList()}
-                        </Input>
-                      </FormGroup>
-                      <FormGroup>
-                        <Label for="exampleSelect">카페</Label>
-                        <Input
-                          type="select"
-                          name="cafeId"
-                          onChange={this.handleCafeId}
-                        >
-                          {this.setCafeList()}
-                        </Input>
-                      </FormGroup>
-                      <FormGroup check row>
-                        <Button>Submit</Button>
-                      </FormGroup>
+                      <Button>카페 추가</Button>
                     </Form>
+                    <div>
+                      <Table striped bordered hover>
+                      <thead>
+                          <tr>
+                            <th>이름</th>
+                            <th>이미지</th>
+                            <th style={{ textAlign: "center" }}>수정</th>
+                            <th style={{ textAlign: "center" }}>삭제</th>
+                          </tr>
+                        </thead>
+                        <tbody>{this.printCafeList()}</tbody>
+                      </Table>
+                    </div>
                   </CardBody>
                 </Card>
               </Col>

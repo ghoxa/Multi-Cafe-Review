@@ -334,13 +334,6 @@ class ReviewPage extends Component {
               <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
             </ul>
           </div>
-          <div className='rating-wrap mb-3'>
-            산미: &nbsp;
-            <ul className='rating-stars'>
-              {/* value={selectMenuCheck.acidity} */}
-              <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
-            </ul>
-          </div>
         </div>
         <form className='d-flex justify-content-left'>{/* Default input */}</form>
       </div>

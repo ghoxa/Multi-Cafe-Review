@@ -275,10 +275,10 @@ class Home extends React.Component {
                   <p className="text-success">{menu[i]["cafeName"]}</p>
                   <ul className="rating-stars">
                     <span>평점: {menu[i]["grade"]}&nbsp;</span>
-                    <span style={{ color: "silver", fontSize: 10 }}>
+                    <span style={{ color: "gray", fontSize: 10 }}>
                       &nbsp;조회수: {menu[i]["click"]}
                     </span>
-                    <span style={{ color: "silver", fontSize: 10 }}>
+                    <span style={{ color: "gray", fontSize: 10 }}>
                       &nbsp;좋아요수: {menu[i]["good"]}
                     </span>
                     <ReactStars
@@ -468,6 +468,9 @@ class Home extends React.Component {
                           <li>
                             <Link to="/admin_update">메뉴 수정</Link>
                           </li>
+                          <li>
+                            <Link to="/admin_cafe">카페 관리</Link>
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -508,6 +511,12 @@ class Home extends React.Component {
                           onClick={this.handleClickCondition("grade")}
                         >
                           grade
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("review")}
+                        >
+                          review
                         </a>
                       </div>
                     </div>

@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import menuDataJson from "./menudata.json";
-import Page from "../components/layout/page";
 import axios from "axios";
 import {
   Button,
@@ -10,12 +8,9 @@ import {
   CardHeader,
   Col,
   Form,
-  FormFeedback,
   FormGroup,
-  FormText,
   Input,
   Label,
-  Row,
 } from "reactstrap";
 
 class Admin_Insert extends React.Component {
@@ -38,20 +33,18 @@ class Admin_Insert extends React.Component {
       cafeId: 0,
     };
 }
-handleMenuName = (e) => {this.setState({menuName: e.target.value,});};
-handlePrice = (e) => {this.setState({price: Number(e.target.value),});};
-handleDescription = (e) => {this.setState({description: e.target.value,});};
-handleKeyword = (e) => {this.setState({keyword: e.target.value,});};
-handleImage = (e) => {this.setState({image: e.target.value,});};
-handleCategoryId = (e) => {this.setState({categoryId: Number(e.target.value),});};
-handleCafeId = (e) => {this.setState({cafeId: Number(e.target.value),});};
-handleHot = () => {this.setState({hot: (this.state.hot^1)});};
-handleIce = () => {this.setState({ice: (this.state.ice^1)});};
+  handleMenuName = (e) => {this.setState({menuName: e.target.value,});};
+  handlePrice = (e) => {this.setState({price: Number(e.target.value),});};
+  handleDescription = (e) => {this.setState({description: e.target.value,});};
+  handleKeyword = (e) => {this.setState({keyword: e.target.value,});};
+  handleImage = (e) => {this.setState({image: e.target.value,});};
+  handleCategoryId = (e) => {this.setState({categoryId: Number(e.target.value),});};
+  handleCafeId = (e) => {this.setState({cafeId: Number(e.target.value),});};
+  handleHot = () => {this.setState({hot: (this.state.hot^1)});};
+  handleIce = () => {this.setState({ice: (this.state.ice^1)});};
 
   componentDidMount() {
-    const categoryListApi = axios.get(
-      `http://localhost:9090/multicafe/api/category`
-    );
+    const categoryListApi = axios.get(`http://localhost:9090/multicafe/api/category`);
     const cafeListApi = axios.get("http://localhost:9090/multicafe/api/cafe");
     Promise.all([categoryListApi, cafeListApi])
       .then(([res, res2]) => {
@@ -100,7 +93,10 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
 
 
 
-  handleSubmit = (e) => {
+  insertMenu = () => {
+
+    const menuInputApi = `http://localhost:9090/multicafe/api/admin/menu`;
+    const {menuName, price, description, keyword, image, hot, ice, categoryId, cafeId} = this.state;
 
     if (
       menuName === '' ||
@@ -117,10 +113,9 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
       return;
     }
 
-    const menuInputApi = `http://localhost:9090/multicafe/api/admin/menu`;
-    const {menuName, price, description, keyword, image, hot, ice, categoryId, cafeId} = this.state;
+    
     const inputData = {
-      menuName: menuName,
+      name: menuName,
       price: price,
       description: description,
       keyword: keyword,
@@ -128,25 +123,17 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
       hot: hot,
       ice: ice,
       categoryId: categoryId,
-      cafeId: cafeId,
+      cafeId: cafeId
     };
-    e.preventDefault();
-
     
-
     console.log(inputData);
     Promise.all([axios.post(menuInputApi, inputData)])
-      .then(([res]) => {
-        alert("메뉴추가완료");
-        //console.log("post 성공");
+      .then((res) => {
+        alert('메뉴추가 성공!!');
       })
       .catch((err) => {
-        alert("메뉴추가실패");
         console.log(err);
-      });
-
-    
-    //window.location.replace('/review');
+      })
   };
   render() {
     return (
@@ -177,6 +164,9 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
                         <li>
                           <Link to="/admin_update">메뉴 수정</Link>
                         </li>
+                        <li>
+                            <Link to="/admin_cafe">카페 관리</Link>
+                          </li>
                       </ul>
                     </div>
                   </div>
@@ -191,7 +181,7 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
                 <Card style={{ width: "700px" }}>
                   <CardHeader>메뉴추가</CardHeader>
                   <CardBody>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form >
                       <FormGroup>
                         <Label for="exampleName">Name</Label>
                         <Input
@@ -266,7 +256,7 @@ handleIce = () => {this.setState({ice: (this.state.ice^1)});};
                         </Input>
                       </FormGroup>
                       <FormGroup check row>
-                        <Button>Submit</Button>
+                        <button className="btn btn-success" onClick={this.insertMenu}>Submit</button>
                       </FormGroup>
                     </Form>
                   </CardBody>

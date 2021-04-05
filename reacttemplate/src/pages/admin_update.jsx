@@ -4,6 +4,8 @@ import Page from "../components/layout/page";
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
 import { Table } from "react-bootstrap";
+import ModifyMenu from './modifymenu';
+
 import {
   Button,
   Card,
@@ -25,6 +27,7 @@ class Admin_Update extends React.Component {
     this.state = {
       categoryList: "",
       cafeList: "",
+      menuList: [],
 
       // menuName: "",
       // price: 0,
@@ -35,7 +38,6 @@ class Admin_Update extends React.Component {
       // ice: 0,
       categoryId: 0,
       cafeId: 0,
-      isLoaded: true,
     };
   }
   handleCafeId = (e) => {
@@ -113,7 +115,6 @@ class Admin_Update extends React.Component {
   handleSerchSelect = (e) => {
     this.setState({
       menuList: [],
-      isLoaded: false,
     });
     this.callMenuListSelect();
     this.printMenuList();
@@ -122,14 +123,13 @@ class Admin_Update extends React.Component {
   handleSerchKeyword = (e) => {
     this.setState({
       menuList: [],
-      isLoaded: false,
     });
     this.callMenuListSerch();
     this.printMenuList();
   };
 
   callMenuListSelect = async () => {
-    let menuApi = `http://localhost:9090/multicafe/api/menu`;
+    let menuApi = ``;
     const { cafeId, categoryId } = this.state;
     if (cafeId == 0) {
       if (categoryId == 0) {
@@ -148,62 +148,52 @@ class Admin_Update extends React.Component {
     //console.log(menuApi);
     this.setState({
       menuList: res.data,
-      isLoaded: true,
     });
   };
+
   callMenuListSerch = async () => {
     let menuApi = ``;
-    const { keyword } = this.state;
-
-    this.setState({
-      isLoaded: false,
-    });
+    const { cafeId, keyword } = this.state;
 
     if (keyword === "") {
       alert("키워드를 입력해주세요");
       return;
-    } else {
-      menuApi = `http://localhost:9090/multicafe/api/menu/search/${keyword}`;
+    } else {      
+      menuApi = `http://localhost:9090/multicafe/api/menu/search/${keyword}`;    
     }
-    console.log(menuApi);
+    
     const res = await axios.get(menuApi);
     this.setState({
       menuList: res.data,
-      isLoaded: true,
     });
   };
   printMenuList() {
-    const { isLoaded } = this.state;
-
-    if (!isLoaded) {
-      return (
-        <div
-          id="loader"
-          style={{ position: "absolute", top: "50%", left: "50%" }}
-        >
-          <CircularProgress />
-        </div>
-      );
-    } else {
       let menulist = [];
       let menu = this.state.menuList;
       //console.log(menu[0]["name"]);
       for (let i = 0; i < menu.length; i++) {
         menulist.push(
           <tr>
+            <td>{menu[i]["cafeName"]}</td>
             <td>{menu[i]["name"]}</td>
-            <td>{menu[i]["name"]}</td>
-            <td>{menu[i]["name"]}</td>
-            <td>{menu[i]["name"]}</td>
-            <td>{menu[i]["name"]}</td>
-            <td>{menu[i]["name"]}</td>
+            <td>{menu[i]["price"]}</td>
+            <td>{menu[i]["keyword"]}</td>
+            <td>{menu[i]["grade"]}</td>
+            <td><ModifyMenu stateRefresh={this.stateRefresh} reviewId={menu[i]["menuId"]} /></td>
+            <td><button className="btn btn-danger" onClick={deleteMenu(menu[i]["menuId"])}>삭제</button></td>
           </tr>
         );
       }
       return menulist;
-    }
   }
 
+  stateRefresh = () => {
+    this.setState({
+      menuList: [],
+    });
+    this.callMenuListSelect();
+    this.printMenuList();
+  }
   render() {
     return (
       <section className="section-content padding-y">
@@ -259,7 +249,7 @@ class Admin_Update extends React.Component {
                           </Label>
                           <Input
                             type="select"
-                            name="categoryId"
+                            name="cafeId"
                             onChange={this.handleCafeId}
                           >
                             {this.setCafeList()}
@@ -294,7 +284,7 @@ class Admin_Update extends React.Component {
                     <div className="card-body">
                       <div>
                         <Label for="examplePrice">키워드로 검색</Label>
-
+                        
                         <Input
                           type="text"
                           name="keyword"
@@ -308,11 +298,10 @@ class Admin_Update extends React.Component {
                 </article>
               </div>
             </aside>
-            {/* adminPage */}
-            {/* name, price, description, keyword, image, hot, ice, categoryId, cafeId */}
+            
             <row>
               <Col xl={12} lg={12} md={12}>
-                <Card style={{ width: "800px" }}>
+                <Card style={{ width: "820px" }}>
                   <CardHeader>메뉴검색</CardHeader>
                   <CardBody>
                     <div>
@@ -328,7 +317,7 @@ class Admin_Update extends React.Component {
                             <th style={{ textAlign: "center" }}>삭제</th>
                           </tr>
                         </thead>
-                        <tbody>{this.printMenuList}</tbody>
+                        <tbody>{this.printMenuList()}</tbody>
                       </Table>
                     </div>
                   </CardBody>
@@ -341,5 +330,7 @@ class Admin_Update extends React.Component {
     );
   }
 }
-
+const deleteMenu = (Id) => {
+  console.log(Id);
+}
 export default Admin_Update;
