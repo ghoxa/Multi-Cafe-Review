@@ -180,11 +180,25 @@ class Admin_Update extends React.Component {
             <td>{menu[i]["keyword"]}</td>
             <td>{menu[i]["grade"]}</td>
             <td><ModifyMenu stateRefresh={this.stateRefresh} reviewId={menu[i]["menuId"]} /></td>
-            <td><button className="btn btn-danger" onClick={deleteMenu(menu[i]["menuId"])}>삭제</button></td>
+            <td><button className="btn btn-danger" onClick={(Id) => this.deleteMenu(menu[i]["menuId"])}>삭제</button></td>
           </tr>
         );
       }
       return menulist;
+  }
+
+  deleteMenu = (Id) => {
+    console.log(Id);
+    if(window.confirm("메뉴를 삭제합니다.")){
+      let deleteApi = axios.delete(`http://localhost:9090/multicafe/api/admin/menu/${Id}`);
+      Promise.all([deleteApi])
+      .then(([res]) => {
+        alert("삭제 되었습니다.");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   stateRefresh = () => {
@@ -244,9 +258,7 @@ class Admin_Update extends React.Component {
                     <div className="card-body">
                       <div>
                         <div>
-                          <Label for="examplePrice">
-                            카페& 카테고리로 검색
-                          </Label>
+                          <Label for="examplePrice">카페& 카테고리로 검색</Label>
                           <Input
                             type="select"
                             name="cafeId"
@@ -261,7 +273,7 @@ class Admin_Update extends React.Component {
                           >
                             {this.setCategoryList()}
                           </Input>
-                          <button onClick={this.handleSerchSelect}>검색</button>
+                          <button onClick={this.handleSerchSelect} className="btn btn-info">검색</button>
                         </div>
                       </div>
                     </div>
@@ -291,7 +303,7 @@ class Admin_Update extends React.Component {
                           placeholder="키워드"
                           onChange={this.handleKeyword}
                         />
-                        <button onClick={this.handleSerchKeyword}>검색</button>
+                        <button onClick={this.handleSerchKeyword} className="btn btn-info">검색</button>
                       </div>
                     </div>
                   </div>
@@ -329,8 +341,5 @@ class Admin_Update extends React.Component {
       </section>
     );
   }
-}
-const deleteMenu = (Id) => {
-  console.log(Id);
 }
 export default Admin_Update;
