@@ -22,6 +22,11 @@ public class ReviewRestController {
 	@Autowired
 	private ReviewService reviewService;
 	
+	@GetMapping("/{menuId}")
+	public List<Review> listViewReview(@PathVariable(name="menuId")int menuId){
+		return reviewService.listViewReview(menuId);
+	}
+		
 	@GetMapping("/{menuId}/{option}")
 	public List<Review> listViewReview(@PathVariable(name="menuId")int menuId, @PathVariable(name="option") int option){
 		return reviewService.listViewReviewByOption(menuId, option);
