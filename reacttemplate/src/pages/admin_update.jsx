@@ -188,7 +188,7 @@ class Admin_Update extends React.Component {
   }
 
   deleteMenu = (Id) => {
-    console.log(Id);
+    //console.log(Id);
     if(window.confirm("메뉴를 삭제합니다.")){
       let deleteApi = axios.delete(`http://localhost:9090/multicafe/api/admin/menu/${Id}`);
       Promise.all([deleteApi])

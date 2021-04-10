@@ -439,6 +439,9 @@ class Home extends React.Component {
                           <li>
                             <Link to="/myreview">내 리뷰 관리</Link>
                           </li>
+                          <li>
+                            <a>내 취향 메뉴 </a>
+                          </li>
                         </ul>
                       </div>
                     </div>

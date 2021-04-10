@@ -18,6 +18,7 @@ import Register from "../pages/register.jsx";
 import ModifyReview from "../pages/modifyreview.jsx";
 import Admin_Cafe from "../pages/admin_cafe.jsx";
 import Map from "../pages/map.jsx";
+import MyTaste from "../pages/mytaste.jsx";
 
 const routes = [
   {
@@ -93,6 +94,10 @@ const routes = [
   {
     path: "/map",
     component: () => <Map />,
+  },
+  {
+    path: "/mytaste",
+    component: () => <MyTaste />,
   },
 ];
 

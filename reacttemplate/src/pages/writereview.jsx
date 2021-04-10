@@ -40,12 +40,6 @@ class WriteReview extends Component {
     });
   };
 
-  handleInputAcidity = (rating) => {
-    this.setState({
-      acidity: rating,
-    });
-  };
-
   handleInputGrade = (rating) => {
     this.setState({
       grade: rating,
@@ -129,7 +123,6 @@ class WriteReview extends Component {
       sweet: sweet,
       bitter: bitter,
       sour: sour,
-      acidity: acidity,
     };
 
     // post 통신으로 데이터베이스에 리뷰데이터 저장
@@ -202,7 +195,6 @@ class WriteReview extends Component {
               <RatingSweet onChange={this.handleInputSweet} /> <br/>
               <RatingSour onChange={this.handleInputSour} /> <br/>
               <RatingBitter onChange={this.handleInputBitter} /> <br/>
-              <RatingAcidity onChange={this.handleInputBitter} /> <br/>
               <RatingGrade onChange={this.handleInputGrade}></RatingGrade> <br/>
               <InputBox className={styles.inputBox} comment={this.state.comment} onChange={this.handleInputComment} />
             </div>
@@ -244,16 +236,6 @@ const RatingBitter = ({ onChange }) => {
   return (
     <div className={styles.taste}>
       <span class={styles.font}>쓴맛 </span>
-      <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
-      </span>
-    </div>
-  );
-};
-const RatingAcidity = ({ onChange }) => {
-  return (
-    <div className={styles.taste}>
-      <span class={styles.font}>산미 </span>
       <span class={styles.rating}>
         <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
       </span>
