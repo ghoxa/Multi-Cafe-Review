@@ -18,16 +18,14 @@ class Mylike extends React.Component {
       .then(([res]) => {
         this.setState({
           myLike: res.data,
-
           isLoaded: true,
         });
-        console.log(this.state.myLike);
       })
       .catch((err) => {
         console.log(err.response);
       });
   }
-  
+
   handleClickMenu = (value) => () => {
     // console.log(value);
     localStorage.setItem("menuId", value);

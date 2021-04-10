@@ -430,6 +430,9 @@ class Home extends React.Component {
                             <a href="/mylike">찜 목록 </a>
                           </li>
                           <li>
+                            <a href="/mytaste">내 취향 메뉴 </a>
+                          </li>
+                          <li>
                             <a href="/myrecent">최근 본 메뉴 </a>
                           </li>
                           <li>

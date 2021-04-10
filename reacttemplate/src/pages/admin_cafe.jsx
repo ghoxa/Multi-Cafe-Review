@@ -20,8 +20,6 @@ import {
 } from "reactstrap";
 
 class Admin_Cafe extends React.Component {
-  //   post메소드에 들어가야 하는 값(insert) :
-  // name, price, description, keyword, image, hot, ice, categoryId, cafeId
   constructor(props) {
     super(props);
     this.state = {
@@ -29,26 +27,26 @@ class Admin_Cafe extends React.Component {
       cafeName: "",
       logoImage: "",
     };
-}
+  }
 
   componentDidMount() {
     const cafeApi = axios.get("http://localhost:9090/multicafe/api/cafe");
 
     Promise.all([cafeApi])
-    .then(([res]) => {
-      this.setState({
-        cafeList: res.data,
-      });      
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then(([res]) => {
+        this.setState({
+          cafeList: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  printCafeList(){
+  printCafeList() {
     let cafes = [];
     let cafe = this.state.cafeList;
-    
+
     for (let i = 0; i < cafe.length; i++) {
       cafes.push(
         <tr>
@@ -60,22 +58,76 @@ class Admin_Cafe extends React.Component {
               src={cafe[i]["image"]}
             />
           </td>
-          <td><button>수정</button></td>
-          <td><button>삭제</button></td>
+          <td>
+            <button
+              className="btn btn-danger"
+              onClick={(Id) => this.deleteCafe(cafe[i]["cafeId"])}
+            >
+              삭제
+            </button>
+          </td>
         </tr>
       );
     }
-
     return cafes;
   }
 
-  insertCafe(){
+  insertCafe= () => {
+    const cafeInsertApi = `http://localhost:9090/multicafe/api/admin/cafe`;
+    const { cafeName, logoImage } = this.state;
+    if (cafeName === "" || logoImage === "") {
+      alert("모든 입력을 완료해 주세요");
+      return;
+    }
 
+    const inputData = {
+      cafeId: "",
+      name: cafeName,
+      image: logoImage,
+    };
+    
+    Promise.all([axios.post(cafeInsertApi, inputData)])
+      .then((res) => {
+        alert("카페추가 성공!!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    this.stateRefresh();
   }
+  deleteCafe = (Id) => {
+    //console.log(Id);
+    if (window.confirm("카페를 삭제합니다.")) {
+      let deleteApi = axios.delete(
+        `http://localhost:9090/multicafe/api/admin/cafe/${Id}`
+      );
+      Promise.all([deleteApi])
+        .then(([res]) => {
+          alert("삭제 되었습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    this.stateRefresh();
+  };
 
-  handleCafeName = (e) => {this.setState({cafeName: e.target.value,});};
-  handleLogoImage = (e) => {this.setState({logoImage: e.target.value,});};
-  
+  stateRefresh = () => {
+    this.setState({
+      cafeList: [],
+    });
+    this.componentDidMount();
+    this.printCafeList();
+  };
+
+  handleCafeName = (e) => {
+    this.setState({ cafeName: e.target.value });
+  };
+  handleLogoImage = (e) => {
+    this.setState({ logoImage: e.target.value });
+  };
+
   render() {
     return (
       <section className="section-content padding-y">
@@ -99,15 +151,15 @@ class Admin_Cafe extends React.Component {
                   <div className="filter-content collapse show" id="collapse_3">
                     <div className="card-body">
                       <ul className="list-menu">
-                      <li>
-                            <Link to="/admin_insert">메뉴 추가</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_update">메뉴 수정</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_cafe">카페 관리</Link>
-                          </li>
+                        <li>
+                          <Link to="/admin_insert">메뉴 추가</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_update">메뉴 수정</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_cafe">카페 관리</Link>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -122,7 +174,7 @@ class Admin_Cafe extends React.Component {
                 <Card style={{ width: "700px" }}>
                   <CardHeader>카페 관리</CardHeader>
                   <CardBody>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form>
                       <FormGroup>
                         <Label for="exampleName">카페이름</Label>
                         <Input
@@ -131,7 +183,7 @@ class Admin_Cafe extends React.Component {
                           placeholder="ex) 스타벅스"
                           onChange={this.handleCafeName}
                         />
-                      </FormGroup>                      
+                      </FormGroup>
                       <FormGroup>
                         <Label for="exampleImagepath">카페 로고</Label>
                         <Input
@@ -141,15 +193,14 @@ class Admin_Cafe extends React.Component {
                           onChange={this.handleLogoImage}
                         />
                       </FormGroup>
-                      <Button>카페 추가</Button>
+                      <Button onClick={this.insertCafe}>카페 추가</Button>
                     </Form>
                     <div>
                       <Table striped bordered hover>
-                      <thead>
+                        <thead>
                           <tr>
                             <th>이름</th>
                             <th>이미지</th>
-                            <th style={{ textAlign: "center" }}>수정</th>
                             <th style={{ textAlign: "center" }}>삭제</th>
                           </tr>
                         </thead>

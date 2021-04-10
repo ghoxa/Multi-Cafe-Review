@@ -126,7 +126,7 @@ class Admin_Insert extends React.Component {
       cafeId: cafeId
     };
     
-    console.log(inputData);
+    //console.log(inputData);
     Promise.all([axios.post(menuInputApi, inputData)])
       .then((res) => {
         alert('메뉴추가 성공!!');
