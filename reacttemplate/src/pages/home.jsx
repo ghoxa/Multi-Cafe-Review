@@ -54,10 +54,6 @@ class Home extends React.Component {
     this.stateRefresh();
   };
 
-  pickCategorycolor() {
-    this.setState(() => ({ customColor: { borderColor: "red" } }));
-    document.getElementById("cafe" + localStorage.getItem("cafeId"));
-  }
   componentDidMount() {
     const cafeId = localStorage.getItem("cafeId");
     const categoryId = localStorage.getItem("categoryId");
@@ -438,9 +434,6 @@ class Home extends React.Component {
                           </li>
                           <li>
                             <Link to="/myreview">내 리뷰 관리</Link>
-                          </li>
-                          <li>
-                            <a>내 취향 메뉴 </a>
                           </li>
                         </ul>
                       </div>

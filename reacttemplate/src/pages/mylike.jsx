@@ -27,9 +27,11 @@ class Mylike extends React.Component {
         console.log(err.response);
       });
   }
-  handleClick = (value) => () => {
+  
+  handleClickMenu = (value) => () => {
     // console.log(value);
-    localStorage.setItem('menuId', value);
+    localStorage.setItem("menuId", value);
+    window.location.replace("/review");
   };
 
   render() {
@@ -46,25 +48,44 @@ class Mylike extends React.Component {
       for (let i = 0; i < myLike.length; i++) {
         try {
           menulist.push(
-            <Link to='/review'>
-              <div className='card card-product-list' onClick={this.handleClick(myLike[i]['menuId'])}>
-                <div className='row no-gutters'>
-                  <img className='card-img-top' src={myLike[i]['image']} alt='Card image' />
-                  <div className='card-body'>
-                    <h6 className='card-title'>{myLike[i]['name']}</h6>
-                    <p className='text-success'>{myLike[i]['cafeName']}</p>
-                    <ul className='rating-stars'>
-                      평점: <span>{myLike[i]['grade']}</span>
-                      <ReactStars style={{ display: 'inline-flex' }} edit={false} activeColor='#ffc107' value={myLike[i]['grade']} size={15} isHalf={true} />
-                    </ul>
-                    <div className='price-wrap'>
-                      <span className='price h5'>{myLike[i]['price']}원</span>
-                    </div>
-                    <br />
+            <div
+              className="card col-md-4"
+              onClick={this.handleClickMenu(myLike[i]["menuId"])}
+            >
+              <div className="row no-gutters">
+                <img
+                  style={{ height: 250 }}
+                  className="card-img-top"
+                  src={myLike[i]["image"]}
+                  alt="Card image"
+                />
+                <div className="card-body">
+                  <h6 className="card-title">{myLike[i]["name"]}</h6>
+                  <p className="text-success">{myLike[i]["cafeName"]}</p>
+                  <ul className="rating-stars">
+                    <span>평점: {myLike[i]["grade"]}&nbsp;</span>
+                    <span style={{ color: "gray", fontSize: 10 }}>
+                      &nbsp;조회수: {myLike[i]["click"]}
+                    </span>
+                    <span style={{ color: "gray", fontSize: 10 }}>
+                      &nbsp;좋아요수: {myLike[i]["good"]}
+                    </span>
+                    <ReactStars
+                      style={{ display: "inline-flex" }}
+                      edit={false}
+                      activeColor="#ffc107"
+                      value={myLike[i]["grade"]}
+                      size={15}
+                      isHalf={true}
+                    />
+                  </ul>
+                  <div className="price-wrap">
+                    <span className="price h5">{myLike[i]["price"]}원</span>
                   </div>
+                  <br />
                 </div>
               </div>
-            </Link>
+            </div>
           );
         } catch (error) {
           console.log(error);
@@ -113,7 +134,7 @@ class Mylike extends React.Component {
                   </div>
                 </header>
 
-                <div className='card-columns'>{menulist}</div>
+                <div className="row">{menulist}</div>
                 <nav className='mt-4' aria-label='Page navigation sample'>
                   <ul className='pagination justify-content-center'>
                     <li className='page-item disabled'>
