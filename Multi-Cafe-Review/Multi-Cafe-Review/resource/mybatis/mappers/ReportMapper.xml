@@ -9,9 +9,9 @@
 	
 	<!-- (userId,reviewId)인 데이터가 있는지 확인 -->
 	<select id="getReportCnt" resultType="java.lang.Integer">
-		select 1 
-		from dual
-		where exists (select 1 from report where user_id=#{userId} and review_id=#{reviewId})
+		select count(*)
+		from report
+		where user_id=#{userId} and review_id=#{reviewId}
 	</select>
 	
 	<!-- Insert -->

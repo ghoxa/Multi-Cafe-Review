@@ -222,11 +222,21 @@ public class ReviewService {
 	
 	//Report 테이블에 (userId, reviewId)에 해당하는 데이터가 있는지 확인
 	public int getReportCnt(String userId, int reviewId) {
-		if(reportMapper.getReportCnt(userId, reviewId)==1) { //데이터가 있음
-			return 1;
+		int result=0;
+
+		try {
+			if(reportMapper.getReportCnt(userId, reviewId)==1) { //데이터 있음
+				result=1;
+			}
+			else
+				result=0;
+	
+		}catch(Exception e) {
+			e.printStackTrace();
+			result = 0;
 		}
-		else
-			return 0;
+		return result;
+
 	}
 
 	public List<Review> getReportedReview() {
