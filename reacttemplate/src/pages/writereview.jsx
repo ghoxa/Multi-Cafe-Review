@@ -161,9 +161,19 @@ class WriteReview extends Component {
         .then(([res]) => {
           console.log(res.data);
           if (res.data) {
-            this.setState({
-              open: true
-            });
+            // 신고횟수 20회 이상 쌓이면 리뷰작성 불가능
+            const writeban = axios.get(`http://localhost:9090/multicafe/api/user/${userId}/reports`);
+            Promise.all([writeban])
+            .then((res) => {
+              if (res) {
+                this.setState({
+                  open: true
+                });
+              } else {
+                alert('리뷰 신고횟수 20회 이상으로, 리뷰 작성이 불가능합니다.');
+                return;
+              }
+            })            
           }
         })
         .catch((err) => {
