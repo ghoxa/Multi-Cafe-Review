@@ -7,6 +7,7 @@ import 'swiper/swiper.scss';
 import { Table } from 'react-bootstrap';
 import { CircularProgress } from '@material-ui/core';
 import WriteReview from './writereview';
+import WarningReview from './warningreview';
 class ReviewPage extends Component {
   // createListOfFiles() {
   //   let listOfFiles = [];
@@ -53,6 +54,7 @@ class ReviewPage extends Component {
       alert('로그인 후 이용해 주세요');
     }
   };
+
   reviewlikeChanged = (e) => {
     this.setState({
       isLoaded: false,
@@ -198,7 +200,6 @@ class ReviewPage extends Component {
   
 //  }
 
-
   handleClick = (value) => () => {
     localStorage.setItem('menuId', value);
     window.location.replace('/review');
@@ -264,6 +265,9 @@ class ReviewPage extends Component {
             <a className='btn' onClick={() => this.reviewlikeChanged(i)}>
               <i style={{ color: 'red' }} className={this.state.reviewLike[i] == 1 ? 'fa fa-heart' : 'far fa-heart'}></i>
             </a>
+          </td>
+          <td>
+            <WarningReview reviewId={this.state.menuReivew[i].reviewId} />
           </td>
         </tr>
       );
@@ -454,6 +458,7 @@ class ReviewPage extends Component {
                       <th>신맛</th>
                       <th>평점</th>
                       <th>좋아요</th>
+                      <th>신고</th>
                     </tr>
                   </thead>
                   <tbody>{this.createListOfReview()}</tbody>
