@@ -54,7 +54,6 @@ class ReviewPage extends Component {
       alert('로그인 후 이용해 주세요');
     }
   };
-
   reviewlikeChanged = (e) => {
     this.setState({
       isLoaded: false,
@@ -200,6 +199,7 @@ class ReviewPage extends Component {
   
 //  }
 
+
   handleClick = (value) => () => {
     localStorage.setItem('menuId', value);
     window.location.replace('/review');
@@ -257,6 +257,10 @@ class ReviewPage extends Component {
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].bitter} size={20} isHalf={true} />
           </td>
           <td>
+            <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
+          </td>
+          <td>
+            {/* value={this.state.menuReivew[i].acidity} */}
             <ReactStars edit={false} activeColor='#ffc107' value={this.state.menuReivew[i].sour} size={20} isHalf={true} />
           </td>
           <td style={{ textAlign: 'center' }}>{this.state.menuReivew[i].grade}</td>
@@ -331,6 +335,13 @@ class ReviewPage extends Component {
           <div className='rating-wrap mb-3'>
             신맛: &nbsp;
             <ul className='rating-stars'>
+              <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
+            </ul>
+          </div>
+          <div className='rating-wrap mb-3'>
+            산미: &nbsp;
+            <ul className='rating-stars'>
+              {/* value={selectMenuCheck.acidity} */}
               <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
             </ul>
           </div>
@@ -456,6 +467,7 @@ class ReviewPage extends Component {
                       <th>단맛</th>
                       <th>쓴맛</th>
                       <th>신맛</th>
+                      <th>산미</th>
                       <th>평점</th>
                       <th>좋아요</th>
                       <th>신고</th>
