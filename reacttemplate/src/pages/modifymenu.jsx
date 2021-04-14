@@ -14,6 +14,7 @@ class ModifyReview extends Component {
   state = {
     categoryList: "",
     cafeList: "",
+    menuId: 0,
 
     menuName: "",
     price: 0,
@@ -37,7 +38,10 @@ class ModifyReview extends Component {
   handleCafeId = (e) => {this.setState({cafeId: Number(e.target.value),});};
   handleHot = () => {this.setState({hot: (this.state.hot^1)});};
   handleIce = () => {this.setState({ice: (this.state.ice^1)});};
-  handleClickOpen = (e) => {this.setState({open: true,});};
+  handleClickOpen = (e) => {
+    this.setState({open: true,});
+    console.log(e)
+  };
   handleClose = () => {
     this.setState({
       menuName: "",
@@ -54,15 +58,13 @@ class ModifyReview extends Component {
   };
   componentDidMount() {
     const categoryListApi = axios.get(`http://localhost:9090/multicafe/api/category`);
-    const cafeListApi = axios.get("http://localhost:9090/multicafe/api/cafe");
+    const cafeListApi = axios.get("http://localhost:9090/multicafe/api/cafe");    
+    
     Promise.all([categoryListApi, cafeListApi])
       .then(([res, res2]) => {
         this.setState({
           categoryList: res.data,
           cafeList: res2.data,
-
-          categoryId: Number(res.data[0]["categoryId"]),
-          cafeId: Number(res2.data[0]["cafeId"]),
         });
       })
       .catch((err) => {
@@ -98,7 +100,90 @@ class ModifyReview extends Component {
     }
     return cafeList;
   }
-  
+
+  handleCallMenu(Id){
+    const menuApi = axios.get(`http://localhost:9090/multicafe/api/menu/${Id}`);
+
+    Promise.all([menuApi])
+      .then(([res]) => {
+        this.setState({
+          menuName: res.data.name,
+          price: res.data.price,
+          description: res.data.description,
+          keyword: res.data.keyword,
+          image: res.data.image,
+          hot: res.data.hot,
+          ice: res.data.ice,
+          categoryId: res.data.categoryId,
+          cafeId: res.data.cafeId,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  handleSubmit(e) {
+    const {
+      menuName,
+      price,
+      description,
+      keyword,
+      image,
+      hot,
+      ice,
+      categoryId,
+      cafeId
+    } = this.state;
+
+    if (
+      menuName === "" ||
+      price === "" ||
+      description === "" ||
+      keyword === "" ||
+      image === "" ||
+      hot === "" ||
+      ice === "" ||
+      categoryId === "" ||
+      cafeId === ""
+    ) {
+      alert("모든 입력을 완료해 주세요");
+      return;
+    }
+
+    const setData = {
+      menuName: menuName,
+      price: price,
+      description: description,
+      keyword: keyword,
+      image: image,
+      hot: hot,
+      ice: ice,
+      categoryId: categoryId,
+      cafeId: cafeId,
+    }
+    console.log(setData)
+    Promise.all([axios.put(`http://localhost:9090/multicafe/api/admin/menu`, setData)])
+      .then((res) => {
+        alert('메뉴수정 성공!!');
+        this.props.stateRefresh();
+        this.setState({
+          menuName: "",
+          price: 0,
+          description: "",
+          keyword: "",
+          image: "",
+          hot: 0,
+          ice: 0,
+          categoryId: 0,
+          cafeId: 0,
+          open: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
 
   render() {
     return (
@@ -126,7 +211,7 @@ class ModifyReview extends Component {
                   <Input
                     type="text"
                     name="name"
-                    placeholder="ex) 아메리카노"
+                    value={this.state.menuName}
                     onChange={this.handleMenuName}
                   />
                 </Form.Group>
@@ -135,7 +220,7 @@ class ModifyReview extends Component {
                   <Input
                     type="number"
                     name="price"
-                    placeholder="ex) 4200"
+                    value={this.state.price}
                     onChange={this.handlePrice}
                   />
                 </Form.Group>
@@ -144,6 +229,7 @@ class ModifyReview extends Component {
                   <Input
                     type="textarea"
                     name="Description"
+                    value={this.state.description}
                     onChange={this.handleDescription}
                   />
                 </Form.Group>
@@ -152,7 +238,7 @@ class ModifyReview extends Component {
                   <Input
                     type="text"
                     name="keyword"
-                    placeholder="키워드"
+                    value={this.state.keyword}
                     onChange={this.handleKeyword}
                   />
                 </Form.Group>
@@ -161,7 +247,7 @@ class ModifyReview extends Component {
                   <Input
                     type="url"
                     name="imageurl"
-                    placeholder="image URL"
+                    value={this.state.image}
                     onChange={this.handleImage}
                   />
                 </Form.Group>
@@ -196,6 +282,7 @@ class ModifyReview extends Component {
                     type="select"
                     name="categoryId"
                     onChange={this.handleCategoryId}
+                    value={this.state.categoryId}
                   >
                     {this.setCategoryList()}
                   </Input>
@@ -206,6 +293,7 @@ class ModifyReview extends Component {
                     type="select"
                     name="cafeId"
                     onChange={this.handleCafeId}
+                    value={this.state.cafeId}
                   >
                     {this.setCafeList()}
                   </Input>
@@ -215,10 +303,17 @@ class ModifyReview extends Component {
           </DialogContent>
 
           <DialogActions>
+          <Button
+              variant="contained"
+              color="primary"
+              onClick={(e) => this.handleCallMenu(this.props.menuId)}
+            >
+              불러오기
+            </Button>
             <Button
               variant="contained"
               color="primary"
-              onClick={(e) => this.handleSubmit(this.props.reviewId)}
+              onClick={(e) => this.handleSubmit(this.props.menuId)}
             >
               수정
             </Button>

@@ -12,38 +12,26 @@ import axios from 'axios';
 
 class ModifyReview extends Component {
   state = {
-    sweet: '',
-    sour: '',
-    bitter: '',
-    grade: '',
-    comment: '',
-    open: false
+    sweet: "",
+    sour: "",
+    bitter: "",
+    grade: "",
+    comment: "",
+    open: false,
   };
 
   handleInputSweet = (rating) => {
-    this.setState({
-      sweet: rating,
-    });
+    this.setState({ sweet: rating });
   };
-
   handleInputSour = (rating) => {
-    this.setState({
-      sour: rating,
-    });
+    this.setState({ sour: rating });
   };
-
   handleInputBitter = (rating) => {
-    this.setState({
-      bitter: rating,
-    });
+    this.setState({ bitter: rating });
   };
-
   handleInputGrade = (rating) => {
-    this.setState({
-      grade: rating,
-    });
+    this.setState({ grade: rating });
   };
-
   handleInputComment = (e) => {
     this.setState({
       comment: e.target.value,
@@ -51,88 +39,123 @@ class ModifyReview extends Component {
   };
 
   handleSubmit(e) {
-    localStorage.setItem('reviewId', e);
+    localStorage.setItem("reviewId", e);
     const { sweet, sour, bitter, grade, comment } = this.state;
-    const menuId = parseInt(localStorage.getItem('menuId'));
-    const reviewId = localStorage.getItem('reviewId');
+    const menuId = parseInt(localStorage.getItem("menuId"));
+    const reviewId = localStorage.getItem("reviewId");
     console.log(menuId);
-    if (sweet === '' || sour === '' || bitter === '' || grade === '' || comment === '') {
-      alert('모든 입력을 완료해 주세요');
+    if (
+      sweet === "" ||
+      sour === "" ||
+      bitter === "" ||
+      grade === "" ||
+      comment === ""
+    ) {
+      alert("모든 입력을 완료해 주세요");
       return;
     }
 
     const data = {
       reviewId: reviewId,
-      reviewDate: '',
+      reviewDate: "",
       content: comment,
-      good: '',
+      good: "",
       grade: grade,
-      userId: localStorage.getItem('userId'),
-      menuId: '',
+      userId: localStorage.getItem("userId"),
+      menuId: "",
       sweet: sweet,
       bitter: bitter,
       sour: sour,
     };
 
     console.log(data);
-    Promise.all([axios.put('http://localhost:9090/multicafe/api/user/review', data)])
+    Promise.all([
+      axios.put("http://localhost:9090/multicafe/api/user/review", data),
+    ])
       .then(([res]) => {
         console.log(res.data);
-        console.log('put 성공');
-        alert('입력완료');
+        console.log("put 성공");
+        alert("입력완료");
         this.props.stateRefresh();
         this.setState({
-          sweet: '',
-          sour: '',
-          bitter: '',
-          grade: '',
-          comment: '',
-          open: false
+          sweet: "",
+          sour: "",
+          bitter: "",
+          grade: "",
+          comment: "",
+          open: false,
         });
       })
       .catch((err) => {
         console.log(err);
       });
-  };
+  }
 
   handleClickOpen = (e) => {
     this.setState({
-      open: true
+      open: true,
     });
-  }
+  };
 
   handleClose = () => {
-      this.setState({
-        sweet: '',
-        sour: '',
-        bitter: '',
-        grade: '',
-        comment: '',
-        open: false
-      })
-  }
+    this.setState({
+      sweet: "",
+      sour: "",
+      bitter: "",
+      grade: "",
+      comment: "",
+      open: false,
+    });
+  };
 
   render() {
     return (
       <>
-        <Button variant="contained" color="primary" onClick={this.handleClickOpen}>수정</Button>
-        
-        <Dialog open={this.state.open} onClose={this.handleClose} fullWidth={true}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={this.handleClickOpen}
+        >
+          수정
+        </Button>
+
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          fullWidth={true}
+        >
           <DialogTitle>Review ModifyForm</DialogTitle>
 
           <DialogContent>
             <div className={styles.ratingForm}>
-              <RatingSweet onChange={this.handleInputSweet} /> <br/>
-              <RatingSour onChange={this.handleInputSour} /> <br/>
-              <RatingBitter onChange={this.handleInputBitter} /> <br/>
-              <RatingGrade onChange={this.handleInputGrade}></RatingGrade> <br/>
-              <InputBox className={styles.inputBox} comment={this.state.comment} onChange={this.handleInputComment} />
+              <RatingSweet onChange={this.handleInputSweet} /> <br />
+              <RatingSour onChange={this.handleInputSour} /> <br />
+              <RatingBitter onChange={this.handleInputBitter} /> <br />
+              <RatingGrade onChange={this.handleInputGrade}></RatingGrade>{" "}
+              <br />
+              <InputBox
+                className={styles.inputBox}
+                comment={this.state.comment}
+                onChange={this.handleInputComment}
+              />
             </div>
           </DialogContent>
 
           <DialogActions>
-            <Button variant="contained" color="primary" onClick={(e) => this.handleSubmit(this.props.reviewId)}>수정</Button>
-            <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={(e) => this.handleSubmit(this.props.reviewId)}
+            >
+              수정
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.handleClose}
+            >
+              닫기
+            </Button>
           </DialogActions>
         </Dialog>
       </>

@@ -179,7 +179,7 @@ class Admin_Update extends React.Component {
             <td>{menu[i]["price"]}</td>
             <td>{menu[i]["keyword"]}</td>
             <td>{menu[i]["grade"]}</td>
-            <td><ModifyMenu stateRefresh={this.stateRefresh} reviewId={menu[i]["menuId"]} /></td>
+            <td><ModifyMenu stateRefresh={this.stateRefresh} menuId={menu[i]["menuId"]}/></td>
             <td><button className="btn btn-danger" onClick={(Id) => this.deleteMenu(menu[i]["menuId"])}>삭제</button></td>
           </tr>
         );
@@ -200,7 +200,7 @@ class Admin_Update extends React.Component {
       });
     }
   }
-
+  
   stateRefresh = () => {
     this.setState({
       menuList: [],
