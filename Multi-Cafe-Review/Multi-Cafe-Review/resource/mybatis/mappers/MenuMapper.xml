@@ -192,6 +192,6 @@
 	                end)
                 ) a 
              ) b 
-       where 20 >= rn 
+       where 30 >= rn 
     </select> 
 </mapper>

@@ -8,12 +8,12 @@
 	
 	<!-- Insert -->
 	<insert id="insertUser" parameterType="Users" >
-		insert into users(user_id,pwd,phone,email,address,join_date,sweet,bitter,sour) values(#{userId},#{pwd},#{phone},#{email},#{address},sysdate,#{sweet},#{bitter},#{sour})
+		insert into users(user_id,pwd,phone,email,address,join_date,sweet,bitter,sour,coffee_sour) values(#{userId},#{pwd},#{phone},#{email},#{address},sysdate,#{sweet},#{bitter},#{sour},#{coffee_sour})
 	</insert>
 	
 	<!-- Update -->
 	<update id="updateUser" parameterType="Users">
-		update users set pwd=#{pwd}, phone=#{phone}, email=#{email}, address=#{address}, sweet=#{sweet}, bitter=#{bitter}, sour=#{sour} where user_id=#{userId}
+		update users set pwd=#{pwd}, phone=#{phone}, email=#{email}, address=#{address}, sweet=#{sweet}, bitter=#{bitter}, sour=#{sour}, coffee_sour=#{coffee_sour} where user_id=#{userId}
 	</update>
 	
 	<!-- Delete -->	
