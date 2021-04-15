@@ -109,6 +109,19 @@
 ### 👨‍👩‍👧USER
 
 `POST` **/register** : 회원가입
+```
+{
+  "userId":"id",
+  "pwd":"password",
+  "phone":"010-1234-4321",
+  "email":"aaa@naver.com",
+  "address":"서울시 노원구",
+  "sweet":4.5,
+  "bitter":1,
+  "sour":2,
+  "coffee_sour":0.5
+}
+```
 
 `GET` **/register/{id}/check** : 회원가입되어 있는 id인지 확인 (id 중복체크)
 
