@@ -7,11 +7,47 @@
 
 ### ☕CAFE
 
+`GET` **/cafe** : 모든 카페 가져오기
+
+`GET` **/cafe/{cafeId}** : cafeId에 해당하는 카페 가져오기
+
 -----------------------------------------
 ### 🧾MENU
 
+`GET` **/menu** : 메뉴 전체목록
+
+`GET` **/menu/{menuId}** : menuId에 해당하는 메뉴 가져오기
+
+`GET` **/menu/list/{condition}** : 좋아요순/조회수순/평점순/리뷰많은순 정렬 (condition: good/click/grade/review)
+
+`GET` **/menu/cafe/{cafeId}/{condition}** : cafeId에 해당하는 카페 메뉴의 condition별 정렬
+
+`GET` **/menu/category/{categoryId}/{condition}** : categoryId에 해당하는 카테고리의 condition별 정렬
+
+`GET` **/menu/cafe/{cafeId}** : cafeId에 해당하는 카페 메뉴
+
+`GET` **/menu/category/{categoryId}** : categoryId에 해당하는 카테고리 메뉴
+
+`GET` **/menu/cafe/{cafeId}/category/{categoryId}** : 카페의 카테고리에 해당하는 메뉴
+
+`GET` **/menu/cafe/{cafeId}/category/{categoryId}/{condition}** : 카페의 카테고리에 해당하는 메뉴 condition 정렬
+
+`GET` **/menu/search/{keyword}** : keyword로 메뉴 검색
+
+`GET` **/menu/cafe/{cafeId}/search/{keyword}** : cafeId안에서 keyword로 메뉴 검색
+
+`GET` **/menu/search/{keyword}/{condition}** : keyword로 메뉴 검색 condition 정렬
+
+`GET` **/menu/{menuId}/recommend/keyword** : keyword기반 추천메뉴
+
+`GET` **/menu/{menuId}/recommend/taste** : taste기반 추천메뉴
+
 ----------------------------------------
 ### 🏷CATEGORY
+
+`GET` **/category** : 모든 카테고리 가져오기
+
+`GET` **/category/{categoryId}** : categoryId에 해당하는 카테고리 가져오기
 
 ----------------------------------------
 ### ✒REVIEW
@@ -72,8 +108,53 @@
 ----------------------------------------
 ### 👨‍👩‍👧USER
 
+`POST` **/register** : 회원가입
+
+`GET` **/register/{id}/check** : 회원가입되어 있는 id인지 확인 (id 중복체크)
+
+`GET` **/user/{userId}** : 회원 정보
+
+`PUT` **/user** : 회원 정보 수정
+```
+{
+  "userId":"id",
+  "pwd":"password",
+  "phone":"010-1234-4321",
+  "email":"aaa@naver.com",
+  "address":"서울시 노원구",
+  "sweet":4.5,
+  "bitter":1,
+  "sour":2,
+  "coffee_sour":0.5
+}
+```
+
+`GET` **/user/recent/{userId}** : 회원이 최근 본 메뉴 (20개까지 보여줌)
+
+`GET` **/menu/recommend/{userId}** : 회원의 취향에 맞는 메뉴추천(30개만 보여줌)
+
+`POST` **/user/{userId}/{menuId}/likecheck** : 이미 좋아요인 상태면 좋아요 취소, 아닐 시에는 좋아요 추가
+
+**[메뉴 좋아요]** - 회원 전용 기능
+
+`GET` **/menu/check/{menuId}/{userId}** : 메뉴 좋아요 체크 (로그인 되어있는 user가 해당 menu를 like해놓은 상태면 true반환 비회원이거나 안해놨으면 false 반환)
+
+`GET` **/user/{userId}/menu/{menuId}/like** : 메뉴 좋아요 
+
+`GET` **/user/{userId}/menu/like** : 회원의 메뉴 좋아요 목록
+
 ----------------------------------------
 ### 🔐LOGIN
+
+`POST` **/login** : 회원 로그인
+```
+{
+  "userId":"id",
+  "pwd":"password"
+}
+```
+
+`GET` **/login** : 회원 로그아웃
 
 -----------------------------------------
 ### ⚙ADMIN
@@ -96,3 +177,35 @@
 `GET` **/admin/review/reports** : 관리자페이지에서 신고건수 10회 이상인 리뷰 조회 </br>
 
 `DELETE` **/admin/review/{reviewId}** : 관리자 페이지에서 리뷰 삭제 </br>
+
+
+**[메뉴 관련]**
+
+`POST` **/admin/menu** : 메뉴 추가 </br>
+```json
+{
+  "name":"메뉴이름",
+  "price":1000,
+  "description":"이 메뉴는 맛있어요",
+  "keyword:":"아메리카노",
+  "image":"(이미지주소)",
+  "hot":0,
+  "ice":1,
+  "categoryId":2000,
+  "cafeId":3000
+}
+```
+
+`PUT` **/admin/menu** : 메뉴 수정 </br>
+```json
+{
+  "menuId":"50000123",
+  "name":"메뉴이름",
+  "price":1000,
+  "description":"이 메뉴는 맛있어요",
+  "keyword:":"아메리카노",
+  "image":"(이미지주소)"
+}
+```
+
+`DELETE` **/admin/menu/{menuId}** : 메뉴 삭제 </br>
