@@ -101,7 +101,7 @@
 	<select id="listReportedReview" resultMap="review_resultMap">
 		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour, report
 		from review
-		where report>=1
+		where report>=2
 	</select>
 	
 </mapper>
