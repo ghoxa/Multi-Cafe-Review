@@ -68,6 +68,7 @@ class MapContainer extends React.Component {
             data: res.data,
             isLoaded: true,
           });
+          console.log(this.state.data);
           for (let i = 0; i < this.state.data.documents.length; i++) {
             displayMarker2(this.state.data.documents[i]);
             bounds.extend(new kakao.maps.LatLng(this.state.data.documents[i].y, this.state.data.documents[i].x));
@@ -89,7 +90,15 @@ class MapContainer extends React.Component {
         // 마커에 클릭이벤트를 등록
         kakao.maps.event.addListener(marker, 'click', function () {
           // 마커를 클릭하면 장소명이 인포윈도우에 표출
-          infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+          infowindow.setContent(
+            '<div style="padding:1px;font-size:12px;">' +
+              place.place_name +
+              '</div><div style="padding:1px;font-size:12px;">' +
+              place.phone +
+              '</div><div style="padding:1px;font-size:12px;">' +
+              place.address_name +
+              '</div>'
+          );
           infowindow.open(map, marker);
         });
       }
