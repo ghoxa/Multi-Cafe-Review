@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MapContainer from './MapContainer';
 import SearchPlace from './SearchPlace';
 /*global kakao*/
-const api_key = process.env.REACT_APP_KAKAOMAP_API;
+const api_key = process.env.REACT_APP_KAKAOMAP_JAVASCRIPTAPI;
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -62,68 +62,35 @@ class Map extends React.Component {
                   <div className='filter-content collapse show' id='collapse_1'>
                     <div className='card-body'>
                       <ul className='list-menu'>
-                        <li>모든카테고리</li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-                <article className='filter-group'>
-                  <header className='card-header'>
-                    <a href='#' data-toggle='collapse' data-target='#collapse_2' aria-expanded='false' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>지도</h6>
-                    </a>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_2'>
-                    <div className='card-body'>
-                      <ul className='list-menu'>
-                        <li></li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-
-                <article className='filter-group'>
-                  <header className='card-header'>
-                    <a href='#' data-toggle='collapse' data-target='#collapse_2' aria-expanded='false' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>마이페이지</h6>
-                    </a>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_2'>
-                    <div className='card-body'>
-                      <ul className='list-menu'>
                         <li>
-                          <a href='/mylike'>찜 목록 </a>
+                          <a href='/mylike'>모든카페</a>
                         </li>
                         <li>
-                          <a href='/myrecent'>최근 본 메뉴 </a>
+                          <a href='/myrecent'>메가커피 </a>
                         </li>
                         <li>
-                          <Link to='/myreview'>내 리뷰 관리</Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </article>
-                <article className='filter-group'>
-                  <header className='card-header'>
-                    <Link to='/adminpage' data-toggle='collapse' data-target='#collapse_3' aria-expanded='false' className=''>
-                      <i className='icon-control fa fa-chevron-down'></i>
-                      <h6 className='title'>관리자페이지</h6>
-                    </Link>
-                  </header>
-                  <div className='filter-content collapse show' id='collapse_3'>
-                    <div className='card-body'>
-                      <ul className='list-menu'>
+                          <a href='/myrecent'>스타벅스 </a>
+                        </li>{' '}
                         <li>
-                          <Link to='/admin_insert'>메뉴 추가</Link>
+                          <a href='/myrecent'>요거프레소 </a>
+                        </li>{' '}
+                        <li>
+                          <a href='/myrecent'>이디야 </a>
+                        </li>{' '}
+                        <li>
+                          <a href='/myrecent'>커피빈 </a>
+                        </li>{' '}
+                        <li>
+                          <a href='/myrecent'>탐앤탐스 </a>
+                        </li>{' '}
+                        <li>
+                          <a href='/myrecent'>투썸플레이스 </a>
                         </li>
                         <li>
-                          <Link to='/admin_update'>메뉴 수정</Link>
-                        </li>
+                          <a href='/myrecent'>할리스 </a>
+                        </li>{' '}
                         <li>
-                          <Link to='/admin_cafe'>카페 관리</Link>
+                          <a href='/myrecent'>백다방 </a>
                         </li>
                       </ul>
                     </div>
