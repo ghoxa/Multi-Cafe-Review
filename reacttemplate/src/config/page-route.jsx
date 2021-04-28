@@ -19,6 +19,7 @@ import ModifyReview from "../pages/modifyreview.jsx";
 import Admin_Cafe from "../pages/admin_cafe.jsx";
 import Map from "../pages/map.jsx";
 import MyTaste from "../pages/mytaste.jsx";
+import Admin_Warning from "../pages/admin_warning.jsx";
 
 const routes = [
   {
@@ -62,6 +63,10 @@ const routes = [
   {
     path: "/admin_update",
     component: () => <Admin_Update />,
+  },
+  {
+    path: "/admin_warning",
+    component: () => <Admin_Warning />,
   },
   {
     path: "/myreview",
