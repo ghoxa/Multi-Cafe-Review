@@ -20,6 +20,9 @@ if (localStorage.getItem("conditionId") == null) {
 if (localStorage.getItem("keyword") == null) {
   localStorage.setItem("keyword", 0);
 }
+if (localStorage.getItem("reviewConditionId") == null) {
+  localStorage.setItem("reviewConditionId", "recent");
+}
 class Header extends React.Component {
   constructor(props) {
     super(props);

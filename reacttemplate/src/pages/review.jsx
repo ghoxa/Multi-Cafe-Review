@@ -138,9 +138,11 @@ class ReviewPage extends Component {
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
+    const reviewConditionId = localStorage.getItem('reviewConditionId');
     let selectMenuCheckUrl = '';
     let likeCheckUrl = '';
     let ReviewLikeCheckUrl = '';
+    let menuReivewUrl = '';
 
     console.log(this.state.login);
     this.state.login
@@ -148,7 +150,14 @@ class ReviewPage extends Component {
       : (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`));
 
     const reviewId = localStorage.getItem('reviewId');
-    const menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+    
+    if(reviewConditionId == "recent"){
+      menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+    }
+    else{
+      menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${reviewConditionId}/${menuId}`);
+    }
+    
 
     const similarMenuByKeyWordUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/keyword`);
     const similarMenuByTasteUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}/recommend/taste`);
@@ -198,6 +207,10 @@ class ReviewPage extends Component {
   
   
 //  }
+handleClickCondition = (value) => () => {
+  localStorage.setItem("reviewConditionId", value);
+  window.location.replace('/review');
+};
 
 
   handleClick = (value) => () => {
@@ -276,8 +289,7 @@ class ReviewPage extends Component {
         </tr>
       );
     }
-    return list;
-   
+    return list;   
   }
 
   showMenuInfo(){
@@ -365,17 +377,16 @@ class ReviewPage extends Component {
     this.callReviewList();
       // this.showMenuInfo(); //나중에 해결  
     this.createListOfReview();
-    window.location.replace('/review');
-    
+    //window.location.replace('/review');
   }
   // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
   callReviewList = async () => {
+    const reviewConditionId = localStorage.getItem('reviewConditionId')
     const menuId = localStorage.getItem('menuId');
-    const res = await axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+    const res = await axios.get(`http://localhost:9090/multicafe/api/review/${reviewConditionId}/${menuId}`);
     this.setState({
       menuReivew: res.data,
       isLoaded: true,
-
     });
   }
   calMenuInfo = async () => {
@@ -387,8 +398,8 @@ class ReviewPage extends Component {
       : (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`));
      const res= await selectMenuCheckUrl
      this.setState({
-      selectMenuCheck: res.data,
-         isLoaded: true,
+        selectMenuCheck: res.data,
+        isLoaded: true,
     });
 
   }
@@ -459,6 +470,41 @@ class ReviewPage extends Component {
                   {/*Grid column*/}
                 </div>
                 <br />
+                <div class="dropdown">
+                      <button
+                        type="button"
+                        class="btn btn-primary dropdown-toggle"
+                        data-toggle="dropdown"
+                      >
+                        {localStorage.getItem("reviewConditionId")}
+                      </button>
+                      <div class="dropdown-menu">
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("good")}
+                        >
+                          good
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("click")}
+                        >
+                          click
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("grade")}
+                        >
+                          grade
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("review")}
+                        >
+                          review
+                        </a>
+                      </div>
+                    </div>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
