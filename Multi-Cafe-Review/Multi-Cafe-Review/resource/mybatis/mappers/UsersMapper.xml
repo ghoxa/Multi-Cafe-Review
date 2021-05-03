@@ -22,7 +22,7 @@
 	</delete>
 	
 	<select id="getUser" resultMap="users_resultMap">
-		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
+		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour, coffee_sour
 		from users
 		where user_id=#{userId}
 	</select>
@@ -32,7 +32,7 @@
 	</select>
 	
 	<select id="login" resultMap="users_resultMap">
-		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour
+		select user_id, pwd, phone, email, address, join_date, sweet, bitter, sour, coffee_sour
 		from users
 		where user_id=#{userId} and pwd=#{pwd}
 	</select>
