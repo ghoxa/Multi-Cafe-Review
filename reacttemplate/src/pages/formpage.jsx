@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup, FormText, Input, Label, Row } from 'reactstrap';
 import axios from 'axios';
+import ReactStars from 'react-rating-stars-component';
+import styles from '../Css/register.module.css';
 
 
 const userId = localStorage.getItem('userId');
 class FormPage extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -17,9 +18,9 @@ class FormPage extends React.Component {
     Promise.all([axios.get(`http://localhost:9090/multicafe/api/user/${userId}`)])
       .then(([res]) => {
         this.setState({
-          userInfo: res.data,          
+          userInfo: res.data,
         });
-        // console.log(this.state.userInfo.address)
+        //console.log(this.state.userInfo)
       })           
       .catch((err) => {
         console.log(err);
@@ -36,6 +37,7 @@ class FormPage extends React.Component {
     
   }
   handleSubmit = () => {
+    const {sweet, sour, bitter, acidity} = this.state;
 
     const signup_info = {
       userId: document.getElementById("id").value,
@@ -44,9 +46,10 @@ class FormPage extends React.Component {
       email: document.getElementById("email").value,
       address: document.getElementById("address").value,
       joinDate: '',
-      sweet: this.state.userInfo.sweet,
-      sour: this.state.userInfo.sour,
-      bitter: this.state.userInfo.bitter,
+      sweet: sweet,
+      sour: sour,
+      bitter: bitter,
+      acidity: acidity,
     };
     
     // console.log(signup_info)
@@ -56,6 +59,29 @@ class FormPage extends React.Component {
       window.location.replace('/formPage');
     });
   };
+  handleInputSweet = (rating) => {
+    this.setState({
+      sweet: rating,
+    });
+  };
+
+  handleInputSour = (rating) => {
+    this.setState({
+      sour: rating,
+    });
+  };
+
+  handleInputBitter = (rating) => {
+    this.setState({
+      bitter: rating,
+    });
+  };
+
+  handleInputAcidity = (rating) => {
+    this.setState({
+      acidity: rating,
+    });
+  };
   
   render(){
 
@@ -63,7 +89,7 @@ class FormPage extends React.Component {
       <section className="section-content padding-y">
         <div className="container">
           <div className="row">
-            <aside className="col-md-3">
+            <aside className="col-md-2">
               <div className="card">
                 <article className="filter-group">
                   <header className="card-header">
@@ -100,7 +126,7 @@ class FormPage extends React.Component {
               </div>
             </aside>
 
-            <main className="col-md-9">
+            <main className="col-md-10">
               <Card>
                 <CardHeader>Form Grid</CardHeader>
                 <CardBody>
@@ -175,6 +201,12 @@ class FormPage extends React.Component {
                         />
                       </Col>
                     </FormGroup>
+                    <FormGroup>
+                      <RatingSweet onChange={this.handleInputSweet} />
+                      <RatingSour onChange={this.handleInputSour} />
+                      <RatingBitter onChange={this.handleInputBitter} />
+                      <RatingAcidity onChange={this.handleInputAcidity} />
+                    </FormGroup>
 
                     <FormGroup check row>
                       <Col sm={{ size: 10, offset: 2 }}>
@@ -192,6 +224,48 @@ class FormPage extends React.Component {
   }
 };
   
+const RatingSweet = ({ onChange }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>단맛 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
 
+const RatingSour = ({ onChange }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>신맛 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
+
+const RatingBitter = ({ onChange }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>쓴맛 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
+
+const RatingAcidity = ({ onChange }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>산미 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
 
 export default FormPage;

@@ -143,34 +143,39 @@ class Admin_Insert extends React.Component {
             <aside className="col-md-3">
               <div className="card">
                 <article className="filter-group">
-                  <header className="card-header">
-                    <a
-                      href="#"
-                      data-toggle="collapse"
-                      data-target="#collapse_3"
-                      aria-expanded="false"
-                      className=""
+                    <header className="card-header">
+                      <Link
+                        data-toggle="collapse"
+                        data-target="#collapse_4"
+                        aria-expanded="false"
+                        className=""
+                      >
+                        <i className="icon-control fa fa-chevron-down"></i>
+                        <h6 className="title">관리자페이지</h6>
+                      </Link>
+                    </header>
+                    <div
+                      className="filter-content collapse show"
+                      id="collapse_4"
                     >
-                      <i className="icon-control fa fa-chevron-down"></i>
-                      <h6 className="title">관리자페이지</h6>
-                    </a>
-                  </header>
-                  <div className="filter-content collapse show" id="collapse_3">
-                    <div className="card-body">
-                      <ul className="list-menu">
-                        <li>
-                          <Link to="/admin_insert">메뉴 추가</Link>
-                        </li>
-                        <li>
-                          <Link to="/admin_update">메뉴 수정</Link>
-                        </li>
-                        <li>
+                      <div className="card-body">
+                        <ul className="list-menu">
+                          <li>
+                            <Link to="/admin_insert">메뉴 추가</Link>
+                          </li>
+                          <li>
+                            <Link to="/admin_update">메뉴 수정</Link>
+                          </li>
+                          <li>
                             <Link to="/admin_cafe">카페 관리</Link>
                           </li>
-                      </ul>
+                          <li>
+                            <Link to="/admin_warning">리뷰 신고 관리</Link>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                </article>
+                  </article>
               </div>
             </aside>
 

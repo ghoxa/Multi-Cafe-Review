@@ -40,12 +40,6 @@ class WriteReview extends Component {
     });
   };
 
-  handleInputAcidity = (rating) => {
-    this.setState({
-      acidity: rating,
-    });
-  };
-
   handleInputGrade = (rating) => {
     this.setState({
       grade: rating,
@@ -143,7 +137,6 @@ class WriteReview extends Component {
           bitter: '',
           grade: '',
           comment: '',
-          acidity: '',
           open: false
         });
       })
@@ -191,7 +184,6 @@ class WriteReview extends Component {
         sweet: '',
         sour: '',
         bitter: '',
-        acidity: '',
         grade: '',
         comment: '',
         open: false
@@ -211,7 +203,6 @@ class WriteReview extends Component {
               <RatingSweet onChange={this.handleInputSweet} /> <br/>
               <RatingSour onChange={this.handleInputSour} /> <br/>
               <RatingBitter onChange={this.handleInputBitter} /> <br/>
-              <RatingAcidity onChange={this.handleInputAcidity} /> <br/>
               <RatingGrade onChange={this.handleInputGrade}></RatingGrade> <br/>
               <InputBox className={styles.inputBox} comment={this.state.comment} onChange={this.handleInputComment} />
             </div>
@@ -253,17 +244,6 @@ const RatingBitter = ({ onChange }) => {
   return (
     <div className={styles.taste}>
       <span class={styles.font}>쓴맛 </span>
-      <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
-      </span>
-    </div>
-  );
-};
-
-const RatingAcidity = ({ onChange }) => {
-  return (
-    <div className={styles.taste}>
-      <span class={styles.font}>산미 </span>
       <span class={styles.rating}>
         <ReactStars activeColor='#ffc107' size={30} isHalf={true} onChange={onChange} />
       </span>
