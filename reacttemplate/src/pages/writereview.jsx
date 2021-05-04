@@ -96,7 +96,7 @@ class WriteReview extends Component {
     const { sweet, sour, bitter, grade, comment, acidity } = this.state;
     const menuId = parseInt(localStorage.getItem('menuId'));
     console.log(menuId);
-    if (sweet === '' || sour === '' || bitter === '' ||  grade === '' || comment === '' || acidity === '' ) {
+    if (sweet === '' || sour === '' || bitter === '' ||  grade === '' || comment === '') {
       alert('모든 입력을 완료해 주세요');
       return;
     }
@@ -139,6 +139,7 @@ class WriteReview extends Component {
           comment: '',
           open: false
         });
+        window.location.replace("/review");
       })
       .catch((err) => {
         console.log(err);
