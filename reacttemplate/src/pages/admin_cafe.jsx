@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import menuDataJson from "./menudata.json";
-import Page from "../components/layout/page";
 import axios from "axios";
 import { Table } from "react-bootstrap";
 import {
@@ -159,6 +157,9 @@ class Admin_Cafe extends React.Component {
                         </li>
                         <li>
                           <Link to="/admin_cafe">카페 관리</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_warning">리뷰 신고 관리</Link>
                         </li>
                       </ul>
                     </div>

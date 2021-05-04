@@ -1,7 +1,5 @@
-import { SpaOutlined } from '@material-ui/icons';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Form, FormGroup, Input, Label, Col } from 'reactstrap';
+import { Button, FormGroup, Input, Label, Col } from 'reactstrap';
 import ReactStars from 'react-rating-stars-component';
 import styles from '../Css/register.module.css';
 import axios from 'axios';
@@ -20,6 +18,7 @@ class Register extends React.Component {
       sour: '',
       bitter: '',
       acidity: '',
+      flag: false
     };
   }
 
@@ -83,9 +82,14 @@ class Register extends React.Component {
     const { id, pw, email, phone, address, sweet, sour, bitter, acidity } = this.state;
     e.preventDefault();
 
-    if (id === '' || pw === '' || email === '' || phone === '' || address === '' || sweet === '' || sour === '' || bitter === '') {
+    if (id === '' || pw === '' || email === '' || phone === '' || address === '' || sweet === '' || sour === '' || bitter === '' || acidity === '') {
       alert('모든 입력을 완료해 주세요');
       return;
+    }
+
+    if (!this.state.flag) {
+      alert('ID 중복체크를 해주세요')
+      return
     }
 
     const signup_info = {
@@ -98,7 +102,7 @@ class Register extends React.Component {
       sweet: sweet,
       sour: sour,
       bitter: bitter,
-      acidity: acidity,
+      coffee_sour: acidity,
     };
 
     Promise.all([axios.post('http://localhost:9090/multicafe/api/register', signup_info)]).then((res) => {
@@ -120,6 +124,7 @@ class Register extends React.Component {
           });
         } else {
           alert('사용 가능한 Id입니다.');
+          this.state.flag = true
         }
       })
       .catch((err) => {

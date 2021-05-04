@@ -1,3 +1,5 @@
+// 로그인 페이지
+
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { Button, FormGroup, Input, Label, Col } from 'reactstrap';
@@ -52,7 +54,6 @@ class SignIn extends React.Component {
 
       if (this.state.data != '') {
         alert('로그인되었습니다');
-        // window.localStorage.setItem('userInfo', JSON.stringify(this.state.data));
 
         this.setState({
           id: this.state.data.userId,
@@ -65,10 +66,12 @@ class SignIn extends React.Component {
           isAdmin: this.state.data.adminCheck,
         });
 
+        // 관리자로 로그인할 경우 admin을 true로 표시 / 일반 사용자일 경우 admin은 false
         if (this.state.isAdmin) {
           localStorage.setItem('admin', this.state.isAdmin);
         }
 
+        // 로그인한 id를 로컬스토리지에 저장, isLogin true로 설정(로그인했음을 표시)
         localStorage.setItem('userId', id);
         localStorage.setItem('isLogin', true);
         window.location.replace('/');

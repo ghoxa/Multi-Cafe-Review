@@ -166,7 +166,10 @@ class Admin_Insert extends React.Component {
                         </li>
                         <li>
                             <Link to="/admin_cafe">카페 관리</Link>
-                          </li>
+                        </li>
+                        <li>
+                            <Link to="/admin_warning">리뷰 신고 관리</Link>
+                        </li>
                       </ul>
                     </div>
                   </div>
