@@ -55,6 +55,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
+    localStorage.setItem("mapId", "all");
     const cafeId = localStorage.getItem("cafeId");
     const categoryId = localStorage.getItem("categoryId");
     const keyword = localStorage.getItem("keyword");
@@ -132,9 +133,9 @@ class Home extends React.Component {
     const categoryId = localStorage.getItem("categoryId");
     const keyword = localStorage.getItem("keyword");
     const conditionId = localStorage.getItem("conditionId");
-      // this.setState({
-      //   isLoaded: false,
-      // });​
+    // this.setState({
+    //   isLoaded: false,
+    // });​
     let menuApi = "";
     if (cafeId == 0) {
       //모든 카페
@@ -247,7 +248,7 @@ class Home extends React.Component {
       );
     } else {
       let menu = this.state.Menu;
-      
+
       let cateList = [];
       let category = this.state.cate;
       for (let i = 0; i < category.length; i++) {
@@ -270,9 +271,7 @@ class Home extends React.Component {
         <section className="section-content padding-y">
           <div className="container">
             <div className="row">
-​
-              <SideBar catelist={cateList}></SideBar>
-​
+              ​<SideBar catelist={cateList}></SideBar>​
               <main className="col-md-9">
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
@@ -317,11 +316,9 @@ class Home extends React.Component {
                     </div>
                   </div>
                 </header>
-​
-                {/* {this.createListOfSimilarMenu()} */}
-                {/* <div className='row'>{menulist}</div> */}
+
                 <div className="row">{this.printMenuList()}</div>
-​
+
                 <nav className="mt-4" aria-label="Page navigation sample">
                   <ul className="pagination justify-content-center">
                     <li className="page-item disabled">
