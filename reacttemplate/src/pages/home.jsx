@@ -4,7 +4,6 @@ import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import ReactStars from "react-rating-stars-component";
 import SideBar from "../components/layout/sidebar";
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -111,10 +110,12 @@ class Home extends React.Component {
           Menu: res2.data,
           isLoaded: true,
         });
+        // console.log(Menu);
       })
       .catch((err) => {
         console.log(err);
       });
+    // window.location.replace("/");
   }
 
   // 메뉴목록만 새로고침
@@ -131,11 +132,9 @@ class Home extends React.Component {
     const categoryId = localStorage.getItem("categoryId");
     const keyword = localStorage.getItem("keyword");
     const conditionId = localStorage.getItem("conditionId");
-
-    this.setState({
-      isLoaded: false,
-    });
-
+      // this.setState({
+      //   isLoaded: false,
+      // });​
     let menuApi = "";
     if (cafeId == 0) {
       //모든 카페
@@ -235,7 +234,7 @@ class Home extends React.Component {
       return menulist;
     }
   }
-  printCategoryList() {
+  render() {
     const { isLoaded, login } = this.state;
     if (!isLoaded) {
       return (
@@ -247,9 +246,10 @@ class Home extends React.Component {
         </div>
       );
     } else {
+      let menu = this.state.Menu;
+      
       let cateList = [];
       let category = this.state.cate;
-
       for (let i = 0; i < category.length; i++) {
         try {
           cateList.push(
@@ -270,89 +270,93 @@ class Home extends React.Component {
         <section className="section-content padding-y">
           <div className="container">
             <div className="row">
-
+​
               <SideBar catelist={cateList}></SideBar>
-
-            <main className="col-md-9">
-              <header className="border-bottom mb-4 pb-3">
-                <div className="form-inline">
-                  <span className="mr-md-auto"> Items found </span>
-                  <span className="mr-md-auto"></span>
-                  <div class="dropdown">
-                    <button
-                      type="button"
-                      class="btn btn-primary dropdown-toggle"
-                      data-toggle="dropdown"
-                    >
-                      {localStorage.getItem("conditionId")}
-                    </button>
-                    <div class="dropdown-menu">
-                      <a
-                        class="dropdown-item"
-                        onClick={this.handleClickCondition("good")}
+​
+              <main className="col-md-9">
+                <header className="border-bottom mb-4 pb-3">
+                  <div className="form-inline">
+                    <span className="mr-md-auto">
+                      {menu.length} Items found{" "}
+                    </span>
+                    <span className="mr-md-auto"></span>
+                    <div class="dropdown">
+                      <button
+                        type="button"
+                        class="btn btn-primary dropdown-toggle"
+                        data-toggle="dropdown"
                       >
-                        good
-                      </a>
-                      <a
-                        class="dropdown-item"
-                        onClick={this.handleClickCondition("click")}
-                      >
-                        click
-                      </a>
-                      <a
-                        class="dropdown-item"
-                        onClick={this.handleClickCondition("grade")}
-                      >
-                        grade
-                      </a>
-                      <a
-                        class="dropdown-item"
-                        onClick={this.handleClickCondition("review")}
-                      >
-                        review
-                      </a>
+                        {localStorage.getItem("conditionId")}
+                      </button>
+                      <div class="dropdown-menu">
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("good")}
+                        >
+                          good
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("click")}
+                        >
+                          click
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("grade")}
+                        >
+                          grade
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          onClick={this.handleClickCondition("review")}
+                        >
+                          review
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </header>
-
-              <div className="row">{this.printMenuList()}</div>
-
-              <nav className="mt-4" aria-label="Page navigation sample">
-                <ul className="pagination justify-content-center">
-                  <li className="page-item disabled">
-                    <a className="page-link" href="#">
-                      Previous
-                    </a>
-                  </li>
-                  <li className="page-item active">
-                    <a className="page-link" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      Next
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </main>
+                </header>
+​
+                {/* {this.createListOfSimilarMenu()} */}
+                {/* <div className='row'>{menulist}</div> */}
+                <div className="row">{this.printMenuList()}</div>
+​
+                <nav className="mt-4" aria-label="Page navigation sample">
+                  <ul className="pagination justify-content-center">
+                    <li className="page-item disabled">
+                      <a className="page-link" href="#">
+                        Previous
+                      </a>
+                    </li>
+                    <li className="page-item active">
+                      <a className="page-link" href="#">
+                        1
+                      </a>
+                    </li>
+                    <li className="page-item">
+                      <a className="page-link" href="#">
+                        2
+                      </a>
+                    </li>
+                    <li className="page-item">
+                      <a className="page-link" href="#">
+                        3
+                      </a>
+                    </li>
+                    <li className="page-item">
+                      <a className="page-link" href="#">
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </main>
+            </div>
           </div>
-        </div>
-      </section>
-    );
+        </section>
+      );
+    }
   }
 }
-
 export default Home;
