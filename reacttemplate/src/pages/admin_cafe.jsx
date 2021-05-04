@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import menuDataJson from "./menudata.json";
+import Page from "../components/layout/page";
 import axios from "axios";
 import { Table } from "react-bootstrap";
 import {
