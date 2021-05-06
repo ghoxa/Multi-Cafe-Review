@@ -14,11 +14,21 @@
 		<result column="menu_id" property="menuId"/>
 	</resultMap>
 	
+    <select id="countUserLike" resultType="int">
+    	select count(*) from likes where user_id=#{userId}
+    </select>
+    
 	<!-- ListView -->
 	<select id="listViewLike" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
-		from likes l, menu m 
-		where l.menu_id=m.menu_id and l.user_id=#{userId}
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
+				from likes l, menu m 
+				where l.menu_id=m.menu_id and l.user_id=#{userId}
+		        ) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="getLike" resultMap="likes_resultMap">

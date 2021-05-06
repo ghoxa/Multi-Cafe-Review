@@ -1,11 +1,11 @@
 package kr.co.multicafe.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +16,18 @@ import kr.co.multicafe.dao.ReviewMapper;
 import kr.co.multicafe.dao.UsersMapper;
 import kr.co.multicafe.dto.Likes;
 import kr.co.multicafe.dto.Menu;
+import kr.co.multicafe.dto.Page;
 import kr.co.multicafe.dto.Recent;
 import kr.co.multicafe.dto.Taste;
-import kr.co.multicafe.dto.Users;
 
 @Service
 @Transactional
 public class MenuService {
+	
+	@Value("21")
+	private int PAGE_SIZE;
+	@Value("10")
+	private int BLOCK_SIZE;
 	
 	@Autowired
 	private MenuMapper menuMapper;
@@ -32,10 +37,6 @@ public class MenuService {
 	
 	@Autowired
 	private RecentMapper recentMapper;
-
-	@Autowired
-	private ReviewMapper reviewMapper;
-	
 
 	@Autowired
 	private UsersMapper usersMapper;
@@ -98,53 +99,161 @@ public class MenuService {
 		}
 	}
 	
-	public List<Menu> listViewMenu() { 
-		return menuMapper.listViewMenu();
+	public int countMenu() {
+		return menuMapper.countMenu();
 	}
 	
-	public List<Menu> listViewMenuByCondition(String condition) { //condition은 good(좋아요순), click(조회수순)
-		return menuMapper.listViewMenuByCondition(condition);
+	public int countCafeMenu(int cafeId) {
+		return menuMapper.countCafeMenu(cafeId);
 	}
 	
-	public List<Menu> listViewCafeMenuByCondition(int cafeId, String condition) {
-		return menuMapper.listViewCafeMenuByCondition(cafeId, condition);
+	public int countCategoryMenu(int categoryId) {
+		return menuMapper.countCategoryMenu(categoryId);
 	}
 	
-	public List<Menu> listViewCategoryMenuByCondition(int categoryId, String condition) {
-		return menuMapper.listViewCategoryMenuByCondition(categoryId, condition);
+	public int countCafeCategoryMenu(int cafeId, int categoryId) {
+		return menuMapper.countCafeCategoryMenu(cafeId, categoryId);
 	}
 	
-	public List<Menu> listViewCafeMenu(int cafeId) {
-		return menuMapper.listViewCafeMenu(cafeId);
+	public int countSearchMenu(String keyword) {
+		return menuMapper.countSearchMenu(keyword);
 	}
 	
-	public List<Menu> listViewCategoryMenu(int categoryId) {
-		return menuMapper.listViewCategoryMenu(categoryId);
+	public int countSearchCafeMenu(String keyword, int cafeId) {
+		return menuMapper.countSearchCafeMenu(keyword, cafeId);
 	}
 	
-	public List<Menu> listViewCafeMenuByCategory(int cafeId, int categoryId) {
-		return menuMapper.listViewCafeMenuByCategory(cafeId, categoryId);
+	public int countSearchCategoryMenu(String keyword, int categoryId) {
+		return menuMapper.countSearchCategoryMenu(keyword, categoryId);
 	}
 	
-	public List<Menu> listViewCafeCategoryMenuByCondition(int cafeId, int categoryId, String condition) {
-		return menuMapper.listViewCafeCategoryMenuByCondition(cafeId, categoryId, condition);
+	public int countSearchCafeCategoryMenu(String keyword, int cafeId, int categoryId) {
+		return menuMapper.countSearchCafeCategoryMenu(keyword, cafeId, categoryId);
 	}
 	
-	public List<Menu> searchMenu(String keyword) { //메뉴이름, 설명, 키워드
-		return menuMapper.searchMenu(keyword);
+	public int countUserLike(String userId) {
+		return likesMapper.countUserLike(userId);
 	}
 	
-	public List<Menu> searchCafeMenu(int cafeId, String keyword) { //(카페별 검색)메뉴이름, 설명, 키워드
-		return menuMapper.searchCafeMenu(cafeId, keyword);
+	public Page pageInfo(int count, int pageno) {
+		int countOfPage = count / PAGE_SIZE + 1;
+		if (count % PAGE_SIZE == 0) countOfPage--;
+		if (pageno > countOfPage) pageno = countOfPage;
+		int startPageNum = (pageno-1) * PAGE_SIZE + 1;
+		int endPageNum = pageno * PAGE_SIZE;
+		if (pageno * PAGE_SIZE > count) endPageNum = count;
+		int blockNo = pageno / BLOCK_SIZE + 1;
+		if (pageno % BLOCK_SIZE == 0) blockNo--;
+		int prev = (blockNo-1) * BLOCK_SIZE;
+		int start = prev + 1;
+		int end = blockNo * BLOCK_SIZE;
+		int next = end + 1;
+		if (blockNo * BLOCK_SIZE > countOfPage) {
+			end = countOfPage;
+			next = 0;
+		}
+		
+		return new Page(pageno, start, end, prev, next, startPageNum, endPageNum);
 	}
 	
-	public List<Menu> searchMenuByCondition(String keyword, String condition) { //메뉴이름, 설명, 키워드
-		return menuMapper.searchMenuByCondition(keyword, condition);
+	public Page listViewMenu(int pageno) { 
+		Page page = pageInfo(menuMapper.countMenu(), pageno);
+		page.setList(menuMapper.listViewMenu(page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
 	}
 	
-	public List<Menu> searchCafeMenuByCondition(int cafeId, String keyword, String condition) { //(카페별 검색)메뉴이름, 설명, 키워드
-		return menuMapper.searchCafeMenuByCondition(cafeId, keyword, condition);
+	public Page listViewMenuByCondition(String condition, int pageno) { //condition은 good(좋아요순), click(조회수순)
+		Page page = pageInfo(menuMapper.countMenu(), pageno);
+		page.setList(menuMapper.listViewMenu(page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
 	}
+	
+	public Page listViewCafeMenuByCondition(int cafeId, String condition, int pageno) {
+		Page page = pageInfo(menuMapper.countCafeMenu(cafeId), pageno);
+		page.setList(menuMapper.listViewCafeMenuByCondition(cafeId, condition, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page listViewCategoryMenuByCondition(int categoryId, String condition, int pageno) {
+		Page page = pageInfo(menuMapper.countCategoryMenu(categoryId), pageno);
+		page.setList(menuMapper.listViewCategoryMenuByCondition(categoryId, condition, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page listViewCafeMenu(int cafeId, int pageno) {
+		Page page = pageInfo(menuMapper.countCafeMenu(cafeId), pageno);
+		page.setList(menuMapper.listViewCafeMenu(cafeId, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page listViewCategoryMenu(int categoryId, int pageno) {
+		Page page = pageInfo(menuMapper.countCategoryMenu(categoryId), pageno);
+		page.setList(menuMapper.listViewCategoryMenu(categoryId, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page listViewCafeMenuByCategory(int cafeId, int categoryId, int pageno) {
+		Page page = pageInfo(menuMapper.countCafeCategoryMenu(cafeId, categoryId), pageno);
+		page.setList(menuMapper.listViewCafeMenuByCategory(cafeId, categoryId, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page listViewCafeCategoryMenuByCondition(int cafeId, int categoryId, String condition, int pageno) {
+		Page page = pageInfo(menuMapper.countCafeCategoryMenu(cafeId, categoryId), pageno);
+		page.setList(menuMapper.listViewCafeCategoryMenuByCondition(cafeId, categoryId, condition, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page searchMenu(String keyword, int pageno) { //메뉴이름, 설명, 키워드
+		Page page = pageInfo(menuMapper.countSearchMenu(keyword), pageno);
+		page.setList(menuMapper.searchMenu(keyword, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page searchCafeMenu(int cafeId, String keyword, int pageno) { //(카페별 검색)메뉴이름, 설명, 키워드
+		Page page = pageInfo(menuMapper.countSearchCafeMenu(keyword, cafeId), pageno);
+		page.setList(menuMapper.searchCafeMenu(cafeId, keyword, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page searchMenuByCondition(String keyword, String condition, int pageno) { //메뉴이름, 설명, 키워드
+		Page page = pageInfo(menuMapper.countSearchMenu(keyword), pageno);
+		page.setList(menuMapper.searchMenuByCondition(keyword, condition, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page searchCafeMenuByCondition(int cafeId, String keyword, String condition, int pageno) { //(카페별 검색)메뉴이름, 설명, 키워드
+		Page page = pageInfo(menuMapper.countSearchCafeMenu(keyword, cafeId), pageno);
+		page.setList(menuMapper.searchCafeMenuByCondition(cafeId, keyword, condition, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+	
+	public Page searchCategoryMenuByCondition(int categoryId, String keyword, String condition, int pageno) {
+		Page page = pageInfo(menuMapper.countSearchCategoryMenu(keyword, categoryId), pageno);
+		page.setList(menuMapper.searchCategoryMenuByCondition(categoryId, keyword, condition, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+
+	public Page searchCafeCategoryMenuByCondition(int cafeId, int categoryId, String keyword, String condition, int pageno) {
+		Page page = pageInfo(menuMapper.countSearchCafeCategoryMenu(keyword, cafeId, categoryId), pageno);
+		page.setList(menuMapper.searchCafeCategoryMenuByCondition(cafeId, categoryId, keyword, condition, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
+	}
+
 	
 	@Transactional
 	public List<Menu> listViewRecommendMenuByKeyword(int menuId) {
@@ -193,8 +302,11 @@ public class MenuService {
 
 	}
 
-	public List<Menu> listViewLike(String userId) {
-		return likesMapper.listViewLike(userId);
+	public Page listViewLike(String userId, int pageno) {
+		Page page = pageInfo(likesMapper.countUserLike(userId), pageno);
+		page.setList(likesMapper.listViewLike(userId, page.getStartPageNum(), page.getEndPageNum()));
+		
+		return page;
 	}
 	
 	public Likes getLike(String userId, int menuId) {
