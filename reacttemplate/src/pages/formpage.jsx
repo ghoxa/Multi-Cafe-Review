@@ -4,7 +4,6 @@ import { Button, Card, CardBody, CardHeader, Col, Form, FormFeedback, FormGroup,
 import axios from 'axios';
 import ReactStars from 'react-rating-stars-component';
 import styles from '../Css/register.module.css';
-import { TurnedInTwoTone } from '@material-ui/icons';
 import { CircularProgress } from "@material-ui/core";
 
 
@@ -13,7 +12,6 @@ class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: "",
       isLoaded: false,
     };
   }
@@ -22,9 +20,14 @@ class FormPage extends React.Component {
       .then(([res]) => {
         this.setState({
           userInfo: res.data,
+          joinDate: '',
+          sweet: res.data.sweet,
+          sour: res.data.sour,
+          bitter: res.data.bitter,
+          coffee_sour: res.data.coffee_sour,
           isLoaded: true,
         });
-        //console.log(this.state.userInfo)
+        // console.log(this.state.userInfo)
       })
       .catch((err) => {
         console.log(err);
@@ -38,11 +41,10 @@ class FormPage extends React.Component {
     } else {
       document.getElementById(id).value = temp
     }
-
   }
 
   handleSubmit = () => {
-    const { sweet, sour, bitter, acidity } = this.state;
+    const { sweet, sour, bitter, coffee_sour } = this.state;
 
     const signup_info = {
       userId: document.getElementById("id").value,
@@ -54,16 +56,17 @@ class FormPage extends React.Component {
       sweet: sweet,
       sour: sour,
       bitter: bitter,
-      coffee_sour: acidity,
+      coffee_sour: coffee_sour,
     };
 
     console.log(signup_info)
     Promise.all([axios.put(`http://localhost:9090/multicafe/api/user`, signup_info)])
       .then((res) => {
-        //alert('수정완료');
-        //window.location.replace('/formPage');
+        alert('수정완료');
+        window.location.replace('/formPage');
       });
   };
+
   handleInputSweet = (rating) => {
     this.setState({
       sweet: rating,
@@ -82,58 +85,14 @@ class FormPage extends React.Component {
     });
   };
 
-  handleInputAcidity = (rating) => {
+  handleInputCoffeeSour = (rating) => {
     this.setState({
-      acidity: rating,
+      coffee_sour: rating,
     });
   };
 
-  RatingSweet = ({ onChange }) => {
-    return (
-      <div className={styles.taste}>
-        <span class={styles.font}>단맛</span>
-        <span class={styles.rating}>
-          <ReactStars activeColor='#ffc107' value={this.state.userInfo.sweet} size={25} isHalf={true} onChange={onChange} />
-        </span>
-      </div>
-    );
-  };
-
-  RatingSour = ({ onChange }) => {
-    return (
-      <div className={styles.taste}>
-        <span class={styles.font}>신맛 </span>
-        <span class={styles.rating}>
-          <ReactStars activeColor='#ffc107' value={this.state.userInfo.sour} size={25} isHalf={true} onChange={onChange} />
-        </span>
-      </div>
-    );
-  };
-
-  RatingBitter = ({ onChange }) => {
-    return (
-      <div className={styles.taste}>
-        <span class={styles.font}>쓴맛 </span>
-        <span class={styles.rating}>
-          <ReactStars activeColor='#ffc107' value={this.state.userInfo.bitter} size={25} isHalf={true} onChange={onChange} />
-        </span>
-      </div>
-    );
-  };
-
-  RatingAcidity = ({ onChange }) => {
-    return (
-      <div className={styles.taste}>
-        <span class={styles.font}>산미 </span>
-        <span class={styles.rating}>
-          <ReactStars activeColor='#ffc107' value={this.state.userInfo.coffee_sour} size={25} isHalf={true} onChange={onChange} />
-        </span>
-      </div>
-    );
-  };
-
   render() {
-    const {isLoaded} = this.state;
+    const {isLoaded, userInfo} = this.state;
     if (!isLoaded) {
       return (
         <div
@@ -199,7 +158,7 @@ class FormPage extends React.Component {
                             type="id"
                             id="id"
                             placeholder="id placeholder"
-                            value={this.state.userInfo.userId}
+                            value={userInfo.userId}
                           // onClick = {this.modUserVal("id")}
                           />
                         </Col>
@@ -213,7 +172,7 @@ class FormPage extends React.Component {
                             type="password"
                             id="password"
                             placeholder="password placeholder"
-                            value={this.state.userInfo.pwd}
+                            value={userInfo.pwd}
                             onClick={this.modUserVal("password")}
                           />
                         </Col>
@@ -227,7 +186,7 @@ class FormPage extends React.Component {
                             type="email"
                             id="email"
                             placeholder="with a placeholder"
-                            value={this.state.userInfo.email}
+                            value={userInfo.email}
                             onClick={this.modUserVal("email")}
                           />
                         </Col>
@@ -241,7 +200,7 @@ class FormPage extends React.Component {
                             type="text"
                             id="phonenumber"
                             placeholder="with a placeholder"
-                            value={this.state.userInfo.phone}
+                            value={userInfo.phone}
                             onClick={this.modUserVal("phonenumber")}
                           />
                         </Col>
@@ -255,16 +214,16 @@ class FormPage extends React.Component {
                             type="text"
                             id="address"
                             placeholder="address placeholder"
-                            value={this.state.userInfo.address}
+                            value={userInfo.address}
                             onClick={this.modUserVal("address")}
                           />
                         </Col>
                       </FormGroup>
                       <FormGroup>
-                        {this.RatingSweet(this.handleInputSweet)}
-                        {this.RatingSour(this.handleInputSour)}
-                        {this.RatingBitter(this.handleInputBitter)}
-                        {this.RatingAcidity(this.handleInputAcidity)}
+                        <RatingSweet onChange={this.handleInputSweet} val={userInfo.sweet}/> 
+                        <RatingSour onChange={this.handleInputSour} val={userInfo.sour}/> 
+                        <RatingBitter onChange={this.handleInputBitter} val={userInfo.bitter}/> 
+                        <RatingAcidity onChange={this.handleInputCoffeeSour} val={userInfo.coffee_sour}/> 
                       </FormGroup>
 
                       <FormGroup check row>
@@ -284,6 +243,48 @@ class FormPage extends React.Component {
   }
 };
 
+const RatingSweet = ({ onChange, val }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>단맛 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' value={val} size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
 
+const RatingSour = ({ onChange, val }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>신맛 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' value={val} size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
+
+const RatingBitter = ({ onChange, val }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>쓴맛 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' value={val} size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
+
+const RatingAcidity = ({ onChange, val }) => {
+  return (
+    <div className={styles.taste}>
+      <span class={styles.font}>산미 </span>
+      <span class={styles.rating}>
+        <ReactStars activeColor='#ffc107' value={val} size={25} isHalf={true} onChange={onChange} />
+      </span>
+    </div>
+  );
+};
 
 export default FormPage;
