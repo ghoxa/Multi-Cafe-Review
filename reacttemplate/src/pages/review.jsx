@@ -144,7 +144,6 @@ class ReviewPage extends Component {
     let ReviewLikeCheckUrl = '';
     let menuReivewUrl = '';
 
-    console.log(this.state.login);
     this.state.login
       ? (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/check/${menuId}/${userId}`))
       : (selectMenuCheckUrl = axios.get(`http://localhost:9090/multicafe/api/menu/${menuId}`));
@@ -178,12 +177,6 @@ class ReviewPage extends Component {
           reviewLike: res6.data,
           isLoaded: true,
         });
-        console.log(this.state.reviewLike);
-        // console.log(this.state.mylike);
-        // console.log(this.state.similarMenuByKeyWord);
-        console.log(this.state.menuReivew);
-        console.log(this.state.selectMenuCheck);
-        // console.log(this.state.selectMenu);
       })
       .catch((err) => {
         console.log(err);
@@ -292,12 +285,12 @@ handleClickCondition = (value) => () => {
   
     let info=[];
     const { selectMenuCheck} = this.state;
+    console.log(selectMenuCheck)
     info.push( <div className='row wow fadeIn'>
     {/*Grid column*/}
     <span className='col-md-6 mb-4'>
       <div>
         <div style={{ fontSize: 30 }}>평점 &nbsp;{selectMenuCheck.grade}</div>
-        {console.log("별점" + selectMenuCheck.grade)}
         <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.grade} size={35} isHalf={true} />
       </div>
 
@@ -341,7 +334,7 @@ handleClickCondition = (value) => () => {
             </ul>
           </div>
           <div className='rating-wrap mb-3'>
-            신맛: &nbsp;
+            {selectMenuCheck.categoryId == 3000 ? "산미" : "신맛"}: &nbsp;
             <ul className='rating-stars'>
               <ReactStars edit={false} activeColor='#ffc107' value={selectMenuCheck.sour} size={25} isHalf={true} />
             </ul>
