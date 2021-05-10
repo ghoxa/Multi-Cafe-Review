@@ -271,7 +271,7 @@ class Home extends React.Component {
         <section className="section-content padding-y">
           <div className="container">
             <div className="row">
-              ​<SideBar catelist={cateList}></SideBar>​
+              ​<SideBar catelist={cateList} stateRefresh={this.stateRefresh}></SideBar>​
               <main className="col-md-9">
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
