@@ -37,14 +37,10 @@ class Header extends React.Component {
   componentDidMount() {
     const userId = localStorage.getItem("userId");
     const cafeApi = axios.get("http://localhost:9090/multicafe/api/cafe");
-    const myLikeUrl = axios.get(
-      `http://localhost:9090/multicafe/api/user/${userId}/menu/like`
-    );
-    Promise.all([cafeApi, myLikeUrl])
-      .then(([res, res2]) => {
+    Promise.all([cafeApi])
+      .then(([res]) => {
         this.setState({
           Cafe: res.data,
-          myLike: res2.data,
           isLoaded: true,
         });
         // console.log(this.state.Cafe);
@@ -68,7 +64,8 @@ class Header extends React.Component {
     localStorage.setItem("cafeId", value);
     localStorage.setItem("categoryId", 0);
     localStorage.setItem("keyword", 0);
-    window.location.replace('/');    
+    // window.location.replace('/');
+    this.stateRefresh();
   };
 
   checkLogid = () => {
