@@ -11,9 +11,8 @@ class Home extends React.Component {
       isLoaded: false,
       customColor: {},
       login: localStorage.getItem("isLogin"),
-      cateName: "",
+      pageNo: 1,
     };
-    // this.handleClick = this.handleClick.bind(this);
   }
 
   checkLogid = () => {
@@ -27,27 +26,30 @@ class Home extends React.Component {
   };
 
   handleClickCategory = (value) => () => {
-    // console.log(value);
     localStorage.setItem("categoryId", value);
     localStorage.setItem("keyword", 0);
-    //window.location.replace('/');
 
     this.stateRefresh();
   };
 
   handleClickCondition = (value) => () => {
-    // console.log(value);
     localStorage.setItem("conditionId", value);
-    //window.location.replace('/');
-
     this.stateRefresh();
   };
 
-  handleClickSerch = () => {
-    localStorage.setItem(
-      "keyword",
-      document.getElementById("inputkeyword").value
-    );
+  handleClickPageNo = (No) => () =>{
+    this.setState({
+      pageNo: No,
+    });
+    // console.log(this.state.pageNo);
+    this.stateRefresh();
+  }
+
+  handleClickSerch = () => {//sidebar 로 넘어감
+    this.setState({
+      conditionId: 0,
+      categoryId: 0,
+    });
     localStorage.setItem("categoryId", 0);
     //window.location.replace('/');
 
@@ -56,53 +58,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     localStorage.setItem("mapId", "all");
-    const cafeId = localStorage.getItem("cafeId");
-    const categoryId = localStorage.getItem("categoryId");
-    const keyword = localStorage.getItem("keyword");
-    const conditionId = localStorage.getItem("conditionId");
+    // const cafeId = localStorage.getItem("cafeId");
+    // const categoryId = localStorage.getItem("categoryId");
+    // const keyword = localStorage.getItem("keyword");
+    // const conditionId = localStorage.getItem("conditionId");
 
     const cateUrl = axios.get(`http://localhost:9090/multicafe/api/category`);
-    let menuApi = `http://localhost:9090/multicafe/api/menu/list/${conditionId}`;
+    let menuApi = axios.get(`http://localhost:9090/multicafe/api/menu/list/1`);
 
-    if (cafeId == 0) {
-      //모든 카페
-      if (categoryId == 0 && keyword == 0) {
-        // 모든 카테고리
-        menuApi = axios.get(
-          `http://localhost:9090/multicafe/api/menu/list/${conditionId}`
-        );
-      } else if (categoryId == 0 && keyword != 0) {
-        //키워드 검색
-        menuApi = axios.get(
-          `http://localhost:9090/multicafe/api/menu/search/${keyword}/${conditionId}`
-        );
-      } else if (categoryId != 0) {
-        //카테고리 선택
-        menuApi = axios.get(
-          `http://localhost:9090/multicafe/api/menu/category/${categoryId}/${conditionId}`
-        );
-      }
-    } else if (cafeId != 0) {
-      // 카페선택
-      if (categoryId == 0 && keyword == 0) {
-        // 모든 카테고리
-        menuApi = axios.get(
-          `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/${conditionId}`
-        );
-      } else if (categoryId == 0 && keyword != 0) {
-        //키워드 검색
-        menuApi = axios.get(
-          `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/search/${keyword}/${conditionId}`
-        );
-      } else if (categoryId != 0) {
-        //카테고리 선택
-        menuApi = axios.get(
-          `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/category/${categoryId}/${conditionId}`
-        );
-      }
-    } else {
-      alert("예외상황!!");
-    }
+    
     Promise.all([cateUrl, menuApi])
 
       .then(([res, res2]) => {
@@ -111,7 +75,7 @@ class Home extends React.Component {
           Menu: res2.data,
           isLoaded: true,
         });
-        // console.log(Menu);
+        // console.log(this.state.Menu.list);
       })
       .catch((err) => {
         console.log(err);
@@ -123,48 +87,47 @@ class Home extends React.Component {
   stateRefresh = () => {
     this.setState({
       Menu: [],
+      isLoaded: false,
     });
     this.callMenuList();
     this.printMenuList();
   };
   // 비동기통신으로 메뉴리스트 받아와서 menuList에 저장
   callMenuList = async () => {
+    const { pageNo } = this.state;
     const cafeId = localStorage.getItem("cafeId");
     const categoryId = localStorage.getItem("categoryId");
     const keyword = localStorage.getItem("keyword");
     const conditionId = localStorage.getItem("conditionId");
-    // this.setState({
-    //   isLoaded: false,
-    // });​
     let menuApi = "";
     if (cafeId == 0) {
       //모든 카페
       if (categoryId == 0 && keyword == 0) {
         // 모든 카테고리
-        menuApi = `http://localhost:9090/multicafe/api/menu/list/${conditionId}`;
+        menuApi = `http://localhost:9090/multicafe/api/menu/list/${conditionId}/${pageNo}`;
       } else if (categoryId == 0 && keyword != 0) {
         //키워드 검색
-        menuApi = `http://localhost:9090/multicafe/api/menu/search/${keyword}/${conditionId}`;
+        menuApi = `http://localhost:9090/multicafe/api/menu/search/${keyword}/${conditionId}/${pageNo}`;
       } else if (categoryId != 0) {
         //카테고리 선택
-        menuApi = `http://localhost:9090/multicafe/api/menu/category/${categoryId}/${conditionId}`;
+        menuApi = `http://localhost:9090/multicafe/api/menu/category/${categoryId}/${conditionId}/${pageNo}`;
       }
     } else if (cafeId != 0) {
       // 카페선택
       if (categoryId == 0 && keyword == 0) {
         // 모든 카테고리
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/${conditionId}`;
+        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/${conditionId}/${pageNo}`;
       } else if (categoryId == 0 && keyword != 0) {
         //키워드 검색
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/search/${keyword}/${conditionId}`;
+        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/search/${keyword}/${conditionId}/${pageNo}`;
       } else if (categoryId != 0) {
         //카테고리 선택
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/category/${categoryId}/${conditionId}`;
+        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/category/${categoryId}/${conditionId}/${pageNo}`;
       }
     } else {
       alert("예외상황!!");
     }
-    //console.log(menuApi)
+    // console.log(menuApi)
     const res = await axios.get(menuApi);
     this.setState({
       Menu: res.data,
@@ -172,6 +135,62 @@ class Home extends React.Component {
     });
     //console.log(this.state.Menu)
   };
+
+  printPageNav() {
+    const { Menu, pageNo } = this.state;
+
+    let pageList = []
+
+    if (Menu.prev == 0)
+      pageList.push(<li className="page-item disabled">
+        <a className="page-link" href="#">Previous</a>
+      </li>
+      )
+    else {
+      pageList.push(<li className="page-item">
+        <a className="page-link" href="#" onClick={this.handleClickPageNo(Menu.prev)}>
+          Previous</a>
+      </li>
+      )
+    }
+
+    for(let i=Menu.start; i<= Menu.end; i++){
+      if (pageNo == i){
+        pageList.push(
+          <li className="page-item active">
+            <a className="page-link" href="#" onClick={this.handleClickPageNo(i)}>{i}</a>
+          </li>
+        )
+      }
+      else{
+        pageList.push(
+          <li className="page-item">
+            <a className="page-link" href="#" onClick={this.handleClickPageNo(i)}>{i}</a>
+          </li>
+        )
+      }
+    }
+    
+    if (Menu.next == 0)
+      pageList.push(<li className="page-item disabled">
+        <a className="page-link" href="#">
+          Next</a>
+      </li>
+      )
+    else {
+      pageList.push(<li className="page-item">
+        <a className="page-link" href="#" onClick={this.handleClickPageNo(Menu.next)}>
+          Next</a>
+      </li>
+      )
+    }
+    return (
+      <ul className="pagination justify-content-center">
+        {pageList}
+      </ul>
+    )
+  }
+
   printMenuList() {
     const { isLoaded, login } = this.state;
     if (!isLoaded) {
@@ -185,8 +204,8 @@ class Home extends React.Component {
       );
     } else {
       let menulist = [];
-      let menu = this.state.Menu;
-      for (let i = 0; i < 15; i++) {
+      let menu = this.state.Menu.list;
+      for (let i = 0; i < menu.length; i++) {
         try {
           menulist.push(
             <div
@@ -271,12 +290,17 @@ class Home extends React.Component {
         <section className="section-content padding-y">
           <div className="container">
             <div className="row">
-              ​<SideBar catelist={cateList}></SideBar>​
+<<<<<<< HEAD
+            ​<SideBar catelist={cateList} stateRefresh={this.stateRefresh}></SideBar>​
+=======
+              ​<SideBar catelist={cateList} stateRefresh={this.stateRefresh}></SideBar>​
+>>>>>>> 303afadfc38ba3127c8a47c8a23b5d10f9806202
               <main className="col-md-9">
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
                     <span className="mr-md-auto">
-                      {menu.length} Items found{" "}
+                       Items found{" "}
+                      {/* {menu.length} Items found{" "} */}
                     </span>
                     <span className="mr-md-auto"></span>
                     <div class="dropdown">
@@ -320,33 +344,7 @@ class Home extends React.Component {
                 <div className="row">{this.printMenuList()}</div>
 
                 <nav className="mt-4" aria-label="Page navigation sample">
-                  <ul className="pagination justify-content-center">
-                    <li className="page-item disabled">
-                      <a className="page-link" href="#">
-                        Previous
-                      </a>
-                    </li>
-                    <li className="page-item active">
-                      <a className="page-link" href="#">
-                        1
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        3
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
+                  {this.printPageNav()}
                 </nav>
               </main>
             </div>
