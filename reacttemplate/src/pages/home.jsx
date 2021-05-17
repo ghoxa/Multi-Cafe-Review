@@ -290,7 +290,11 @@ class Home extends React.Component {
         <section className="section-content padding-y">
           <div className="container">
             <div className="row">
+<<<<<<< HEAD
             ​<SideBar catelist={cateList} stateRefresh={this.stateRefresh}></SideBar>​
+=======
+              ​<SideBar catelist={cateList} stateRefresh={this.stateRefresh}></SideBar>​
+>>>>>>> 303afadfc38ba3127c8a47c8a23b5d10f9806202
               <main className="col-md-9">
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
