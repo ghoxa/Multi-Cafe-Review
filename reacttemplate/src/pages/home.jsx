@@ -11,7 +11,6 @@ class Home extends React.Component {
       isLoaded: false,
       customColor: {},
       login: localStorage.getItem("isLogin"),
-      pageNo: 1,
     };
   }
 
@@ -20,67 +19,49 @@ class Home extends React.Component {
   };
 
   handleClickMenu = (value) => () => {
-    // console.log(value);
     localStorage.setItem("menuId", value);
     window.location.replace("/review");
   };
 
-  handleClickCategory = (value) => () => {
-    localStorage.setItem("categoryId", value);
-    localStorage.setItem("keyword", 0);
+  // handleClickCategory = (value) => () => {
+  //   localStorage.setItem("categoryId", value);
+  //   localStorage.setItem("keyword", 0);
 
-    this.stateRefresh();
-  };
+  //   this.stateRefresh();
+  // };
 
   handleClickCondition = (value) => () => {
     localStorage.setItem("conditionId", value);
+
     this.stateRefresh();
   };
 
   handleClickPageNo = (No) => () =>{
-    this.setState({
-      pageNo: No,
-    });
-    // console.log(this.state.pageNo);
+    localStorage.setItem("pageNo", No);
     this.stateRefresh();
   }
 
-  handleClickSerch = () => {//sidebar 로 넘어감
-    this.setState({
-      conditionId: 0,
-      categoryId: 0,
-    });
-    localStorage.setItem("categoryId", 0);
-    //window.location.replace('/');
+  // handleClickSerch = () => {
+  //   localStorage.setItem("categoryId", 0);
 
-    this.stateRefresh();
-  };
+  //   this.stateRefresh();
+  // };
 
   componentDidMount() {
     localStorage.setItem("mapId", "all");
-    // const cafeId = localStorage.getItem("cafeId");
-    // const categoryId = localStorage.getItem("categoryId");
-    // const keyword = localStorage.getItem("keyword");
-    // const conditionId = localStorage.getItem("conditionId");
-
-    const cateUrl = axios.get(`http://localhost:9090/multicafe/api/category`);
+    localStorage.setItem("pageNo", 1);
     let menuApi = axios.get(`http://localhost:9090/multicafe/api/menu/list/1`);
-
     
-    Promise.all([cateUrl, menuApi])
-
-      .then(([res, res2]) => {
+    Promise.all([menuApi])
+      .then(([res]) => {
         this.setState({
-          cate: res.data,
-          Menu: res2.data,
+          Menu: res.data,
           isLoaded: true,
         });
-        // console.log(this.state.Menu.list);
       })
       .catch((err) => {
         console.log(err);
       });
-    // window.location.replace("/");
   }
 
   // 메뉴목록만 새로고침
@@ -94,11 +75,13 @@ class Home extends React.Component {
   };
   // 비동기통신으로 메뉴리스트 받아와서 menuList에 저장
   callMenuList = async () => {
-    const { pageNo } = this.state;
+
     const cafeId = localStorage.getItem("cafeId");
     const categoryId = localStorage.getItem("categoryId");
     const keyword = localStorage.getItem("keyword");
     const conditionId = localStorage.getItem("conditionId");
+    const pageNo = localStorage.getItem("pageNo");
+
     let menuApi = "";
     if (cafeId == 0) {
       //모든 카페
@@ -127,7 +110,7 @@ class Home extends React.Component {
     } else {
       alert("예외상황!!");
     }
-    // console.log(menuApi)
+    console.log(menuApi)
     const res = await axios.get(menuApi);
     this.setState({
       Menu: res.data,
@@ -137,7 +120,8 @@ class Home extends React.Component {
   };
 
   printPageNav() {
-    const { Menu, pageNo } = this.state;
+    const { Menu } = this.state;
+    const pageNo = localStorage.getItem("pageNo");
 
     let pageList = []
 
@@ -192,7 +176,7 @@ class Home extends React.Component {
   }
 
   printMenuList() {
-    const { isLoaded, login } = this.state;
+    const { isLoaded } = this.state;
     if (!isLoaded) {
       return (
         <div
@@ -255,7 +239,7 @@ class Home extends React.Component {
     }
   }
   render() {
-    const { isLoaded, login } = this.state;
+    const { isLoaded } = this.state;
     if (!isLoaded) {
       return (
         <div
@@ -266,35 +250,11 @@ class Home extends React.Component {
         </div>
       );
     } else {
-      let menu = this.state.Menu;
-
-      let cateList = [];
-      let category = this.state.cate;
-      for (let i = 0; i < category.length; i++) {
-        try {
-          cateList.push(
-            <li>
-              <a
-                id={"category" + category[i]["categoryId"]}
-                onClick={this.handleClickCategory(category[i]["categoryId"])}
-              >
-                {category[i]["name"]}
-              </a>
-            </li>
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      }
       return (
         <section className="section-content padding-y">
           <div className="container">
             <div className="row">
-<<<<<<< HEAD
-            ​<SideBar catelist={cateList} stateRefresh={this.stateRefresh}></SideBar>​
-=======
-              ​<SideBar catelist={cateList} stateRefresh={this.stateRefresh}></SideBar>​
->>>>>>> 303afadfc38ba3127c8a47c8a23b5d10f9806202
+            ​<SideBar stateRefresh={this.stateRefresh}></SideBar>​
               <main className="col-md-9">
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
@@ -312,30 +272,10 @@ class Home extends React.Component {
                         {localStorage.getItem("conditionId")}
                       </button>
                       <div class="dropdown-menu">
-                        <a
-                          class="dropdown-item"
-                          onClick={this.handleClickCondition("good")}
-                        >
-                          good
-                        </a>
-                        <a
-                          class="dropdown-item"
-                          onClick={this.handleClickCondition("click")}
-                        >
-                          click
-                        </a>
-                        <a
-                          class="dropdown-item"
-                          onClick={this.handleClickCondition("grade")}
-                        >
-                          grade
-                        </a>
-                        <a
-                          class="dropdown-item"
-                          onClick={this.handleClickCondition("review")}
-                        >
-                          review
-                        </a>
+                        <a class="dropdown-item" onClick={this.handleClickCondition("good")}>good</a>
+                        <a class="dropdown-item" onClick={this.handleClickCondition("click")}>click</a>
+                        <a class="dropdown-item" onClick={this.handleClickCondition("grade")}>grade</a>
+                        <a class="dropdown-item" onClick={this.handleClickCondition("review")}>review</a>                        
                       </div>
                     </div>
                   </div>
