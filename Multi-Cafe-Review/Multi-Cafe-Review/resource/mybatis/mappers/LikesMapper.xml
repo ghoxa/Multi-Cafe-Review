@@ -23,9 +23,9 @@
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
 		from (select a.*, rownum rn
 			  from (
-				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.sweet, m.bitter, m.sour 
-				from likes l, menu m 
-				where l.menu_id=m.menu_id and l.user_id=#{userId}
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from likes l, menu m, cafe c
+				where m.cafe_id=c.cafe_id and l.menu_id=m.menu_id and l.user_id=#{userId}
 		        ) a
 			) b
 		where #{endPageNum} >= rn and rn >= #{startPageNum}
