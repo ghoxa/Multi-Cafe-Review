@@ -122,7 +122,7 @@ class SideBar extends Component {
                           <button
                             className="btn btn-light"
                             type="button"
-                            onClick={this.handleClickSerch()}
+                            onClick={this.handleClickSerch}
                           >
                             <i className="fa fa-search"></i>
                           </button>
@@ -331,7 +331,7 @@ class SideBar extends Component {
                             <button
                               className="btn btn-light"
                               type="button"
-                              onClick={this.handleClickSerch()}
+                              onClick={this.handleClickSerch}
                             >
                               <i className="fa fa-search"></i>
                             </button>
