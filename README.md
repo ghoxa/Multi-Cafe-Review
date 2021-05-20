@@ -14,29 +14,29 @@
 -----------------------------------------
 ### 🧾MENU
 
-`GET` **/menu** : 메뉴 전체목록
+`GET` **/menu/list/{pageno}** : 메뉴 전체목록
 
 `GET` **/menu/{menuId}** : menuId에 해당하는 메뉴 가져오기
 
-`GET` **/menu/list/{condition}** : 좋아요순/조회수순/평점순/리뷰많은순 정렬 (condition: good/click/grade/review)
+`GET` **/menu/list/{condition}/{pageno}** : 좋아요순/조회수순/평점순/리뷰많은순 정렬 (condition: good/click/grade/review)
 
-`GET` **/menu/cafe/{cafeId}/{condition}** : cafeId에 해당하는 카페 메뉴의 condition별 정렬
+`GET` **/menu/cafe/{cafeId}/{condition}/{pageno}** : cafeId에 해당하는 카페 메뉴의 condition별 정렬
 
-`GET` **/menu/category/{categoryId}/{condition}** : categoryId에 해당하는 카테고리의 condition별 정렬
+`GET` **/menu/category/{categoryId}/{condition}/{pageno}** : categoryId에 해당하는 카테고리의 condition별 정렬
 
-`GET` **/menu/cafe/{cafeId}** : cafeId에 해당하는 카페 메뉴
+`GET` **/menu/cafe/{cafeId}/{pageno}** : cafeId에 해당하는 카페 메뉴
 
-`GET` **/menu/category/{categoryId}** : categoryId에 해당하는 카테고리 메뉴
+`GET` **/menu/category/{categoryId}/{pageno}** : categoryId에 해당하는 카테고리 메뉴
 
-`GET` **/menu/cafe/{cafeId}/category/{categoryId}** : 카페의 카테고리에 해당하는 메뉴
+`GET` **/menu/cafe/{cafeId}/category/{categoryId}/{pageno}** : 카페의 카테고리에 해당하는 메뉴
 
-`GET` **/menu/cafe/{cafeId}/category/{categoryId}/{condition}** : 카페의 카테고리에 해당하는 메뉴 condition 정렬
+`GET` **/menu/cafe/{cafeId}/category/{categoryId}/{condition}/{pageno}** : 카페의 카테고리에 해당하는 메뉴 condition 정렬
 
-`GET` **/menu/search/{keyword}** : keyword로 메뉴 검색
+`GET` **/menu/search/{keyword}/{pageno}** : keyword로 메뉴 검색
 
-`GET` **/menu/cafe/{cafeId}/search/{keyword}** : cafeId안에서 keyword로 메뉴 검색
+`GET` **/menu/cafe/{cafeId}/search/{keyword}/{pageno}** : cafeId안에서 keyword로 메뉴 검색
 
-`GET` **/menu/search/{keyword}/{condition}** : keyword로 메뉴 검색 condition 정렬
+`GET` **/menu/search/{keyword}/{condition}/{pageno}** : keyword로 메뉴 검색 condition 정렬
 
 `GET` **/menu/{menuId}/recommend/keyword** : keyword기반 추천메뉴
 
@@ -154,7 +154,7 @@
 
 `GET` **/user/{userId}/menu/{menuId}/like** : 메뉴 좋아요 
 
-`GET` **/user/{userId}/menu/like** : 회원의 메뉴 좋아요 목록
+`GET` **/user/{userId}/menu/like/{pageno}** : 회원의 메뉴 좋아요 목록
 
 ----------------------------------------
 ### 🔐LOGIN
