@@ -1,108 +1,112 @@
-import React from "react";
-import { Redirect } from "react-router";
+import React from 'react';
+import { Redirect } from 'react-router';
 
-import Home from "./../pages/home.jsx";
-import Input from "./../pages/input.jsx";
-import Review from "./../pages/review.jsx";
-import WriteReview from "../pages/writereview.jsx";
-import Formpage from "./../pages/formpage.jsx";
-import Admin_Insert from "../pages/admin_insert.jsx";
-import Admin_Update from "../pages/admin_update.jsx";
-import MyReview from "../pages/myreview.jsx";
-import MyLike from "../pages/mylike.jsx";
-import MyRecent from "../pages/myrecent.jsx";
-import AdminPage from "../pages/adminpage.jsx";
-import SignIn from "../pages/signin.jsx";
-import SignOut from "../pages/signout.jsx";
-import Register from "../pages/register.jsx";
-import ModifyReview from "../pages/modifyreview.jsx";
-import Admin_Cafe from "../pages/admin_cafe.jsx";
-import Map from "../pages/map.jsx";
-import MyTaste from "../pages/mytaste.jsx";
-import Admin_Warning from "../pages/admin_warning.jsx";
-
+import Home from './../pages/home.jsx';
+import Input from './../pages/input.jsx';
+import Review from './../pages/review.jsx';
+import WriteReview from '../pages/writereview.jsx';
+import Formpage from './../pages/formpage.jsx';
+import Admin_Insert from '../pages/admin_insert.jsx';
+import Admin_Update from '../pages/admin_update.jsx';
+import MyReview from '../pages/myreview.jsx';
+import MyLike from '../pages/mylike.jsx';
+import MyRecent from '../pages/myrecent.jsx';
+import AdminPage from '../pages/adminpage.jsx';
+import SignIn from '../pages/signin.jsx';
+import SignOut from '../pages/signout.jsx';
+import Register from '../pages/register.jsx';
+import ModifyReview from '../pages/modifyreview.jsx';
+import Admin_Cafe from '../pages/admin_cafe.jsx';
+import Map from '../pages/map.jsx';
+import MyTaste from '../pages/mytaste.jsx';
+import Admin_Warning from '../pages/admin_warning.jsx';
+import MapModal from '../pages/mapmodal.jsx';
 const routes = [
   {
-    path: "/",
+    path: '/',
     exact: true,
-    component: () => <Redirect to="/home" />,
+    component: () => <Redirect to='/home' />,
   },
   {
-    path: "/home",
+    path: '/home',
     component: () => <Home />,
   },
   {
-    path: "/input",
+    path: '/input',
     component: () => <Input />,
   },
   {
-    path: "/review",
+    path: '/review',
     component: () => <Review />,
   },
   {
-    path: "/writereview",
+    path: '/writereview',
     component: () => <WriteReview />,
   },
   {
-    path: "/modifyreview",
+    path: '/modifyreview',
     component: () => <ModifyReview />,
   },
 
   {
-    path: "/formpage",
+    path: '/formpage',
     component: () => <Formpage />,
   },
   {
-    path: "/admin_insert",
+    path: '/admin_insert',
     component: () => <Admin_Insert />,
   },
   {
-    path: "/admin_cafe",
+    path: '/admin_cafe',
     component: () => <Admin_Cafe />,
   },
   {
-    path: "/admin_update",
+    path: '/admin_update',
     component: () => <Admin_Update />,
   },
   {
-    path: "/admin_warning",
+    path: '/admin_warning',
     component: () => <Admin_Warning />,
   },
   {
-    path: "/myreview",
+    path: '/myreview',
     component: () => <MyReview />,
   },
   {
-    path: "/mylike",
+    path: '/mylike',
     component: () => <MyLike />,
   },
   {
-    path: "/myrecent",
+    path: '/myrecent',
     component: () => <MyRecent />,
   },
   {
-    path: "/adminpage",
+    path: '/adminpage',
     component: () => <AdminPage />,
   },
   {
-    path: "/signin",
+    path: '/signin',
     component: () => <SignIn />,
   },
   {
-    path: "/signout",
+    path: '/signout',
     component: () => <SignOut />,
   },
   {
-    path: "/register",
+    path: '/register',
     component: () => <Register />,
   },
   {
-    path: "/map",
+    path: '/map',
     component: () => <Map />,
   },
   {
-    path: "/mytaste",
+    path: '/mytaste',
     component: () => <MyTaste />,
+  },
+  {
+    path: '/mapmodal',
+    component: () => <MapModal />,
   },
 ];
 
