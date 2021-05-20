@@ -37,6 +37,21 @@
 		order by review_date desc
 	</select>
 	
+	<select id="listViewReviewPage" resultMap="review_resultMap">
+		<![CDATA[
+		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, m.name as menu_name, c.name as cafe_name
+		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id
+    		from(
+        		select review_id, review_date, content, good, grade, user_id, menu_id
+        		from review
+        		where menu_id=#{menuId}
+        	order by review_date desc
+        	)a
+        where rownum <= #{page}*3) b, menu m, cafe c
+		where b.rn > #{page}*3-3 and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
+		]]>
+	</select>
+	
 	<!-- ListViewSortByGood -->
 	<select id="listViewReviewSortByGood" parameterType="java.lang.Integer" resultMap="review_resultMap">
 		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  

@@ -51,6 +51,6 @@ public class ReportMapperTest {
 	@Test
 	public void getReportService() throws Exception{
 		List<Review> reviewList = reviewService.getReportedReview();
-		Assert.assertEquals(1, reviewList.size());
+		Assert.assertEquals(2, reviewList.size());
 	}
 }

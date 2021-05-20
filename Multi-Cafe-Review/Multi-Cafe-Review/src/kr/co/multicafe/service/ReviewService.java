@@ -12,6 +12,7 @@ import kr.co.multicafe.dao.ReportMapper;
 import kr.co.multicafe.dao.ReviewLikeMapper;
 import kr.co.multicafe.dao.ReviewMapper;
 import kr.co.multicafe.dao.UsersMapper;
+import kr.co.multicafe.dto.Page;
 import kr.co.multicafe.dto.Report;
 import kr.co.multicafe.dto.Review;
 import kr.co.multicafe.dto.ReviewLike;
@@ -103,10 +104,13 @@ public class ReviewService {
 	
 	//메뉴에 대한 리뷰 목록 
 	public List<Review> listViewReview(int menuId){
-
 		return reviewMapper.listViewReview(menuId);
-
 	}
+	
+	public List<Review> listViewReviewPage(Page page){
+		return reviewMapper.listViewReviewPage(page);
+	}
+	
 	
 	//메뉴에 대한 리뷰 목록(정렬)
 	public List<Review> listViewReviewByOption(int menuId, int option){
@@ -142,13 +146,13 @@ public class ReviewService {
 	@Transactional
 	public int updateGood(int reviewId,String userId) {
 		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
-		if(reviewLike==null) {
+		if(reviewLike==null) { //리뷰 좋아요 테이블에 (사용자 Id, 리뷰 Id) 데이터가 없음
 			reviewMapper.plusGood(reviewId);
 			reviewLike=new ReviewLike();
 			reviewLike.setReivewId(reviewId);
 			reviewLike.setUserId(userId);
 			return reviewLikeMapper.insertReviewLike(reviewLike);
-		}else {
+		}else { //리뷰 좋아요 테이블에 (사용자 Id, 리뷰 Id) 데이터 있음 => 이미 좋아요 한 리뷰
 			reviewMapper.minusGood(reviewId);
 			return reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
 		}

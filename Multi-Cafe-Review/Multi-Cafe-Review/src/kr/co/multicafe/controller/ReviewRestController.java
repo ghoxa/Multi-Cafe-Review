@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.co.multicafe.dto.Page;
 import kr.co.multicafe.dto.Review;
 import kr.co.multicafe.service.ReviewService;
 
@@ -25,6 +26,15 @@ public class ReviewRestController {
 	@GetMapping("/{menuId}")
 	public List<Review> listViewReview(@PathVariable(name="menuId")int menuId){
 		return reviewService.listViewReview(menuId);
+	}
+	
+	//페이지 처리
+	@GetMapping("/{menuId}/page/{page}")
+	public List<Review> listViewReviewPage(@PathVariable(name="menuId")int menuId,@PathVariable(name="page")int page){
+		Page pg = new Page();
+		pg.setMenuId(menuId);
+		pg.setPage(page);
+		return reviewService.listViewReviewPage(pg);
 	}
 		
 	@GetMapping("/{menuId}/{option}")
