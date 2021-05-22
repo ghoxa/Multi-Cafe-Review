@@ -16,7 +16,6 @@ public interface ReviewMapper {
 	public int deleteReview(int reviewId);
 	public List<Review> listViewReview(int menuId);
 	public List<Review> listViewReviewPage(@Param("startPageNum") int startPageNum, @Param("endPageNum") int endPageNum, @Param("menuId")int menuId);
-	//public List<Review> listViewReviewSortByGood(int menuId);
 	public List<Review> listViewReviewSortByGood(@Param("startPageNum") int startPageNum, @Param("endPageNum") int endPageNum, @Param("menuId")int menuId);
 	public List<Review> listViewReviewSortByScore(@Param("startPageNum") int startPageNum, @Param("endPageNum") int endPageNum, @Param("menuId")int menuId, @Param("userId")String userId);	
 	public List<Review> listMyReview(@Param("startPageNum") int startPageNum, @Param("endPageNum") int endPageNum, @Param("userId")String userId);
