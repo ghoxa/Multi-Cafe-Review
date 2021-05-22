@@ -152,7 +152,7 @@ public class MenuService {
 			next = 0;
 		}
 		
-		return new Page(pageno, start, end, prev, next, startPageNum, endPageNum);
+		return new Page(pageno, count, start, end, prev, next, startPageNum, endPageNum);
 	}
 	
 	public Page listViewMenu(int pageno) { 
