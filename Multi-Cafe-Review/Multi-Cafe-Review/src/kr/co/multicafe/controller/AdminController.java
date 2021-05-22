@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.multicafe.dto.Cafe;
 import kr.co.multicafe.dto.Menu;
+import kr.co.multicafe.dto.Page;
 import kr.co.multicafe.dto.Review;
 import kr.co.multicafe.service.CafeService;
 import kr.co.multicafe.service.MenuService;
@@ -64,9 +65,9 @@ public class AdminController {
 	}
 	
 	//신고된 리뷰 조회
-	@GetMapping("/review/reports")
-	public List<Review> getReportedReview() {
-		return reviewService.getReportedReview();
+	@GetMapping("/review/reports/{pageno}")
+	public Page getReportedReview(@PathVariable(name="pageno")int pageno) {
+		return reviewService.getReportedReview(pageno);
 	}
 	
 	@DeleteMapping("/review/{reviewId}")

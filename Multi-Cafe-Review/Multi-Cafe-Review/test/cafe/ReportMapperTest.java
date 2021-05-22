@@ -42,15 +42,15 @@ public class ReportMapperTest {
 		assertEquals(1,result);
 	}
 	
-	@Test
-	public void getReport() throws Exception{
-		List<Review> reviewList = reviewMapper.listReportedReview();
-		Assert.assertEquals(1,reviewList.size());
-	}
-	
-	@Test
-	public void getReportService() throws Exception{
-		List<Review> reviewList = reviewService.getReportedReview();
-		Assert.assertEquals(2, reviewList.size());
-	}
+//	@Test
+//	public void getReport() throws Exception{
+//		List<Review> reviewList = reviewMapper.listReportedReview();
+//		Assert.assertEquals(1,reviewList.size());
+//	}
+//	
+//	@Test
+//	public void getReportService() throws Exception{
+//		List<Review> reviewList = reviewService.getReportedReview();
+//		Assert.assertEquals(2, reviewList.size());
+//	}
 }

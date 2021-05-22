@@ -29,17 +29,29 @@ public class ReviewRestController {
 	}
 	
 	//페이지 처리
-	@GetMapping("/{menuId}/page/{page}")
-	public List<Review> listViewReviewPage(@PathVariable(name="menuId")int menuId,@PathVariable(name="page")int page){
-		Page pg = new Page();
-		pg.setMenuId(menuId);
-		pg.setPage(page);
-		return reviewService.listViewReviewPage(pg);
+//	@GetMapping("/{menuId}/page/{page}")
+//	public List<Review> listViewReviewPage(@PathVariable(name="menuId")int menuId,@PathVariable(name="page")int page){
+//		Page pg = new Page();
+//		pg.setMenuId(menuId);
+//		pg.setPage(page);
+//		return reviewService.listViewReviewPage(pg);
+//	}
+	
+	//리뷰 리스트 페이징(옵션x)
+	@GetMapping("/{menuId}/list/{pageno}")
+	public Page listViewReview(@PathVariable(name="menuId")int menuId, @PathVariable int pageno) { 
+		return reviewService.listViewReviewPage(menuId, pageno);
 	}
 		
-	@GetMapping("/{menuId}/{option}")
-	public List<Review> listViewReview(@PathVariable(name="menuId")int menuId, @PathVariable(name="option") int option){
-		return reviewService.listViewReviewByOption(menuId, option);
+//	@GetMapping("/{menuId}/{option}")
+//	public List<Review> listViewReview(@PathVariable(name="menuId")int menuId, @PathVariable(name="option") int option){
+//		return reviewService.listViewReviewByOption(menuId, option);
+//	}
+	
+	//리뷰 리스트 페이징(옵션o)
+	@GetMapping("/{menuId}/list/{userId}/{option}/{pageno}")
+	public Page listViewReviewOption(@PathVariable(name="menuId")int menuId, @PathVariable(name="option") int option, @PathVariable(name="userId")String userId, @PathVariable int pageno){
+		return reviewService.listViewReviewByOptionPage(menuId, option, userId, pageno);
 	}
 	
 	

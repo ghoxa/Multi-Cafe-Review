@@ -11,6 +11,7 @@ public class Users {
 	private double sweet;
 	private double bitter;
 	private double sour;
+	private double coffee_sour;
 	private boolean adminCheck;
 	private int report;
 	
@@ -27,14 +28,12 @@ public class Users {
 		this.adminCheck = false;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Users [userId=" + userId + ", pwd=" + pwd + ", phone=" + phone + ", email=" + email + ", address="
 				+ address + ", joinDate=" + joinDate + ", sweet=" + sweet + ", bitter=" + bitter + ", sour=" + sour
-				+ ", adminCheck=" + adminCheck + "]";
+				+ ", coffee_sour=" + coffee_sour + ", adminCheck=" + adminCheck + ", report=" + report + "]";
 	}
-
 
 	public String getUserId() {
 		return userId;
@@ -96,6 +95,14 @@ public class Users {
 
 	public void setSour(double sour) {
 		this.sour = sour;
+	}
+
+	public double getCoffee_sour() {
+		return coffee_sour;
+	}
+
+	public void setCoffee_sour(double coffee_sour) {
+		this.coffee_sour = coffee_sour;
 	}
 
 	public boolean isAdminCheck() {

@@ -1,10 +1,8 @@
 package kr.co.multicafe.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.multicafe.dto.Menu;
+import kr.co.multicafe.dto.Page;
 import kr.co.multicafe.dto.Review;
-import kr.co.multicafe.dto.ReviewLike;
 import kr.co.multicafe.dto.Users;
 import kr.co.multicafe.service.MenuService;
 import kr.co.multicafe.service.RecentService;
@@ -50,9 +48,9 @@ public class UserController {
 		menuService.insertOrDeleteLike(userId, menuId);
 	}
 	
-	@GetMapping("/{userId}/menu/like")
-	public List<Menu> listViewLike(@PathVariable String userId) {
-		return menuService.listViewLike(userId);
+	@GetMapping("/{userId}/menu/like/{pageno}")
+	public Page listViewLike(@PathVariable String userId, @PathVariable int pageno) {
+		return menuService.listViewLike(userId, pageno);
 	}
 
 	@GetMapping("/{userId}/{menuId}/likecheck")
@@ -121,10 +119,10 @@ public class UserController {
 		return reviewService.deleteReview(reviewId);
 	}
 
-	@GetMapping("/review/my/{userId}")
-	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
+	@GetMapping("/review/my/{userId}/{pageno}")
+	public Page listMyReview(@PathVariable(name="userId")String userId, @PathVariable int pageno){
 		
-		return reviewService.listMyReview(userId);
+		return reviewService.listMyReview(userId, pageno);
 	}
 	
 	

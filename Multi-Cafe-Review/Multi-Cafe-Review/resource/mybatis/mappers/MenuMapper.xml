@@ -28,89 +28,191 @@
 	</select>
 	
 	<select id="listViewMenu" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from menu m, cafe c
+				where m.cafe_id = c.cafe_id
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="listViewMenuByCondition" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
-		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
-		where m.cafe_id = c.cafe_id
-		order by ${condition} desc
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+				from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
+				where m.cafe_id = c.cafe_id
+				order by ${condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="listViewCafeMenuByCondition" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
-		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
-		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} 
-		order by ${condition} desc
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+				from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
+				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} 
+				order by ${condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="listViewCategoryMenuByCondition" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
-		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
-		where m.cafe_id = c.cafe_id and m.category_id=#{categoryId}
-		order by ${condition} desc
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+				from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
+				where m.cafe_id = c.cafe_id and m.category_id=#{categoryId}
+				order by ${condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="listViewCafeCategoryMenuByCondition" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
-		from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
-		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
-		order by ${condition} desc
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+				from cafe c, menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id
+				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
+				order by ${condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="listViewCafeMenu" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId}
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from menu m, cafe c
+				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId}
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="listViewCategoryMenu" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id and m.category_id=#{categoryId}
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from menu m, cafe c
+				where m.cafe_id = c.cafe_id and m.category_id=#{categoryId}
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="listViewCafeMenuByCategory" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-		from menu m, cafe c
-		where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				from menu m, cafe c
+				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId}
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="searchMenu" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-        from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-            from menu
-            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m, cafe c
-        where m.cafe_id = c.cafe_id
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		        from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		            from menu
+		            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m, cafe c
+		        where m.cafe_id = c.cafe_id
+		        ) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="searchCafeMenu" resultMap="menu_resultMap">
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-				from menu m, cafe c
-				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
-		where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+		from (select a.*, rownum rn
+			  from (
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+						from menu m, cafe c
+						where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
+				where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="searchMenuByCondition" resultMap="menu_resultMap">
-		select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-        from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
-            from menu
-            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m, cafe c
-        where m.cafe_id = c.cafe_id
-        order by #{condition} desc
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+		        from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
+		            from menu
+		            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m, cafe c
+		        where m.cafe_id = c.cafe_id
+		        order by #{condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<select id="searchCafeMenuByCondition" resultMap="menu_resultMap">
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-				from menu m, cafe c
-				where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
-		where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
-		order by #{condition} desc
+		from (select a.*, rownum rn
+			  from (
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+						from menu m, cafe c
+						where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
+				where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+				order by #{condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
+	</select>
+	
+	<select id="searchCategoryMenuByCondition" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+						from menu m, cafe c
+						where m.cafe_id = c.cafe_id and m.category_id=#{categoryhId})
+				where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+				order by #{condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
+	</select>
+	
+	<select id="searchCafeCategoryMenuByCondition" resultMap="menu_resultMap">
+		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+		from (select a.*, rownum rn
+			  from (
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+						from menu m, cafe c
+						where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId})
+				where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+				order by #{condition} desc
+				) a
+			) b
+		where #{endPageNum} >= rn and rn >= #{startPageNum}
 	</select>
 	
 	<update id="addGood" parameterType="int">
@@ -139,14 +241,20 @@
 	
 	<select id="listViewRecommendMenuByKeyword" resultMap="menu_resultMap">
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-		from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-				from menu m join cafe c on m.cafe_id = c.cafe_id
-				where m.menu_id!=#{menuId})
-		where  
-		<foreach collection="list" item="item" separator=" or ">
-			keyword like '%'||#{item}||'%'
-		</foreach>
-		order by grade desc
+		from (select a.*, rownum rn
+			  from (
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+						from menu m join cafe c on m.cafe_id = c.cafe_id
+						where m.menu_id!=#{menuId})
+				where  
+				<foreach collection="list" item="item" separator=" or ">
+					keyword like '%'||#{item}||'%'
+				</foreach>
+				order by grade desc
+				) a
+			) b
+		where 20 >= rn
 	</select>
 	
 	<select id="listViewRecommendMenuByTaste" parameterType="java.util.HashMap" resultMap="menu_resultMap"> 
@@ -192,6 +300,39 @@
 	                end)
                 ) a 
              ) b 
-       where 30 >= rn 
+       where 20 >= rn 
     </select> 
+    
+    <select id="countMenu" resultType="int"> 
+    	select count(*) from menu
+    </select>
+    
+    <select id="countCafeMenu" resultType="int">
+    	select count(*) from menu where cafe_id=#{cafeId}
+    </select>
+    
+    <select id="countCategoryMenu" resultType="int">
+    	select count(*) from menu where category_id=#{categoryId}
+    </select>
+    
+    <select id="countCafeCategoryMenu" resultType="int">
+    	select count(*) from menu where cafe_id=#{cafeId} and category_id=#{categoryId}
+    </select>
+    
+    <select id="countSearchMenu" resultType="int">
+    	select count(*) from menu where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+    </select>
+    
+    <select id="countSearchCafeMenu" resultType="int">
+    	select count(*) from menu where cafe_id=#{cafeId} and replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+    </select>
+    
+    <select id="countSearchCategoryMenu" resultType="int">
+    	select count(*) from menu where category_id=#{categoryId} and replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+    </select>
+    
+    <select id="countSearchCafeCategoryMenu" resultType="int">
+    	select count(*) from menu where cafe_id=#{cafeId} and category_id=#{categoryId} and replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
+    </select>
+    
 </mapper>
