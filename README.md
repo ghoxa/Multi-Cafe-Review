@@ -70,10 +70,10 @@
 ```
 `GET` **/review/{menuId}/list/{pageno}** :  메뉴별 리뷰 가져오기(옵션x)
 
-`GET` **/review/{menuId}/list/{option}/{pageno}** :  메뉴별 리뷰 가져오기(옵션o)
+`GET` **/review/{menuId}/list/{userId}/{option}/{pageno}** :  메뉴별 리뷰 가져오기(옵션o) (userId는 내 취향 순 정렬을 위한 것으로 로그인 한 사용자 아이디임)
 - option 0 : 최신순
 - option 1 : 좋아요 순
-- option 2 : 내 취향 순
+- option 2 : 내 취향 순 
 
 `DELETE` **/review/{reviewId}** : 리뷰삭제
 
