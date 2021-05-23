@@ -18,6 +18,7 @@ class SideBar extends Component {
     // console.log(value);
     localStorage.setItem("categoryId", value);
     localStorage.setItem("keyword", 0);
+    localStorage.setItem("pageNo", 1);
 
     this.props.stateRefresh();
   };
@@ -25,6 +26,7 @@ class SideBar extends Component {
   handleClickSerch = () => {
     localStorage.setItem('keyword', document.getElementById("inputkeyword").value);
     localStorage.setItem("categoryId", 0);
+    localStorage.setItem("pageNo", 1);
 
     this.props.stateRefresh();
   };

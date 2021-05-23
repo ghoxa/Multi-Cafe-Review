@@ -116,7 +116,6 @@ class Home extends React.Component {
       Menu: res.data,
       isLoaded: true,
     });
-    //console.log(this.state.Menu)
   };
 
   printPageNav() {
@@ -259,8 +258,8 @@ class Home extends React.Component {
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
                     <span className="mr-md-auto">
-                       Items found{" "}
-                      {/* {menu.length} Items found{" "} */}
+                       {/* Items found{" "} */}
+                      {this.state.Menu.count} Items found{" "}
                     </span>
                     <span className="mr-md-auto"></span>
                     <div class="dropdown">
