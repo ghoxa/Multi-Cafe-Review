@@ -165,7 +165,7 @@ public class MenuService {
 	
 	public Page listViewMenuByCondition(String condition, int pageno) { //condition은 good(좋아요순), click(조회수순)
 		Page page = pageInfo(menuMapper.countMenu(), pageno);
-		page.setList(menuMapper.listViewMenu(page.getStartPageNum(), page.getEndPageNum()));
+		page.setList(menuMapper.listViewMenuByCondition(condition, page.getStartPageNum(), page.getEndPageNum()));
 		
 		return page;
 	}
