@@ -4,6 +4,7 @@ import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import ReactStars from "react-rating-stars-component";
 import SideBar from "../components/layout/sidebar";
+import HeaderImage from "../components/layout/header_image";
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -250,6 +251,11 @@ class Home extends React.Component {
       );
     } else {
       return (
+        <>
+        <section className="section-pagetop bg">
+            <HeaderImage stateRefresh={this.stateRefresh} />
+        </section>
+        
         <section className="section-content padding-y">
           <div className="container">
             <div className="row">
@@ -289,6 +295,7 @@ class Home extends React.Component {
             </div>
           </div>
         </section>
+        </>
       );
     }
   }
