@@ -73,18 +73,17 @@ public class MenuService {
 		menuMapper.addClick(menuId);
 		menuMapper.updateMenuGrade(menuId);
 		menuMapper.updateMenuTaste(menuId);
-		if(userId!=null) {	
-			//String userId = userUtil.getCurrentUserId(); 
+		if(userId!=null) {	//회원이 메뉴 클릭시 => 최근 본 메뉴에 추가
 			Recent recent =recentMapper.getRecent(userId,menuId); 
 			
-			if(recent!=null){ //(menuId, userId)가 recent 테이블에 이미 있으면
-				
+			//이미 최근 본 메뉴에 있는 경우 삭제
+			if(recent!=null){ 				
 				recentMapper.deleteRecent(recent.getRecentId());
 			}
 			
-			else if(recentMapper.countMyRecent(userId)>=20) { //userId의 최근 본 메뉴가 20개 이상일 경우 가장 오래된 recent 삭제
+			//최근 본 메뉴가 20개 이상일 경우 가장 오래된 recent 삭제
+			else if(recentMapper.countMyRecent(userId)>=20) { 
 				Recent tmp = recentMapper.getRecentPast(userId);
-				System.out.println(tmp);
 				recentMapper.deleteRecent(tmp.getRecentId());
 			}
 
@@ -94,7 +93,7 @@ public class MenuService {
 			recentMapper.insertRecent(recent);
 			return menuMapper.getMenu(menuId);
 		}
-		else { //로그인 안 된 상태면 그냥 보여주기
+		else { //비회원이 메뉴 클릭시 => 메뉴 보여주기만 수행
 			return menuMapper.getMenu(menuId);
 		}
 	}

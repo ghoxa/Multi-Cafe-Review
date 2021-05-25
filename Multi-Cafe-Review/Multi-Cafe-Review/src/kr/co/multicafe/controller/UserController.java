@@ -119,10 +119,10 @@ public class UserController {
 		return reviewService.deleteReview(reviewId);
 	}
 
-	@GetMapping("/review/my/{userId}")
-	public List<Review> listMyReview(@PathVariable(name="userId")String userId){
+	@GetMapping("/review/my/{userId}/{pageno}")
+	public Page listMyReview(@PathVariable(name="userId")String userId, @PathVariable int pageno){
 		
-		return reviewService.listMyReview(userId);
+		return reviewService.listMyReview(userId, pageno);
 	}
 	
 	

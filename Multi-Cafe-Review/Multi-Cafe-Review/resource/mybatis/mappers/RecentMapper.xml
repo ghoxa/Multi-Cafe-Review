@@ -45,7 +45,8 @@
 	
 	<select id="getRecentPast" parameterType="String" resultMap="recent_resultMap">
 		select recent_id, user_id, menu_id, recent_date from recent 
-		where user_id=#{userId} and recent_date=(select min(recent_date) from recent where user_id=#{userId})
+		where user_id=#{userId} 
+		and recent_date = (select min(recent_date) from recent where user_id=#{userId})
 	</select>
 	
 </mapper>

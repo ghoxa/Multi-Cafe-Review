@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import kr.co.multicafe.dao.ReportMapper;
 import kr.co.multicafe.dao.ReviewLikeMapper;
 import kr.co.multicafe.dao.ReviewMapper;
 import kr.co.multicafe.dao.UsersMapper;
+import kr.co.multicafe.dto.Page;
 import kr.co.multicafe.dto.Report;
 import kr.co.multicafe.dto.Review;
 import kr.co.multicafe.dto.ReviewLike;
@@ -35,6 +37,33 @@ public class ReviewService {
 	
 	@Autowired
 	private UsersMapper usersMapper;
+	
+	@Value("5")
+	private int PAGE_SIZE;
+	@Value("10")
+	private int BLOCK_SIZE;
+	
+	public Page pageInfo(int count, int pageno) {
+		int countOfPage = count / PAGE_SIZE + 1;
+		if (count % PAGE_SIZE == 0) countOfPage--;
+		if (pageno > countOfPage) pageno = countOfPage;
+		int startPageNum = (pageno-1) * PAGE_SIZE + 1;
+		int endPageNum = pageno * PAGE_SIZE;
+		if (pageno * PAGE_SIZE > count) endPageNum = count;
+		int blockNo = pageno / BLOCK_SIZE + 1;
+		if (pageno % BLOCK_SIZE == 0) blockNo--;
+		int prev = (blockNo-1) * BLOCK_SIZE;
+		int start = prev + 1;
+		int end = blockNo * BLOCK_SIZE;
+		int next = end + 1;
+		if (blockNo * BLOCK_SIZE > countOfPage) {
+			end = countOfPage;
+			next = 0;
+		}
+		
+		return new Page(pageno, count, start, end, prev, next, startPageNum, endPageNum);
+	}
+	
 	
 	//리뷰 추가
 	@Transactional
@@ -103,30 +132,40 @@ public class ReviewService {
 	
 	//메뉴에 대한 리뷰 목록 
 	public List<Review> listViewReview(int menuId){
-
 		return reviewMapper.listViewReview(menuId);
-
 	}
 	
-	//메뉴에 대한 리뷰 목록(정렬)
-	public List<Review> listViewReviewByOption(int menuId, int option){
-		List<Review> list = null;
-		if(option==0)
-			list = reviewMapper.listViewReview(menuId);
-		else if(option==1)
-			list = reviewMapper.listViewReviewSortByGood(menuId);
+//	public List<Review> listViewReviewPage(Page page){
+//		
+//		return reviewMapper.listViewReviewPage(page);
+//	}
+	
+	public Page listViewReviewPage(int menuId, int pageno) { 
+		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		page.setReviewList(reviewMapper.listViewReviewPage(page.getStartPageNum(), page.getEndPageNum(),menuId));
 		
-		return list;
+		return page;
 	}
 	
-	//메뉴에 대한 리뷰 목록(좋아요 순 정렬)
-	public List<Review> listViewReviewSortByGood(int menuId){
-		return reviewMapper.listViewReviewSortByGood(menuId);
+	//메뉴에 대한 리뷰 목록(정렬)	
+	
+	public Page listViewReviewByOptionPage(int menuId, int option, String userId, int pageno) {
+		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		if(option==0)
+			page.setReviewList(reviewMapper.listViewReviewPage(page.getStartPageNum(), page.getEndPageNum(),menuId));
+		else if(option==1)
+			page.setReviewList(reviewMapper.listViewReviewSortByGood(page.getStartPageNum(), page.getEndPageNum(), menuId));
+		else if(option==2)
+			page.setReviewList(reviewMapper.listViewReviewSortByScore(page.getStartPageNum(), page.getEndPageNum(), menuId, userId));
+		return page;
 	}
+	
 	
 	//내가 쓴 리뷰 보여주기
-	public List<Review> listMyReview(String userId){		
-		return reviewMapper.listMyReview(userId);
+	public Page listMyReview(String userId, int pageno){	
+		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		page.setReviewList(reviewMapper.listMyReview(page.getStartPageNum(), page.getEndPageNum(),userId));
+		return page;
 	}
 
 	
@@ -142,13 +181,13 @@ public class ReviewService {
 	@Transactional
 	public int updateGood(int reviewId,String userId) {
 		ReviewLike reviewLike = reviewLikeMapper.getReviewLike(reviewId,userId);
-		if(reviewLike==null) {
+		if(reviewLike==null) { //리뷰 좋아요 테이블에 (사용자 Id, 리뷰 Id) 데이터가 없음
 			reviewMapper.plusGood(reviewId);
 			reviewLike=new ReviewLike();
 			reviewLike.setReivewId(reviewId);
 			reviewLike.setUserId(userId);
 			return reviewLikeMapper.insertReviewLike(reviewLike);
-		}else {
+		}else { //리뷰 좋아요 테이블에 (사용자 Id, 리뷰 Id) 데이터 있음 => 이미 좋아요 한 리뷰
 			reviewMapper.minusGood(reviewId);
 			return reviewLikeMapper.deleteReviewLike(reviewLike.getReviewLikeId());
 		}
@@ -239,8 +278,10 @@ public class ReviewService {
 
 	}
 
-	public List<Review> getReportedReview() {
-		return reviewMapper.listReportedReview();
+	public Page getReportedReview(int pageno) {
+		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		page.setReviewList(reviewMapper.listReportedReview(page.getStartPageNum(), page.getEndPageNum()));
+		return page;
 	}
 	
 

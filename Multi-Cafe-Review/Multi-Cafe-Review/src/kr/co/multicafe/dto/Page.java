@@ -12,6 +12,7 @@ public class Page {
 	private int startPageNum;
 	private int endPageNum;
 	private List<Menu> list;
+	private List<Review> reviewList;
 	
 	public Page(int pageno, int count, int start, int end, int prev, int next, int startPageNum, int endPageNum) {
 		super();
@@ -95,6 +96,14 @@ public class Page {
 
 	public void setList(List<Menu> list) {
 		this.list = list;
+	}
+	
+	public void setReviewList(List<Review> list){
+		this.reviewList = list;
+	}
+	
+	public List<Review> getReviewList() {
+		return reviewList;
 	}
 	
 }
