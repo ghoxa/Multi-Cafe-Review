@@ -138,6 +138,7 @@ class ReviewPage extends Component {
   componentDidMount() {
     const menuId = localStorage.getItem('menuId');
     const userId = localStorage.getItem('userId');
+    const pageNo = localStorage.getItem('pageNo');
     const reviewConditionId = localStorage.getItem('reviewConditionId');
     let selectMenuCheckUrl = '';
     let likeCheckUrl = '';
@@ -151,7 +152,7 @@ class ReviewPage extends Component {
     const reviewId = localStorage.getItem('reviewId');
     
     if(reviewConditionId == "recent"){
-      menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}`);
+      menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}/recent/${pageNo}`);
     }
     else{
       menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${reviewConditionId}/${menuId}`);
