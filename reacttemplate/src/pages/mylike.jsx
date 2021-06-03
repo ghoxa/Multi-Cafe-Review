@@ -11,22 +11,6 @@ class Mylike extends React.Component {
       isLoaded: false,
     };
   }
-  componentDidMount() {
-    const userId = localStorage.getItem("userId");
-    const myLikeUrl = axios.get(
-      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/menu/like`
-    );
-    Promise.all([myLikeUrl])
-      .then(([res]) => {
-        this.setState({ghwns
-          myLike: res.data,
-          isLoaded: true,
-        });
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  }
 
   handleClickMenu = (value) => () => {
     // console.log(value);
@@ -34,7 +18,145 @@ class Mylike extends React.Component {
     window.location.replace("/review");
   };
 
-  render() {
+  handleClickPageNo = (No) => () => {
+    localStorage.setItem("pageNo", No);
+    this.stateRefresh();
+  };
+
+  stateRefresh = () => {
+    this.setState({
+      Menu: [],
+      isLoaded: false,
+    });
+    this.callMenuList();
+    this.printMenuList();
+  };
+
+  componentDidMount() {
+    localStorage.setItem("pageNo", 1);
+    const userId = localStorage.getItem("userId");
+    const myLikeUrl = axios.get(
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/menu/like/1`
+    );
+    Promise.all([myLikeUrl])
+      .then(([res]) => {
+        this.setState({
+          Menu: res.data,
+          isLoaded: true,
+        });
+        // console.log(this.state.Menu)
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }
+
+  callMenuList = async () => {
+    const pageNo = localStorage.getItem("pageNo");
+    const userId = localStorage.getItem("userId");
+
+    const myLikeUrl = `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/menu/like/${pageNo}`;
+
+    const res = await axios.get(myLikeUrl);
+    this.setState({
+      Menu: res.data,
+      isLoaded: true,
+    });
+  };
+
+  printPageNav() {
+    const { Menu, isLoaded } = this.state;
+    const pageNo = localStorage.getItem("pageNo");
+
+    let pageList = [];
+
+    if (!isLoaded) {
+      return (
+        <div
+          id="loader"
+          style={{ position: "absolute", top: "50%", left: "50%" }}
+        >
+          <CircularProgress />
+        </div>
+      );
+    } else {
+      if (Menu.prev == 0)
+        pageList.push(
+          <li className="page-item disabled">
+            <a className="page-link" href="#">
+              Previous
+            </a>
+          </li>
+        );
+      else {
+        pageList.push(
+          <li className="page-item">
+            <a
+              className="page-link"
+              href="#"
+              onClick={this.handleClickPageNo(Menu.prev)}
+            >
+              Previous
+            </a>
+          </li>
+        );
+      }
+
+      for (let i = Menu.start; i <= Menu.end; i++) {
+        if (pageNo == i) {
+          pageList.push(
+            <li className="page-item active">
+              <a
+                className="page-link"
+                href="#"
+                onClick={this.handleClickPageNo(i)}
+              >
+                {i}
+              </a>
+            </li>
+          );
+        } else {
+          pageList.push(
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                onClick={this.handleClickPageNo(i)}
+              >
+                {i}
+              </a>
+            </li>
+          );
+        }
+      }
+
+      if (Menu.next == 0)
+        pageList.push(
+          <li className="page-item disabled">
+            <a className="page-link" href="#">
+              Next
+            </a>
+          </li>
+        );
+      else {
+        pageList.push(
+          <li className="page-item">
+            <a
+              className="page-link"
+              href="#"
+              onClick={this.handleClickPageNo(Menu.next)}
+            >
+              Next
+            </a>
+          </li>
+        );
+      }
+    }
+
+    return <ul className="pagination justify-content-center">{pageList}</ul>;
+  }
+
+  printMenuList() {
     const { isLoaded } = this.state;
     if (!isLoaded) {
       return (
@@ -47,53 +169,66 @@ class Mylike extends React.Component {
       );
     } else {
       let menulist = [];
-      let myLike = this.state.myLike;
-      for (let i = 0; i < myLike.length; i++) {
-        try {
-          menulist.push(
-            <div
-              className="card col-md-4"
-              onClick={this.handleClickMenu(myLike[i]["menuId"])}
-            >
-              <div className="row no-gutters">
-                <img
-                  style={{ height: 250 }}
-                  className="card-img-top"
-                  src={myLike[i]["image"]}
-                  alt="Card image"
-                />
-                <div className="card-body">
-                  <h6 className="card-title">{myLike[i]["name"]}</h6>
-                  <p className="text-success">{myLike[i]["cafeName"]}</p>
-                  <ul className="rating-stars">
-                    <span>평점: {myLike[i]["grade"]}&nbsp;</span>
-                    <span style={{ color: "gray", fontSize: 10 }}>
-                      &nbsp;조회수: {myLike[i]["click"]}
-                    </span>
-                    <span style={{ color: "gray", fontSize: 10 }}>
-                      &nbsp;좋아요수: {myLike[i]["good"]}
-                    </span>
-                    <ReactStars
-                      style={{ display: "inline-flex" }}
-                      edit={false}
-                      activeColor="#ffc107"
-                      value={myLike[i]["grade"]}
-                      size={15}
-                      isHalf={true}
-                    />
-                  </ul>
-                  <div className="price-wrap">
-                    <span className="price h5">{myLike[i]["price"]}원</span>
-                  </div>
-                  <br />
+      let menu = this.state.Menu.list;
+      for (let i = 0; i < menu.length; i++) {
+        menulist.push(
+          <div
+            className="card col-md-4"
+            onClick={this.handleClickMenu(menu[i]["menuId"])}
+          >
+            <div className="row no-gutters">
+              <img
+                style={{ height: 250 }}
+                className="card-img-top"
+                src={menu[i]["image"]}
+                alt="Card image"
+              />
+              <div className="card-body">
+                <h6 className="card-title">{menu[i]["name"]}</h6>
+                <p className="text-success">{menu[i]["cafeName"]}</p>
+                <ul className="rating-stars">
+                  <span>평점: {menu[i]["grade"]}&nbsp;</span>
+                  <span style={{ color: "silver", fontSize: 10 }}>
+                    &nbsp;조회수: {menu[i]["click"]}
+                  </span>
+                  <span style={{ color: "silver", fontSize: 10 }}>
+                    &nbsp;좋아요수: {menu[i]["good"]}
+                  </span>
+                  <ReactStars
+                    style={{ display: "inline-flex" }}
+                    edit={false}
+                    activeColor="#ffc107"
+                    value={menu[i]["grade"]}
+                    size={15}
+                    isHalf={true}
+                  />
+                </ul>
+                <div className="price-wrap">
+                  <span className="price h5">{menu[i]["price"]}원</span>
                 </div>
+                <br />
               </div>
             </div>
-          );
-        } catch (error) {
-          console.log(error);
-        }
+          </div>
+        );
       }
+      return menulist;
+    }
+  }
+
+  render() {
+    const { Menu, isLoaded } = this.state;
+
+    if (!isLoaded) {
+      return (
+        <div
+          id="loader"
+          style={{ position: "absolute", top: "50%", left: "50%" }}
+        >
+          <CircularProgress />
+        </div>
+      );
+    } else {
       return (
         <section className="section-content padding-y">
           <div className="container">
@@ -143,40 +278,15 @@ class Mylike extends React.Component {
                 <header className="border-bottom mb-4 pb-3">
                   <div className="form-inline">
                     <span className="mr-md-auto">
-                      {myLike.length} Items found{" "}
+                      {Menu.count} Items found{" "}
                     </span>
                   </div>
                 </header>
 
-                <div className="row">{menulist}</div>
+                <div className="row">{this.printMenuList()}</div>
+
                 <nav className="mt-4" aria-label="Page navigation sample">
-                  <ul className="pagination justify-content-center">
-                    <li className="page-item disabled">
-                      <a className="page-link" href="#">
-                        Previous
-                      </a>
-                    </li>
-                    <li className="page-item active">
-                      <a className="page-link" href="#">
-                        1
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        3
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
+                  {this.printPageNav()}
                 </nav>
               </main>
             </div>

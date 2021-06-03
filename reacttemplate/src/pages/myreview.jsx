@@ -19,11 +19,16 @@ class MyReview extends React.Component {
     // console.log(value);
     localStorage.setItem("reviewId", value);
   };
+  handleClickPageNo = (No) => () => {
+    localStorage.setItem("pageNo", No);
+    this.stateRefresh();
+  };
+
   componentDidMount() {
     const userId = localStorage.getItem("userId");
-    console.log(typeof userId);
+    localStorage.setItem("pageNo", 1);
     const menuReivewUrl = axios.get(
-      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/review/my/${userId}`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/review/my/${userId}/1`
     );
     Promise.all([menuReivewUrl])
       .then(([res1]) => {
@@ -39,62 +44,72 @@ class MyReview extends React.Component {
   }
 
   createListOfReview() {
-    let list = [];
-
-    //console.log(menuId);
-    for (let i = 0; i < this.state.menuReivew.length; ++i) {
-      list.push(
-        <tr style={{ height: "100px" }}>
-          <td>{this.state.menuReivew[i].cafeName}</td>
-          <td>{this.state.menuReivew[i].menuName}</td>
-          <td>{this.state.menuReivew[i].userId}</td>
-          <td>{this.state.menuReivew[i].content}</td>
-          <td>
-            <ReactStars
-              edit={false}
-              activeColor="#ffc107"
-              value={this.state.menuReivew[i].sweet}
-              size={20}
-              isHalf={true}
-            />
-          </td>
-          <td>
-            <ReactStars
-              edit={false}
-              activeColor="#ffc107"
-              value={this.state.menuReivew[i].bitter}
-              size={20}
-              isHalf={true}
-            />
-          </td>
-          <td>
-            <ReactStars
-              edit={false}
-              activeColor="#ffc107"
-              value={this.state.menuReivew[i].sour}
-              size={20}
-              isHalf={true}
-            />
-          </td>
-          <td style={{ textAlign: "center" }}>
-            {this.state.menuReivew[i].grade}
-          </td>
-          <td>
-            <ModifyReview
-              stateRefresh={this.stateRefresh}
-              reviewId={this.state.menuReivew[i].reviewId}
-            />
-          </td>
-          <td>
-            <DeleteReview
-              stateRefresh={this.stateRefresh}
-              reviewId={this.state.menuReivew[i].reviewId}
-            />
-          </td>
-        </tr>
+    const { isLoaded } = this.state;
+    if (!isLoaded) {
+      return (
+        <div
+          id="loader"
+          style={{ position: "absolute", top: "50%", left: "50%" }}
+        >
+          <CircularProgress />
+        </div>
       );
+    } else {
+      let list = [];
+      let reviews = this.state.menuReivew.reviewList;
+      //console.log(menuId);
+      for (let i = 0; i < reviews.length; ++i) {
+        list.push(
+          <tr style={{ height: "100px" }}>
+            <td>{reviews[i].cafeName}</td>
+            <td>{reviews[i].menuName}</td>
+            <td>{reviews[i].userId}</td>
+            <td>{reviews[i].content}</td>
+            <td>
+              <ReactStars
+                edit={false}
+                activeColor="#ffc107"
+                value={reviews[i].sweet}
+                size={20}
+                isHalf={true}
+              />
+            </td>
+            <td>
+              <ReactStars
+                edit={false}
+                activeColor="#ffc107"
+                value={reviews[i].bitter}
+                size={20}
+                isHalf={true}
+              />
+            </td>
+            <td>
+              <ReactStars
+                edit={false}
+                activeColor="#ffc107"
+                value={reviews[i].sour}
+                size={20}
+                isHalf={true}
+              />
+            </td>
+            <td style={{ textAlign: "center" }}>{reviews[i].grade}</td>
+            <td>
+              <ModifyReview
+                stateRefresh={this.stateRefresh}
+                reviewId={reviews[i].reviewId}
+              />
+            </td>
+            <td>
+              <DeleteReview
+                stateRefresh={this.stateRefresh}
+                reviewId={reviews[i].reviewId}
+              />
+            </td>
+          </tr>
+        );
+      }
+      return list;
     }
-    return list;
   }
   // 리뷰목록만 새로고침
   stateRefresh = () => {
@@ -105,22 +120,102 @@ class MyReview extends React.Component {
     console.log("stateRefresh함수 실행");
     this.callReviewList();
     this.createListOfReview();
-
-    this.setState({
-      isLoaded: true,
-    });
   };
   // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
   callReviewList = async () => {
+    const pageNo = localStorage.getItem("pageNo");
     const userId = localStorage.getItem("userId");
+
     const res = await axios.get(
-      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/review/my/${userId}`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/review/my/${userId}/${pageNo}`
     );
+
     this.setState({
       menuReivew: res.data,
+      isLoaded: true,
     });
-    console.log("callReviewList함수 실행");
+    console.log(this.state.menuReivew);
   };
+
+  printPageNav() {
+    const { menuReivew } = this.state;
+    const pageNo = localStorage.getItem("pageNo");
+
+    let pageList = [];
+
+    if (menuReivew.prev == 0)
+      pageList.push(
+        <li className="page-item disabled">
+          <a className="page-link" href="#">
+            Previous
+          </a>
+        </li>
+      );
+    else {
+      pageList.push(
+        <li className="page-item">
+          <a
+            className="page-link"
+            href="#"
+            onClick={this.handleClickPageNo(menuReivew.prev)}
+          >
+            Previous
+          </a>
+        </li>
+      );
+    }
+
+    for (let i = menuReivew.start; i <= menuReivew.end; i++) {
+      if (pageNo == i) {
+        pageList.push(
+          <li className="page-item active">
+            <a
+              className="page-link"
+              href="#"
+              onClick={this.handleClickPageNo(i)}
+            >
+              {i}
+            </a>
+          </li>
+        );
+      } else {
+        pageList.push(
+          <li className="page-item">
+            <a
+              className="page-link"
+              href="#"
+              onClick={this.handleClickPageNo(i)}
+            >
+              {i}
+            </a>
+          </li>
+        );
+      }
+    }
+
+    if (menuReivew.next == 0)
+      pageList.push(
+        <li className="page-item disabled">
+          <a className="page-link" href="#">
+            Next
+          </a>
+        </li>
+      );
+    else {
+      pageList.push(
+        <li className="page-item">
+          <a
+            className="page-link"
+            href="#"
+            onClick={this.handleClickPageNo(menuReivew.next)}
+          >
+            Next
+          </a>
+        </li>
+      );
+    }
+    return <ul className="pagination justify-content-center">{pageList}</ul>;
+  }
 
   render() {
     const { isLoaded } = this.state;
@@ -182,7 +277,7 @@ class MyReview extends React.Component {
               <header className="border-bottom mb-4 pb-3">
                 <div className="form-inline">
                   <span className="mr-md-auto">
-                    {this.state.menuReivew.length} Items found{" "}
+                    {this.state.menuReivew.count} Items found{" "}
                   </span>
                 </div>
               </header>
@@ -209,33 +304,7 @@ class MyReview extends React.Component {
               {/* myReview */}
 
               <nav className="mt-4" aria-label="Page navigation sample">
-                <ul className="pagination justify-content-center">
-                  <li className="page-item disabled">
-                    <a className="page-link" href="#">
-                      Previous
-                    </a>
-                  </li>
-                  <li className="page-item active">
-                    <a className="page-link" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      Next
-                    </a>
-                  </li>
-                </ul>
+                {this.printPageNav()}
               </nav>
             </main>
           </div>
