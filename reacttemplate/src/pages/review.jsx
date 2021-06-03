@@ -51,7 +51,7 @@ class ReviewPage extends Component {
             myLike: !res2.data,
           });
         })
-        .catch((err) =
+        .catch((err) => {
           console.log(err);
         });
     } else {

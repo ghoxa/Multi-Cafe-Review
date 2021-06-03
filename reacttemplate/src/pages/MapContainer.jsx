@@ -47,7 +47,6 @@ class MapContainer extends React.Component {
           // 마커와 인퍼윈도우를 표시합닌다.
 
           displayMarker(locPosition, message);
-          window.location.replace("/map");
         });
       } else {
         let locPosition = new kakao.maps.LatLng(
