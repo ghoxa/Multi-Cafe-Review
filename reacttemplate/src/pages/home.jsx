@@ -50,7 +50,7 @@ class Home extends React.Component {
   componentDidMount() {
     localStorage.setItem("mapId", "all");
     localStorage.setItem("pageNo", 1);
-    let menuApi = axios.get(`http://localhost:9090/multicafe/api/menu/list/1`);
+    let menuApi = axios.get(`https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/list/1`);
     
     Promise.all([menuApi])
       .then(([res]) => {
@@ -87,25 +87,25 @@ class Home extends React.Component {
       //모든 카페
       if (categoryId == 0 && keyword == 0) {
         // 모든 카테고리
-        menuApi = `http://localhost:9090/multicafe/api/menu/list/${conditionId}/${pageNo}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/list/${conditionId}/${pageNo}`;
       } else if (categoryId == 0 && keyword != 0) {
         //키워드 검색
-        menuApi = `http://localhost:9090/multicafe/api/menu/search/${keyword}/${conditionId}/${pageNo}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/search/${keyword}/${conditionId}/${pageNo}`;
       } else if (categoryId != 0) {
         //카테고리 선택
-        menuApi = `http://localhost:9090/multicafe/api/menu/category/${categoryId}/${conditionId}/${pageNo}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/category/${categoryId}/${conditionId}/${pageNo}`;
       }
     } else if (cafeId != 0) {
       // 카페선택
       if (categoryId == 0 && keyword == 0) {
         // 모든 카테고리
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/${conditionId}/${pageNo}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/cafe/${cafeId}/${conditionId}/${pageNo}`;
       } else if (categoryId == 0 && keyword != 0) {
         //키워드 검색
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/search/${keyword}/${conditionId}/${pageNo}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/cafe/${cafeId}/search/${keyword}/${conditionId}/${pageNo}`;
       } else if (categoryId != 0) {
         //카테고리 선택
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/category/${categoryId}/${conditionId}/${pageNo}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/cafe/${cafeId}/category/${categoryId}/${conditionId}/${pageNo}`;
       }
     } else {
       alert("예외상황!!");

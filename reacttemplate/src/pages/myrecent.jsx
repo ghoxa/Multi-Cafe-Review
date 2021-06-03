@@ -14,7 +14,7 @@ class MyRecent extends React.Component {
   componentDidMount() {
     const userId = localStorage.getItem("userId");
     const menuReivewUrl = axios.get(
-      `http://localhost:9090/multicafe/api/user/recent/${userId}`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/recent/${userId}`
     );
     Promise.all([menuReivewUrl])
       .then(([res]) => {
@@ -138,38 +138,40 @@ class MyRecent extends React.Component {
                 </div>
               </aside>
 
-              <main className='col-md-9'>
-                <header className='border-bottom mb-4 pb-3'>
-                  <div className='form-inline'>
-                    <span className='mr-md-auto'>{myRecent.length} Items found </span>
+              <main className="col-md-9">
+                <header className="border-bottom mb-4 pb-3">
+                  <div className="form-inline">
+                    <span className="mr-md-auto">
+                      {myRecent.length} Items found{" "}
+                    </span>
                   </div>
                 </header>
 
                 <div className="row">{menulist}</div>
-                <nav className='mt-4' aria-label='Page navigation sample'>
-                  <ul className='pagination justify-content-center'>
-                    <li className='page-item disabled'>
-                      <a className='page-link' href='#'>
+                <nav className="mt-4" aria-label="Page navigation sample">
+                  <ul className="pagination justify-content-center">
+                    <li className="page-item disabled">
+                      <a className="page-link" href="#">
                         Previous
                       </a>
                     </li>
-                    <li className='page-item active'>
-                      <a className='page-link' href='#'>
+                    <li className="page-item active">
+                      <a className="page-link" href="#">
                         1
                       </a>
                     </li>
-                    <li className='page-item'>
-                      <a className='page-link' href='#'>
+                    <li className="page-item">
+                      <a className="page-link" href="#">
                         2
                       </a>
                     </li>
-                    <li className='page-item'>
-                      <a className='page-link' href='#'>
+                    <li className="page-item">
+                      <a className="page-link" href="#">
                         3
                       </a>
                     </li>
-                    <li className='page-item'>
-                      <a className='page-link' href='#'>
+                    <li className="page-item">
+                      <a className="page-link" href="#">
                         Next
                       </a>
                     </li>

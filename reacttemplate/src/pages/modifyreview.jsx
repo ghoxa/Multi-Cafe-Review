@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from '../Css/writeReview.module.css';
-import ReactStars from 'react-rating-stars-component';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "../Css/writeReview.module.css";
+import ReactStars from "react-rating-stars-component";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
 
 class ModifyReview extends Component {
   state = {
@@ -70,7 +70,10 @@ class ModifyReview extends Component {
 
     console.log(data);
     Promise.all([
-      axios.put("http://localhost:9090/multicafe/api/user/review", data),
+      axios.put(
+        "https://multicafe-server.xyz/Multi-Cafe-Review/api/user/review",
+        data
+      ),
     ])
       .then(([res]) => {
         console.log(res.data);
@@ -168,7 +171,12 @@ const RatingSweet = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>단맛 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars
+          activeColor="#ffc107"
+          size={35}
+          isHalf={true}
+          onChange={onChange}
+        />
       </span>
     </div>
   );
@@ -179,7 +187,12 @@ const RatingSour = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>신맛 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars
+          activeColor="#ffc107"
+          size={35}
+          isHalf={true}
+          onChange={onChange}
+        />
       </span>
     </div>
   );
@@ -190,7 +203,12 @@ const RatingBitter = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>쓴맛 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars
+          activeColor="#ffc107"
+          size={35}
+          isHalf={true}
+          onChange={onChange}
+        />
       </span>
     </div>
   );
@@ -201,7 +219,12 @@ const RatingGrade = ({ onChange }) => {
     <div className={styles.taste}>
       <span class={styles.font}>평점 </span>
       <span class={styles.rating}>
-        <ReactStars activeColor='#ffc107' size={35} isHalf={true} onChange={onChange} />
+        <ReactStars
+          activeColor="#ffc107"
+          size={35}
+          isHalf={true}
+          onChange={onChange}
+        />
       </span>
     </div>
   );
@@ -213,7 +236,13 @@ const InputBox = ({ comment, onChange }) => {
       <Form className={styles.inputbox}>
         <Form.Group>
           <Form.Label className={styles.head}>리뷰를 입력하세요</Form.Label>
-          <Form.Control className={styles.content} as='textarea' rows={3} value={comment} onChange={onChange} />
+          <Form.Control
+            className={styles.content}
+            as="textarea"
+            rows={3}
+            value={comment}
+            onChange={onChange}
+          />
         </Form.Group>
       </Form>
     </div>

@@ -32,20 +32,42 @@ class Admin_Insert extends React.Component {
       categoryId: 0,
       cafeId: 0,
     };
-}
-  handleMenuName = (e) => {this.setState({menuName: e.target.value,});};
-  handlePrice = (e) => {this.setState({price: Number(e.target.value),});};
-  handleDescription = (e) => {this.setState({description: e.target.value,});};
-  handleKeyword = (e) => {this.setState({keyword: e.target.value,});};
-  handleImage = (e) => {this.setState({image: e.target.value,});};
-  handleCategoryId = (e) => {this.setState({categoryId: Number(e.target.value),});};
-  handleCafeId = (e) => {this.setState({cafeId: Number(e.target.value),});};
-  handleHot = () => {this.setState({hot: (this.state.hot^1)});};
-  handleIce = () => {this.setState({ice: (this.state.ice^1)});};
+  }
+  handleMenuName = (e) => {
+    this.setState({ menuName: e.target.value });
+  };
+  handlePrice = (e) => {
+    this.setState({ price: Number(e.target.value) });
+  };
+  handleDescription = (e) => {
+    this.setState({ description: e.target.value });
+  };
+  handleKeyword = (e) => {
+    this.setState({ keyword: e.target.value });
+  };
+  handleImage = (e) => {
+    this.setState({ image: e.target.value });
+  };
+  handleCategoryId = (e) => {
+    this.setState({ categoryId: Number(e.target.value) });
+  };
+  handleCafeId = (e) => {
+    this.setState({ cafeId: Number(e.target.value) });
+  };
+  handleHot = () => {
+    this.setState({ hot: this.state.hot ^ 1 });
+  };
+  handleIce = () => {
+    this.setState({ ice: this.state.ice ^ 1 });
+  };
 
   componentDidMount() {
-    const categoryListApi = axios.get(`http://localhost:9090/multicafe/api/category`);
-    const cafeListApi = axios.get("http://localhost:9090/multicafe/api/cafe");
+    const categoryListApi = axios.get(
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/category`
+    );
+    const cafeListApi = axios.get(
+      "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe"
+    );
     Promise.all([categoryListApi, cafeListApi])
       .then(([res, res2]) => {
         this.setState({
@@ -68,7 +90,11 @@ class Admin_Insert extends React.Component {
 
     for (let i = 0; i < category.length; i++) {
       try {
-        categoryList.push(<option value={Number(category[i]["categoryId"])}>{category[i]["name"]}</option>);
+        categoryList.push(
+          <option value={Number(category[i]["categoryId"])}>
+            {category[i]["name"]}
+          </option>
+        );
       } catch (error) {
         console.log(error);
       }
@@ -83,7 +109,9 @@ class Admin_Insert extends React.Component {
 
     for (let i = 0; i < cafe.length; i++) {
       try {
-        cafeList.push(<option value={Number(cafe[i]["cafeId"])}>{cafe[i]["name"]}</option>);
+        cafeList.push(
+          <option value={Number(cafe[i]["cafeId"])}>{cafe[i]["name"]}</option>
+        );
       } catch (error) {
         console.log(error);
       }
@@ -91,29 +119,35 @@ class Admin_Insert extends React.Component {
     return cafeList;
   }
 
-
-
   insertMenu = () => {
-
-    const menuInputApi = `http://localhost:9090/multicafe/api/admin/menu`;
-    const {menuName, price, description, keyword, image, hot, ice, categoryId, cafeId} = this.state;
+    const menuInputApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/menu`;
+    const {
+      menuName,
+      price,
+      description,
+      keyword,
+      image,
+      hot,
+      ice,
+      categoryId,
+      cafeId,
+    } = this.state;
 
     if (
-      menuName === '' ||
-      price === '' ||
-      description === '' ||
-      keyword === '' ||
-      image === '' || 
-      hot === '' || 
-      ice === '' || 
-      categoryId === '' || 
-      cafeId === ''
+      menuName === "" ||
+      price === "" ||
+      description === "" ||
+      keyword === "" ||
+      image === "" ||
+      hot === "" ||
+      ice === "" ||
+      categoryId === "" ||
+      cafeId === ""
     ) {
       alert("모든 입력을 완료해 주세요");
       return;
     }
 
-    
     const inputData = {
       name: menuName,
       price: price,
@@ -123,17 +157,17 @@ class Admin_Insert extends React.Component {
       hot: hot,
       ice: ice,
       categoryId: categoryId,
-      cafeId: cafeId
+      cafeId: cafeId,
     };
-    
+
     //console.log(inputData);
     Promise.all([axios.post(menuInputApi, inputData)])
       .then((res) => {
-        alert('메뉴추가 성공!!');
+        alert("메뉴추가 성공!!");
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   };
   render() {
     return (
@@ -143,39 +177,36 @@ class Admin_Insert extends React.Component {
             <aside className="col-md-3">
               <div className="card">
                 <article className="filter-group">
-                    <header className="card-header">
-                      <Link
-                        data-toggle="collapse"
-                        data-target="#collapse_4"
-                        aria-expanded="false"
-                        className=""
-                      >
-                        <i className="icon-control fa fa-chevron-down"></i>
-                        <h6 className="title">관리자페이지</h6>
-                      </Link>
-                    </header>
-                    <div
-                      className="filter-content collapse show"
-                      id="collapse_4"
+                  <header className="card-header">
+                    <Link
+                      data-toggle="collapse"
+                      data-target="#collapse_4"
+                      aria-expanded="false"
+                      className=""
                     >
-                      <div className="card-body">
-                        <ul className="list-menu">
-                          <li>
-                            <Link to="/admin_insert">메뉴 추가</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_update">메뉴 수정</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_cafe">카페 관리</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_warning">리뷰 신고 관리</Link>
-                          </li>
-                        </ul>
-                      </div>
+                      <i className="icon-control fa fa-chevron-down"></i>
+                      <h6 className="title">관리자페이지</h6>
+                    </Link>
+                  </header>
+                  <div className="filter-content collapse show" id="collapse_4">
+                    <div className="card-body">
+                      <ul className="list-menu">
+                        <li>
+                          <Link to="/admin_insert">메뉴 추가</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_update">메뉴 수정</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_cafe">카페 관리</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_warning">리뷰 신고 관리</Link>
+                        </li>
+                      </ul>
                     </div>
-                  </article>
+                  </div>
+                </article>
               </div>
             </aside>
 
@@ -186,7 +217,7 @@ class Admin_Insert extends React.Component {
                 <Card style={{ width: "700px" }}>
                   <CardHeader>메뉴추가</CardHeader>
                   <CardBody>
-                    <Form >
+                    <Form>
                       <FormGroup>
                         <Label for="exampleName">Name</Label>
                         <Input
@@ -232,10 +263,26 @@ class Admin_Insert extends React.Component {
                         />
                       </FormGroup>
                       <FormGroup>
-                        <button type="button" onClick={this.handleHot} className={(this.state.hot) == 1? "btn btn-danger btn-lg" : "btn btn-outline-danger btn-lg"} >
+                        <button
+                          type="button"
+                          onClick={this.handleHot}
+                          className={
+                            this.state.hot == 1
+                              ? "btn btn-danger btn-lg"
+                              : "btn btn-outline-danger btn-lg"
+                          }
+                        >
                           HOT
                         </button>
-                        <button type="button" onClick={this.handleIce} className={(this.state.ice) == 1?"btn btn-primary btn-lg":"btn btn-outline-primary btn-lg"}>
+                        <button
+                          type="button"
+                          onClick={this.handleIce}
+                          className={
+                            this.state.ice == 1
+                              ? "btn btn-primary btn-lg"
+                              : "btn btn-outline-primary btn-lg"
+                          }
+                        >
                           ICE
                         </button>
                       </FormGroup>
@@ -261,7 +308,12 @@ class Admin_Insert extends React.Component {
                         </Input>
                       </FormGroup>
                       <FormGroup check row>
-                        <button className="btn btn-success" onClick={this.insertMenu}>Submit</button>
+                        <button
+                          className="btn btn-success"
+                          onClick={this.insertMenu}
+                        >
+                          Submit
+                        </button>
                       </FormGroup>
                     </Form>
                   </CardBody>

@@ -6,7 +6,7 @@ import axios from "axios";
 import { ThemeProvider } from "react-bootstrap";
 import { CircularProgress } from "@material-ui/core";
 
-const cafeApi = "http://localhost:9090/multicafe/api/cafe";
+const cafeApi = "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe";
 
 if (localStorage.getItem("cafeId") == null) {
   localStorage.setItem("cafeId", 0);
@@ -36,7 +36,9 @@ class Header extends React.Component {
   // 주석주석
   componentDidMount() {
     const userId = localStorage.getItem("userId");
-    const cafeApi = axios.get("http://localhost:9090/multicafe/api/cafe");
+    const cafeApi = axios.get(
+      "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe"
+    );
     Promise.all([cafeApi])
       .then(([res]) => {
         this.setState({
@@ -70,7 +72,7 @@ class Header extends React.Component {
 
   checkLogid = () => {
     alert("로그인을 해주세요!");
-  };  
+  };
 
   render() {
     // const login = localStorage.getItem('isLogin');

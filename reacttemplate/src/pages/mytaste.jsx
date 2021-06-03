@@ -15,7 +15,7 @@ class MyTaste extends React.Component {
   componentDidMount() {
     const userId = localStorage.getItem("userId");
     const myTasteAPI = axios.get(
-      `http://localhost:9090/multicafe/api/menu/recommend/${userId}`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/recommend/${userId}`
     );
     Promise.all([myTasteAPI])
       .then(([res]) => {

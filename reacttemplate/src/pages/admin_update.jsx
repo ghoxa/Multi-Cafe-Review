@@ -4,7 +4,7 @@ import Page from "../components/layout/page";
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
 import { Table } from "react-bootstrap";
-import ModifyMenu from './modifymenu';
+import ModifyMenu from "./modifymenu";
 
 import {
   Button,
@@ -58,9 +58,11 @@ class Admin_Update extends React.Component {
 
   componentDidMount() {
     const categoryListApi = axios.get(
-      `http://localhost:9090/multicafe/api/category`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/category`
     );
-    const cafeListApi = axios.get("http://localhost:9090/multicafe/api/cafe");
+    const cafeListApi = axios.get(
+      "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe"
+    );
     Promise.all([categoryListApi, cafeListApi])
       .then(([res, res2]) => {
         this.setState({
@@ -135,13 +137,13 @@ class Admin_Update extends React.Component {
       if (categoryId == 0) {
         alert("한개 이상 선택!");
       } else {
-        menuApi = `http://localhost:9090/multicafe/api/menu/category/${categoryId}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/category/${categoryId}`;
       }
     } else {
       if (categoryId == 0) {
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/cafe/${cafeId}`;
       } else {
-        menuApi = `http://localhost:9090/multicafe/api/menu/cafe/${cafeId}/category/${categoryId}`;
+        menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/cafe/${cafeId}/category/${categoryId}`;
       }
     }
     const res = await axios.get(menuApi);
@@ -158,56 +160,70 @@ class Admin_Update extends React.Component {
     if (keyword === "") {
       alert("키워드를 입력해주세요");
       return;
-    } else {      
-      menuApi = `http://localhost:9090/multicafe/api/menu/search/${keyword}`;    
+    } else {
+      menuApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/search/${keyword}`;
     }
-    
+
     const res = await axios.get(menuApi);
     this.setState({
       menuList: res.data,
     });
   };
   printMenuList() {
-      let menulist = [];
-      let menu = this.state.menuList;
-      //console.log(menu[0]["name"]);
-      for (let i = 0; i < menu.length; i++) {
-        menulist.push(
-          <tr>
-            <td>{menu[i]["cafeName"]}</td>
-            <td>{menu[i]["name"]}</td>
-            <td>{menu[i]["price"]}</td>
-            <td>{menu[i]["keyword"]}</td>
-            <td>{menu[i]["grade"]}</td>
-            <td><ModifyMenu stateRefresh={this.stateRefresh} menuId={menu[i]["menuId"]}/></td>
-            <td><button className="btn btn-danger" onClick={(Id) => this.deleteMenu(menu[i]["menuId"])}>삭제</button></td>
-          </tr>
-        );
-      }
-      return menulist;
+    let menulist = [];
+    let menu = this.state.menuList;
+    //console.log(menu[0]["name"]);
+    for (let i = 0; i < menu.length; i++) {
+      menulist.push(
+        <tr>
+          <td>{menu[i]["cafeName"]}</td>
+          <td>{menu[i]["name"]}</td>
+          <td>{menu[i]["price"]}</td>
+          <td>{menu[i]["keyword"]}</td>
+          <td>{menu[i]["grade"]}</td>
+          <td>
+            <ModifyMenu
+              stateRefresh={this.stateRefresh}
+              menuId={menu[i]["menuId"]}
+            />
+          </td>
+          <td>
+            <button
+              className="btn btn-danger"
+              onClick={(Id) => this.deleteMenu(menu[i]["menuId"])}
+            >
+              삭제
+            </button>
+          </td>
+        </tr>
+      );
+    }
+    return menulist;
   }
 
   deleteMenu = (Id) => {
     //console.log(Id);
-    if(window.confirm("메뉴를 삭제합니다.")){
-      let deleteApi = axios.delete(`http://localhost:9090/multicafe/api/admin/menu/${Id}`);
+    if (window.confirm("메뉴를 삭제합니다.")) {
+      let deleteApi = axios.delete(
+        `https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/menu/${Id}`
+      );
       Promise.all([deleteApi])
-      .then(([res]) => {
-        alert("삭제 되었습니다.");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then(([res]) => {
+          alert("삭제 되었습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
-  
+  };
+
   stateRefresh = () => {
     this.setState({
       menuList: [],
     });
     this.callMenuListSelect();
     this.printMenuList();
-  }
+  };
   render() {
     return (
       <section className="section-content padding-y">
@@ -216,39 +232,36 @@ class Admin_Update extends React.Component {
             <aside className="col-md-3">
               <div className="card">
                 <article className="filter-group">
-                    <header className="card-header">
-                      <Link
-                        data-toggle="collapse"
-                        data-target="#collapse_1"
-                        aria-expanded="false"
-                        className=""
-                      >
-                        <i className="icon-control fa fa-chevron-down"></i>
-                        <h6 className="title">관리자페이지</h6>
-                      </Link>
-                    </header>
-                    <div
-                      className="filter-content collapse show"
-                      id="collapse_1"
+                  <header className="card-header">
+                    <Link
+                      data-toggle="collapse"
+                      data-target="#collapse_1"
+                      aria-expanded="false"
+                      className=""
                     >
-                      <div className="card-body">
-                        <ul className="list-menu">
-                          <li>
-                            <Link to="/admin_insert">메뉴 추가</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_update">메뉴 수정</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_cafe">카페 관리</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_warning">리뷰 신고 관리</Link>
-                          </li>
-                        </ul>
-                      </div>
+                      <i className="icon-control fa fa-chevron-down"></i>
+                      <h6 className="title">관리자페이지</h6>
+                    </Link>
+                  </header>
+                  <div className="filter-content collapse show" id="collapse_1">
+                    <div className="card-body">
+                      <ul className="list-menu">
+                        <li>
+                          <Link to="/admin_insert">메뉴 추가</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_update">메뉴 수정</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_cafe">카페 관리</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_warning">리뷰 신고 관리</Link>
+                        </li>
+                      </ul>
                     </div>
-                  </article>
+                  </div>
+                </article>
                 <article className="filter-group">
                   <header className="card-header">
                     <a
@@ -266,7 +279,9 @@ class Admin_Update extends React.Component {
                     <div className="card-body">
                       <div>
                         <div>
-                          <Label for="examplePrice">카페& 카테고리로 검색</Label>
+                          <Label for="examplePrice">
+                            카페& 카테고리로 검색
+                          </Label>
                           <Input
                             type="select"
                             name="cafeId"
@@ -281,7 +296,12 @@ class Admin_Update extends React.Component {
                           >
                             {this.setCategoryList()}
                           </Input>
-                          <button onClick={this.handleSerchSelect} className="btn btn-info">검색</button>
+                          <button
+                            onClick={this.handleSerchSelect}
+                            className="btn btn-info"
+                          >
+                            검색
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -304,21 +324,26 @@ class Admin_Update extends React.Component {
                     <div className="card-body">
                       <div>
                         <Label for="examplePrice">키워드로 검색</Label>
-                        
+
                         <Input
                           type="text"
                           name="keyword"
                           placeholder="키워드"
                           onChange={this.handleKeyword}
                         />
-                        <button onClick={this.handleSerchKeyword} className="btn btn-info">검색</button>
+                        <button
+                          onClick={this.handleSerchKeyword}
+                          className="btn btn-info"
+                        >
+                          검색
+                        </button>
                       </div>
                     </div>
                   </div>
                 </article>
               </div>
             </aside>
-            
+
             <row>
               <Col xl={12} lg={12} md={12}>
                 <Card style={{ width: "820px" }}>
