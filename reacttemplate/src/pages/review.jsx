@@ -163,14 +163,15 @@ class ReviewPage extends Component {
     });
   };
   componentDidMount() {
-    const menuId = localStorage.getItem('menuId');
-    const userId = localStorage.getItem('userId');
-    const pageNo = localStorage.getItem('pageNo');
-    const reviewConditionId = localStorage.getItem('reviewConditionId');
-    let selectMenuCheckUrl = '';
-    let likeCheckUrl = '';
-    let ReviewLikeCheckUrl = '';
-    let menuReivewUrl = '';
+    localStorage.setItem("pageNo", 1);
+    localStorage.setItem("reviewConditionId", 0);
+
+    const menuId = localStorage.getItem("menuId");
+    const userId = localStorage.getItem("userId");    
+    let selectMenuCheckUrl = "";
+    let likeCheckUrl = "";
+    let ReviewLikeCheckUrl = "";
+    let menuReivewUrl = "";
 
     this.state.login
       ? (selectMenuCheckUrl = axios.get(
@@ -180,13 +181,17 @@ class ReviewPage extends Component {
           `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/${menuId}`
         ));
 
-    const reviewId = localStorage.getItem('reviewId');
-    
-    if(reviewConditionId == "recent"){
-      menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${menuId}/recent/${pageNo}`);
-    }
-    else{
-      menuReivewUrl = axios.get(`http://localhost:9090/multicafe/api/review/${reviewConditionId}/${menuId}`);
+    menuReivewUrl = axios.get( // 리뷰 list
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/review/${menuId}/list/1`
+    );
+
+    if (this.state.login) { //로그인 되어 있을 때
+      likeCheckUrl = axios.get( // 메뉴 좋아요 눌렀는지 check
+        `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/${menuId}/likecheck`
+      );
+      ReviewLikeCheckUrl = axios.get( // 리뷰 좋아요 눌렀는지 check
+        `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/${menuId}/ReviewLikecheck`
+      );
     }
 
     const similarMenuByKeyWordUrl = axios.get(
@@ -195,14 +200,6 @@ class ReviewPage extends Component {
     const similarMenuByTasteUrl = axios.get(
       `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/${menuId}/recommend/taste`
     );
-    if (this.state.login) {
-      likeCheckUrl = axios.get(
-        `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/${menuId}/likecheck`
-      );
-      ReviewLikeCheckUrl = axios.get(
-        `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/${menuId}/ReviewLikecheck`
-      );
-    }
 
     Promise.all([
       menuReivewUrl,
@@ -247,13 +244,18 @@ class ReviewPage extends Component {
   //  }
   handleClickCondition = (value) => () => {
     localStorage.setItem("reviewConditionId", value);
-    window.location.replace("/review");
+    this.stateRefresh();
   };
 
   handleClick = (value) => () => {
     localStorage.setItem("menuId", value);
     window.location.replace("/review");
   };
+
+  handleClickPageNo = (No) => () =>{
+    localStorage.setItem("pageNo", No);
+    this.stateRefresh();
+  }
 
   similarcreateListOfsimilarMenuByKeyword() {
     let list = [];
@@ -312,65 +314,67 @@ class ReviewPage extends Component {
     if (!this.state.login) {
       this.state.reviewLike = [0 * this.state.menuReivew.length];
     }
-    for (let i = 0; i < this.state.menuReivew.length; ++i) {
-      list.push(
-        <tr>
-          <td>{this.state.menuReivew[i].userId}</td>
-          <td>{this.state.menuReivew[i].content}</td>
-          <td>
-            <ReactStars
-              edit={false}
-              activeColor="#ffc107"
-              value={this.state.menuReivew[i].sweet}
-              size={20}
-              isHalf={true}
-            />
-          </td>
-          <td>
-            <ReactStars
-              edit={false}
-              activeColor="#ffc107"
-              value={this.state.menuReivew[i].bitter}
-              size={20}
-              isHalf={true}
-            />
-          </td>
-          <td>
-            <ReactStars
-              edit={false}
-              activeColor="#ffc107"
-              value={this.state.menuReivew[i].sour}
-              size={20}
-              isHalf={true}
-            />
-          </td>
-          <td style={{ textAlign: "center" }}>
-            {this.state.menuReivew[i].grade}
-          </td>
-          <td>
-            <span className="goood">{this.state.menuReivew[i].good}</span>&nbsp;
-            <a className="btn" onClick={() => this.reviewlikeChanged(i)}>
-              <i
-                style={{ color: "red" }}
-                className={
-                  this.state.reviewLike[i] == 1 ? "fa fa-heart" : "far fa-heart"
-                }
-              ></i>
-            </a>
-          </td>
-          <td>
-            <WarningReview reviewId={this.state.menuReivew[i].reviewId} />
-          </td>
-        </tr>
-      );
+    if (this.state.isLoaded){
+      let reviweList = this.state.menuReivew.reviewList;
+      for (let i = 0; i < reviweList.length; ++i) {
+        list.push(
+          <tr>
+            <td>{reviweList[i].userId}</td>
+            <td>{reviweList[i].content}</td>
+            <td>
+              <ReactStars
+                edit={false}
+                activeColor="#ffc107"
+                value={reviweList[i].sweet}
+                size={20}
+                isHalf={true}
+              />
+            </td>
+            <td>
+              <ReactStars
+                edit={false}
+                activeColor="#ffc107"
+                value={reviweList[i].bitter}
+                size={20}
+                isHalf={true}
+              />
+            </td>
+            <td>
+              <ReactStars
+                edit={false}
+                activeColor="#ffc107"
+                value={reviweList[i].sour}
+                size={20}
+                isHalf={true}
+              />
+            </td>
+            <td style={{ textAlign: "center" }}>{reviweList[i].grade}</td>
+            <td>
+              <span className="goood">{reviweList[i].good}</span>&nbsp;
+              <a className="btn" onClick={() => this.reviewlikeChanged(i)}>
+                <i
+                  style={{ color: "red" }}
+                  className={
+                    this.state.reviewLike[i] == 1
+                      ? "fa fa-heart"
+                      : "far fa-heart"
+                  }
+                ></i>
+              </a>
+            </td>
+            <td>
+              <WarningReview reviewId={reviweList[i].reviewId} />
+            </td>
+          </tr>
+        );
+      }
+      return list;
     }
-    return list;
   }
 
   showMenuInfo() {
     let info = [];
     const { selectMenuCheck } = this.state;
-    console.log(selectMenuCheck);
     info.push(
       <div className="row wow fadeIn">
         {/*Grid column*/}
@@ -477,7 +481,7 @@ class ReviewPage extends Component {
   stateRefresh = () => {
     this.setState({
       menuReivew: [],
-      selectMenuCheck: [],
+      isLoaded: false,
     });
     // this.calMenuInfo();
     this.callReviewList();
@@ -487,11 +491,16 @@ class ReviewPage extends Component {
   };
   // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
   callReviewList = async () => {
+    const userId = localStorage.getItem("userId");
     const reviewConditionId = localStorage.getItem("reviewConditionId");
     const menuId = localStorage.getItem("menuId");
+    const pageno = localStorage.getItem("pageNo");
+
     const res = await axios.get(
-      `https://multicafe-server.xyz/Multi-Cafe-Review/api/review/${reviewConditionId}/${menuId}`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/review/${menuId}/list/${userId}/${reviewConditionId}/${pageno}`
     );
+    console.log(`https://multicafe-server.xyz/Multi-Cafe-Review/api/review/${menuId}/list/${userId}/${reviewConditionId}/${pageno}`)
+    console.log(res.data);
     this.setState({
       menuReivew: res.data,
       isLoaded: true,
@@ -514,6 +523,75 @@ class ReviewPage extends Component {
       isLoaded: true,
     });
   };
+
+  printPageNav() {
+    const { menuReivew } = this.state;
+    const pageNo = localStorage.getItem("pageNo");
+
+    let pageList = []
+
+    if (menuReivew.prev == 0)
+      pageList.push(<li className="page-item disabled">
+        <a className="page-link" href="#">Previous</a>
+      </li>
+      )
+    else {
+      pageList.push(<li className="page-item">
+        <a className="page-link" href="#" onClick={this.handleClickPageNo(menuReivew.prev)}>
+          Previous</a>
+      </li>
+      )
+    }
+
+    for(let i=menuReivew.start; i<= menuReivew.end; i++){
+      if (pageNo == i){
+        pageList.push(
+          <li className="page-item active">
+            <a className="page-link" href="#" onClick={this.handleClickPageNo(i)}>{i}</a>
+          </li>
+        )
+      }
+      else{
+        pageList.push(
+          <li className="page-item">
+            <a className="page-link" href="#" onClick={this.handleClickPageNo(i)}>{i}</a>
+          </li>
+        )
+      }
+    }
+    
+    if (menuReivew.next == 0)
+      pageList.push(<li className="page-item disabled">
+        <a className="page-link" href="#">
+          Next</a>
+      </li>
+      )
+    else {
+      pageList.push(<li className="page-item">
+        <a className="page-link" href="#" onClick={this.handleClickPageNo(menuReivew.next)}>
+          Next</a>
+      </li>
+      )
+    }
+    return (
+      <ul className="pagination justify-content-center">
+        {pageList}
+      </ul>
+    )
+  }
+
+  sortList(){
+    const reviewConditionId = localStorage.getItem("reviewConditionId");
+
+    if (reviewConditionId == 0)
+      return "최신 순";
+    else if (reviewConditionId == 1)
+      return "좋아요 순";
+    else if (reviewConditionId == 2)
+      return "내 취향 순";
+    else
+      return "정렬순서";
+  }
   // writeban = (e) => {
   //   const menuId = localStorage.getItem('menuId');
   //   const userId = localStorage.getItem('userId');
@@ -593,33 +671,27 @@ class ReviewPage extends Component {
                     class="btn btn-primary dropdown-toggle"
                     data-toggle="dropdown"
                   >
-                    {localStorage.getItem("reviewConditionId")}
+                    {this.sortList()}
                   </button>
                   <div class="dropdown-menu">
                     <a
                       class="dropdown-item"
-                      onClick={this.handleClickCondition("good")}
+                      onClick={this.handleClickCondition(0)}
                     >
-                      good
+                      최신순
                     </a>
                     <a
                       class="dropdown-item"
-                      onClick={this.handleClickCondition("click")}
+                      onClick={this.handleClickCondition(1)}
                     >
-                      click
+                      좋아요순
                     </a>
                     <a
                       class="dropdown-item"
-                      onClick={this.handleClickCondition("grade")}
+                      onClick={this.handleClickCondition(2)}
                     >
-                      grade
-                    </a>
-                    <a
-                      class="dropdown-item"
-                      onClick={this.handleClickCondition("review")}
-                    >
-                      review
-                    </a>
+                      내 취향순
+                    </a>                    
                   </div>
                 </div>
                 <Table striped bordered hover>
@@ -637,6 +709,10 @@ class ReviewPage extends Component {
                   </thead>
                   <tbody>{this.createListOfReview()}</tbody>
                 </Table>
+
+                <nav className="mt-4" aria-label="Page navigation sample">
+                  {this.printPageNav()}
+                </nav>
 
                 {/* <BootstrapTable keyField='id' data={products} columns={this.state.columns} /> */}
                 {/*Grid row*/}
