@@ -36,7 +36,7 @@ class Mylike extends React.Component {
     localStorage.setItem("pageNo", 1);
     const userId = localStorage.getItem("userId");
     const myLikeUrl = axios.get(
-      `http://localhost:9090/multicafe/api/user/${userId}/menu/like/1`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/menu/like/1`
     );
     Promise.all([myLikeUrl])
       .then(([res]) => {
@@ -44,7 +44,7 @@ class Mylike extends React.Component {
           Menu: res.data,
           isLoaded: true,
         });
-        // console.log(this.state.Menu)
+        //console.log(this.state.Menu)
       })
       .catch((err) => {
         console.log(err.response);
@@ -55,14 +55,13 @@ class Mylike extends React.Component {
     const pageNo = localStorage.getItem("pageNo");
     const userId = localStorage.getItem("userId");
 
-    const myLikeUrl = `http://localhost:9090/multicafe/api/user/${userId}/menu/like/${pageNo}`;
+    const myLikeUrl = `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/menu/like/${pageNo}`;
 
     const res = await axios.get(myLikeUrl);
     this.setState({
       Menu: res.data,
       isLoaded: true,
     });
-
   };
 
   printPageNav() {

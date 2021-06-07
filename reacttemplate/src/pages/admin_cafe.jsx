@@ -30,7 +30,9 @@ class Admin_Cafe extends React.Component {
   }
 
   componentDidMount() {
-    const cafeApi = axios.get("http://localhost:9090/multicafe/api/cafe");
+    const cafeApi = axios.get(
+      "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe"
+    );
 
     Promise.all([cafeApi])
       .then(([res]) => {
@@ -72,8 +74,8 @@ class Admin_Cafe extends React.Component {
     return cafes;
   }
 
-  insertCafe= () => {
-    const cafeInsertApi = `http://localhost:9090/multicafe/api/admin/cafe`;
+  insertCafe = () => {
+    const cafeInsertApi = `https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/cafe`;
     const { cafeName, logoImage } = this.state;
     if (cafeName === "" || logoImage === "") {
       alert("모든 입력을 완료해 주세요");
@@ -85,7 +87,7 @@ class Admin_Cafe extends React.Component {
       name: cafeName,
       image: logoImage,
     };
-    
+
     Promise.all([axios.post(cafeInsertApi, inputData)])
       .then((res) => {
         alert("카페추가 성공!!");
@@ -95,12 +97,12 @@ class Admin_Cafe extends React.Component {
       });
 
     this.stateRefresh();
-  }
+  };
   deleteCafe = (Id) => {
     //console.log(Id);
     if (window.confirm("카페를 삭제합니다.")) {
       let deleteApi = axios.delete(
-        `http://localhost:9090/multicafe/api/admin/cafe/${Id}`
+        `https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/cafe/${Id}`
       );
       Promise.all([deleteApi])
         .then(([res]) => {
@@ -136,39 +138,36 @@ class Admin_Cafe extends React.Component {
             <aside className="col-md-3">
               <div className="card">
                 <article className="filter-group">
-                    <header className="card-header">
-                      <Link
-                        data-toggle="collapse"
-                        data-target="#collapse_1"
-                        aria-expanded="false"
-                        className=""
-                      >
-                        <i className="icon-control fa fa-chevron-down"></i>
-                        <h6 className="title">관리자페이지</h6>
-                      </Link>
-                    </header>
-                    <div
-                      className="filter-content collapse show"
-                      id="collapse_1"
+                  <header className="card-header">
+                    <Link
+                      data-toggle="collapse"
+                      data-target="#collapse_1"
+                      aria-expanded="false"
+                      className=""
                     >
-                      <div className="card-body">
-                        <ul className="list-menu">
-                          <li>
-                            <Link to="/admin_insert">메뉴 추가</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_update">메뉴 수정</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_cafe">카페 관리</Link>
-                          </li>
-                          <li>
-                            <Link to="/admin_warning">리뷰 신고 관리</Link>
-                          </li>
-                        </ul>
-                      </div>
+                      <i className="icon-control fa fa-chevron-down"></i>
+                      <h6 className="title">관리자페이지</h6>
+                    </Link>
+                  </header>
+                  <div className="filter-content collapse show" id="collapse_1">
+                    <div className="card-body">
+                      <ul className="list-menu">
+                        <li>
+                          <Link to="/admin_insert">메뉴 추가</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_update">메뉴 수정</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_cafe">카페 관리</Link>
+                        </li>
+                        <li>
+                          <Link to="/admin_warning">리뷰 신고 관리</Link>
+                        </li>
+                      </ul>
                     </div>
-                  </article>
+                  </div>
+                </article>
               </div>
             </aside>
 

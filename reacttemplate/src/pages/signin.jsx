@@ -1,22 +1,22 @@
 // 로그인 페이지
 
-import { Link } from 'react-router-dom';
-import React from 'react';
-import { Button, FormGroup, Input, Label, Col } from 'reactstrap';
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import React from "react";
+import { Button, FormGroup, Input, Label, Col } from "reactstrap";
+import axios from "axios";
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
-      pw: '',
-      phone: '',
-      email: '',
-      address: '',
-      sweet: '',
-      sour: '',
-      bitter: '',
+      id: "",
+      pw: "",
+      phone: "",
+      email: "",
+      address: "",
+      sweet: "",
+      sour: "",
+      bitter: "",
       data: {}, // api 통해 받아오는 json 객체를 담음
       isAdmin: false,
     };
@@ -46,14 +46,19 @@ class SignIn extends React.Component {
       pwd: pw,
     };
 
-    Promise.all([axios.post('http://localhost:9090/multicafe/api/login', login_info)]).then((res) => {
+    Promise.all([
+      axios.post(
+        "https://multicafe-server.xyz/Multi-Cafe-Review/api/login",
+        login_info
+      ),
+    ]).then((res) => {
       this.setState({
         data: res[0].data,
       });
       console.log(this.state.data);
 
-      if (this.state.data != '') {
-        alert('로그인되었습니다');
+      if (this.state.data != "") {
+        alert("로그인되었습니다");
 
         this.setState({
           id: this.state.data.userId,
@@ -68,18 +73,18 @@ class SignIn extends React.Component {
 
         // 관리자로 로그인할 경우 admin을 true로 표시 / 일반 사용자일 경우 admin은 false
         if (this.state.isAdmin) {
-          localStorage.setItem('admin', this.state.isAdmin);
+          localStorage.setItem("admin", this.state.isAdmin);
         }
 
         // 로그인한 id를 로컬스토리지에 저장, isLogin true로 설정(로그인했음을 표시)
-        localStorage.setItem('userId', id);
-        localStorage.setItem('isLogin', true);
-        window.location.replace('/');
+        localStorage.setItem("userId", id);
+        localStorage.setItem("isLogin", true);
+        window.location.replace("/");
       } else {
-        alert('아이디 혹은 비밀번호를 확인하세요');
+        alert("아이디 혹은 비밀번호를 확인하세요");
         this.setState({
-          id: '',
-          pw: '',
+          id: "",
+          pw: "",
         });
       }
     });
@@ -87,34 +92,51 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <div className='container'>
+      <div className="container">
         <form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for='exampleId' sm={2}>
+            <Label for="exampleId" sm={2}>
               Id
             </Label>
             <Col>
-              <Input type='id' name='id' placeholder='id 입력' value={this.state.id} onChange={this.handleId} />
+              <Input
+                type="id"
+                name="id"
+                placeholder="id 입력"
+                value={this.state.id}
+                onChange={this.handleId}
+              />
             </Col>
           </FormGroup>
           <FormGroup>
-            <Label for='examplePassword' sm={2}>
+            <Label for="examplePassword" sm={2}>
               Password
             </Label>
             <Col>
-              <Input type='password' name='password' placeholder='password 입력' value={this.state.pw} onChange={this.handlePW} />
+              <Input
+                type="password"
+                name="password"
+                placeholder="password 입력"
+                value={this.state.pw}
+                onChange={this.handlePW}
+              />
             </Col>
           </FormGroup>
           <br></br>
           <hr />
-          <Button size='lg' className='bg-gradient-theme-left border-0' block type='submit'>
+          <Button
+            size="lg"
+            className="bg-gradient-theme-left border-0"
+            block
+            type="submit"
+          >
             Login
           </Button>
 
-          <div className='text-center pt-1'>
+          <div className="text-center pt-1">
             <h6>or</h6>
             <h6>
-              <Link to='/register'>Signup</Link>
+              <Link to="/register">Signup</Link>
             </h6>
           </div>
         </form>

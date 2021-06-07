@@ -6,9 +6,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 import axios from "axios";
-import {Input} from "reactstrap";
+import { Input } from "reactstrap";
 
 class ModifyReview extends Component {
   state = {
@@ -29,18 +29,36 @@ class ModifyReview extends Component {
     open: false,
   };
 
-  handleMenuName = (e) => {this.setState({menuName: e.target.value,});};
-  handlePrice = (e) => {this.setState({price: Number(e.target.value),});};
-  handleDescription = (e) => {this.setState({description: e.target.value,});};
-  handleKeyword = (e) => {this.setState({keyword: e.target.value,});};
-  handleImage = (e) => {this.setState({image: e.target.value,});};
-  handleCategoryId = (e) => {this.setState({categoryId: Number(e.target.value),});};
-  handleCafeId = (e) => {this.setState({cafeId: Number(e.target.value),});};
-  handleHot = () => {this.setState({hot: (this.state.hot^1)});};
-  handleIce = () => {this.setState({ice: (this.state.ice^1)});};
+  handleMenuName = (e) => {
+    this.setState({ menuName: e.target.value });
+  };
+  handlePrice = (e) => {
+    this.setState({ price: Number(e.target.value) });
+  };
+  handleDescription = (e) => {
+    this.setState({ description: e.target.value });
+  };
+  handleKeyword = (e) => {
+    this.setState({ keyword: e.target.value });
+  };
+  handleImage = (e) => {
+    this.setState({ image: e.target.value });
+  };
+  handleCategoryId = (e) => {
+    this.setState({ categoryId: Number(e.target.value) });
+  };
+  handleCafeId = (e) => {
+    this.setState({ cafeId: Number(e.target.value) });
+  };
+  handleHot = () => {
+    this.setState({ hot: this.state.hot ^ 1 });
+  };
+  handleIce = () => {
+    this.setState({ ice: this.state.ice ^ 1 });
+  };
   handleClickOpen = (e) => {
-    this.setState({open: true,});
-    console.log(e)
+    this.setState({ open: true });
+    console.log(e);
   };
   handleClose = () => {
     this.setState({
@@ -57,9 +75,13 @@ class ModifyReview extends Component {
     });
   };
   componentDidMount() {
-    const categoryListApi = axios.get(`http://localhost:9090/multicafe/api/category`);
-    const cafeListApi = axios.get("http://localhost:9090/multicafe/api/cafe");    
-    
+    const categoryListApi = axios.get(
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/category`
+    );
+    const cafeListApi = axios.get(
+      "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe"
+    );
+
     Promise.all([categoryListApi, cafeListApi])
       .then(([res, res2]) => {
         this.setState({
@@ -78,7 +100,11 @@ class ModifyReview extends Component {
 
     for (let i = 0; i < category.length; i++) {
       try {
-        categoryList.push(<option value={Number(category[i]["categoryId"])}>{category[i]["name"]}</option>);
+        categoryList.push(
+          <option value={Number(category[i]["categoryId"])}>
+            {category[i]["name"]}
+          </option>
+        );
       } catch (error) {
         console.log(error);
       }
@@ -93,7 +119,9 @@ class ModifyReview extends Component {
 
     for (let i = 0; i < cafe.length; i++) {
       try {
-        cafeList.push(<option value={Number(cafe[i]["cafeId"])}>{cafe[i]["name"]}</option>);
+        cafeList.push(
+          <option value={Number(cafe[i]["cafeId"])}>{cafe[i]["name"]}</option>
+        );
       } catch (error) {
         console.log(error);
       }
@@ -101,8 +129,10 @@ class ModifyReview extends Component {
     return cafeList;
   }
 
-  handleCallMenu(Id){
-    const menuApi = axios.get(`http://localhost:9090/multicafe/api/menu/${Id}`);
+  handleCallMenu(Id) {
+    const menuApi = axios.get(
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/${Id}`
+    );
 
     Promise.all([menuApi])
       .then(([res]) => {
@@ -133,7 +163,7 @@ class ModifyReview extends Component {
       hot,
       ice,
       categoryId,
-      cafeId
+      cafeId,
     } = this.state;
 
     if (
@@ -161,11 +191,16 @@ class ModifyReview extends Component {
       ice: ice,
       categoryId: categoryId,
       cafeId: cafeId,
-    }
-    console.log(setData)
-    Promise.all([axios.put(`http://localhost:9090/multicafe/api/admin/menu`, setData)])
+    };
+    console.log(setData);
+    Promise.all([
+      axios.put(
+        `https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/menu`,
+        setData
+      ),
+    ])
       .then((res) => {
-        alert('메뉴수정 성공!!');
+        alert("메뉴수정 성공!!");
         this.props.stateRefresh();
         this.setState({
           menuName: "",
@@ -182,7 +217,7 @@ class ModifyReview extends Component {
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
   render() {
@@ -303,7 +338,7 @@ class ModifyReview extends Component {
           </DialogContent>
 
           <DialogActions>
-          <Button
+            <Button
               variant="contained"
               color="primary"
               onClick={(e) => this.handleCallMenu(this.props.menuId)}

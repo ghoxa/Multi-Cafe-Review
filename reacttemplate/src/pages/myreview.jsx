@@ -28,7 +28,7 @@ class MyReview extends React.Component {
     const userId = localStorage.getItem("userId");
     localStorage.setItem("pageNo", 1);
     const menuReivewUrl = axios.get(
-      `http://localhost:9090/multicafe/api/user/review/my/${userId}/1`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/review/my/${userId}/1`
     );
     Promise.all([menuReivewUrl])
       .then(([res1]) => {
@@ -127,7 +127,7 @@ class MyReview extends React.Component {
     const userId = localStorage.getItem("userId");
 
     const res = await axios.get(
-      `http://localhost:9090/multicafe/api/user/review/my/${userId}/${pageNo}`
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/review/my/${userId}/${pageNo}`
     );
 
     this.setState({

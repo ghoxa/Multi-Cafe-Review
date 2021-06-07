@@ -7,7 +7,7 @@ import { ThemeProvider } from "react-bootstrap";
 import { CircularProgress } from "@material-ui/core";
 import HeaderImage from "./header_image";
 
-const cafeApi = "http://localhost:9090/multicafe/api/cafe";
+const cafeApi = "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe";
 
 if (localStorage.getItem("cafeId") == null) {
   localStorage.setItem("cafeId", 0);
@@ -29,7 +29,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
-      myLike: [],
+      myLike: 0,
       login: localStorage.getItem("isLogin"),
     };
   }
@@ -37,12 +37,18 @@ class Header extends React.Component {
   // 주석주석
   componentDidMount() {
     const userId = localStorage.getItem("userId");
-    const cafeApi = axios.get("http://localhost:9090/multicafe/api/cafe");
-    Promise.all([cafeApi])
-      .then(([res]) => {
+    const cafeApi = axios.get(
+      "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe"
+    );
+    const myLikeUrl = axios.get(
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/menu/like/1`
+    );
+    Promise.all([cafeApi, myLikeUrl])
+      .then(([res, res2]) => {
         this.setState({
           Cafe: res.data,
           isLoaded: true,
+          myLike: res2.data
         });
         // console.log(this.state.Cafe);
       })
@@ -71,7 +77,7 @@ class Header extends React.Component {
 
   checkLogid = () => {
     alert("로그인을 해주세요!");
-  };  
+  };
 
   render() {
     // const login = localStorage.getItem('isLogin');
@@ -139,7 +145,7 @@ class Header extends React.Component {
                         </a>
 
                         <span className="badge badge-pill badge-danger notify">
-                          {this.state.myLike.length}
+                          {this.state.myLike.count}
                         </span>
                       </div>
                       <div className="widget-header icontext">
