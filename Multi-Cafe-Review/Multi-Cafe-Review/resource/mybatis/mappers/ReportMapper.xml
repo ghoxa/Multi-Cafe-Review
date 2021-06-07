@@ -23,5 +23,9 @@
 	<delete id="deleteReportByReviewId">
 		delete from report where review_id=#{reviewId}
 	</delete>
+	
+	<select id="countReportedReview" resultType="int"> 
+    	select count(*) from report
+    </select>
 
 </mapper>

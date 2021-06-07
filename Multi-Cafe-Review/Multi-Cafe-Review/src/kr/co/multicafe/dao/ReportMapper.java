@@ -10,4 +10,5 @@ public interface ReportMapper {
 	public int getReportCnt(@Param("userId")String userId, @Param("reviewId")int reviewId);
 	public int insertReport(Report report);
 	public int deleteReportByReviewId(int reviewId);
+	public int countReportedReview();
 }

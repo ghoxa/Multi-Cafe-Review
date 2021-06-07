@@ -141,7 +141,7 @@ public class ReviewService {
 //	}
 	
 	public Page listViewReviewPage(int menuId, int pageno) { 
-		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		Page page = pageInfo(reviewMapper.countMenuReview(menuId), pageno);
 		page.setReviewList(reviewMapper.listViewReviewPage(page.getStartPageNum(), page.getEndPageNum(),menuId));
 		
 		return page;
@@ -150,7 +150,7 @@ public class ReviewService {
 	//메뉴에 대한 리뷰 목록(정렬)	
 	
 	public Page listViewReviewByOptionPage(int menuId, int option, String userId, int pageno) {
-		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		Page page = pageInfo(reviewMapper.countMenuReview(menuId), pageno);
 		if(option==0)
 			page.setReviewList(reviewMapper.listViewReviewPage(page.getStartPageNum(), page.getEndPageNum(),menuId));
 		else if(option==1)
@@ -163,7 +163,7 @@ public class ReviewService {
 	
 	//내가 쓴 리뷰 보여주기
 	public Page listMyReview(String userId, int pageno){	
-		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		Page page = pageInfo(reviewMapper.countMyReview(userId), pageno);
 		page.setReviewList(reviewMapper.listMyReview(page.getStartPageNum(), page.getEndPageNum(),userId));
 		return page;
 	}
@@ -229,9 +229,7 @@ public class ReviewService {
 	//내 리뷰인지 체크
 	public boolean isMyReview(int reviewId, String userId) {
 		Review review = reviewMapper.getReviewById(reviewId);
-		System.out.println(review);
 		if(userId.equals(review.getUserId())) { //좋아요 할 수 없는 상태 (내가 쓴 리뷰임)
-			System.out.println("userId: "+userId+" getUser(): "+review.getUserId());
 			return true;
 		}
 		else { //좋아요 할 수 있는 상태(내가 쓴 리뷰 아님)
@@ -279,7 +277,7 @@ public class ReviewService {
 	}
 
 	public Page getReportedReview(int pageno) {
-		Page page = pageInfo(reviewMapper.countReview(), pageno);
+		Page page = pageInfo(reportMapper.countReportedReview(), pageno);
 		page.setReviewList(reviewMapper.listReportedReview(page.getStartPageNum(), page.getEndPageNum()));
 		return page;
 	}

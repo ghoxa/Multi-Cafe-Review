@@ -6,8 +6,9 @@
 		<result column="review_date" property="reviewDate"/>
 		<result column="user_id" property="userId"/>
 		<result column="menu_id" property="menuId"/>
-		<result column="cafe_name" property="cafeName"/>
-		<result column="menu_name" property="menuName"/>
+		<!--<result column="cafe_name" property="cafeName"/>
+		<result column="menu_name" property="menuName"/>-->
+		<result column="cafe_id" property="cafeId"/>
 	</resultMap>
 	
 	
@@ -31,7 +32,7 @@
 	
 	<!-- ListView -->
 	<select id="listViewReview" parameterType="java.lang.Integer" resultMap="review_resultMap">
-		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menuName, c.name as cafeName  
 		from review r, menu m, cafe c
 		where m.menu_id=#{menuId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 		order by review_date desc
@@ -39,16 +40,17 @@
 	
 	<select id="listViewReviewPage" resultMap="review_resultMap">
 		<![CDATA[
-		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, m.name as menu_name, c.name as cafe_name
-		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id
+		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, b.sweet, b.sour, b.bitter, m.name as menuName, c.name as cafeName
+		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id, a.sweet, a.sour, a.bitter
     		from(
-        		select review_id, review_date, content, good, grade, user_id, menu_id
+        		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, sour, bitter
         		from review
         		where menu_id=#{menuId}
         	order by review_date desc
         	)a
         where rownum <= #{endPageNum}) b, menu m, cafe c
 		where b.rn >= #{startPageNum} and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
+		order by b.review_date desc
 		]]>
 	</select>
 	
@@ -56,25 +58,26 @@
 	
 	<select id="listViewReviewSortByGood" resultMap="review_resultMap">
 		<![CDATA[
-		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, m.name as menu_name, c.name as cafe_name
-		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id
+		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, b.sweet, b.sour, b.bitter, m.name as menuName, c.name as cafeName
+		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id, a.sweet, a.sour, a.bitter
     		from(
-        		select review_id, review_date, content, good, grade, user_id, menu_id
+        		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, sour, bitter
         		from review
         		where menu_id=#{menuId}
         		order by good desc
         	)a
         where rownum <= #{endPageNum}) b, menu m, cafe c
 		where b.rn >= #{startPageNum} and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
+
 		]]>
 	</select>
 	
 	<select id="listViewReviewSortByScore" resultMap="review_resultMap">
 		<![CDATA[
-		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, m.name as menu_name, c.name as cafe_name
-		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id
+		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, b.sweet, b.sour, b.bitter, m.name as menuName, c.name as cafeName
+		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id, a.sweet, a.sour, a.bitter
     		from(
-        		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id
+        		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.sour, r.bitter
         		from review r, users u1, users u2
         		where menu_id=#{menuId} and u2.user_id=#{userId}
         		and r.user_id = u1.user_id
@@ -88,22 +91,23 @@
 	<!-- ListMyReview -->	
 	<select id="listMyReview" resultMap="review_resultMap">
 		<![CDATA[
-		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, m.name as menu_name, c.name as cafe_name
-		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id
+		select b.rn, b.review_id, b.review_date, b.content, b.good, b.grade, b.user_id, b.menu_id, b.sweet, b.sour, b.bitter, m.name as menuName, c.name as cafeName
+		from (select rownum rn, a.review_id, a.review_date, a.content, a.good, a.grade, a.user_id, a.menu_id, a.sweet, a.sour, a.bitter
     		from(
-        		select review_id, review_date, content, good, grade, user_id, menu_id
+        		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, sour, bitter
         		from review
         		where user_id=#{userId}
         		order by review_date desc
         	)a
-        where rownum <= #{endPageNum}) b, menu m, cafe c
+        	where rownum <= #{endPageNum}) b, menu m, cafe c
 		where b.rn >= #{startPageNum} and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
+		order by b.review_date desc
 		]]>
 	</select>
 	
 	<!-- GoodListReview -->
 	<select id="goodListReview" parameterType="java.lang.Integer" resultMap="review_resultMap">
-		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menuName, c.name as cafeName  
 		from review r, menu m, cafe c
 		where r.menu_id=#{menuId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 		order by good desc
@@ -128,13 +132,13 @@
 
 	<!-- Get -->
 	<select id="getReview" resultMap="review_resultMap">
-		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, r.report, m.name as menu_name, c.name as cafe_name  
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, r.report, m.name as menuName, c.name as cafeName  
 		from review r, menu m, cafe c
 		where r.menu_id=#{menuId} and r.user_id=#{userId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 	</select>
 	
 	<select id="getReviewById" resultMap="review_resultMap">
-		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menu_name, c.name as cafe_name  
+		select r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, m.name as menuName, c.name as cafeName 
 		from review r, menu m, cafe c
 		where r.review_id=#{reviewId} and r.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 	</select>
@@ -147,13 +151,24 @@
 	</update>
 	
 	<select id="listReportedReview" resultMap="review_resultMap">
-		select review_id, review_date, content, good, grade, user_id, menu_id, sweet, bitter, sour, report
-		from review
-		where report>=2
+		select c.name as cafeName, m.name as menuName, r.review_id, r.review_date, r.content, r.good, r.grade, r.user_id, r.menu_id, r.sweet, r.bitter, r.sour, r.report
+		from review r, cafe c, menu m
+		where m.menu_id=r.menu_id and c.cafe_id=m.cafe_id and report>=2
 	</select>
 	
 	<select id="countReview" resultType="int"> 
     	select count(*) from review
     </select>
+    
+    <select id="countMyReview" parameterType="java.lang.String" resultType="int"> 
+    	select count(*) from review
+    	where user_id=#{userId}
+    </select>
+    
+    <select id="countMenuReview" parameterType="java.lang.Integer" resultType="int"> 
+    	select count(*) from review
+    	where menu_id=#{menuId}
+    </select>
+    
 	
 </mapper>

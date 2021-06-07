@@ -27,4 +27,6 @@ public interface ReviewMapper {
 	public int updateReport(int reviewId); //신고하기 업데이트
 	public List<Review> listReportedReview(@Param("startPageNum") int startPageNum, @Param("endPageNum") int endPageNum);
 	public int countReview();
+	public int countMenuReview(@Param("menuId")int menuId);
+	public int countMyReview(@Param("userId")String userId);
 }

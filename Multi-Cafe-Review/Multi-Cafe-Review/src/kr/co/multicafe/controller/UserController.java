@@ -119,9 +119,9 @@ public class UserController {
 		return reviewService.deleteReview(reviewId);
 	}
 
+	//내 리뷰 목록
 	@GetMapping("/review/my/{userId}/{pageno}")
-	public Page listMyReview(@PathVariable(name="userId")String userId, @PathVariable int pageno){
-		
+	public Page listMyReview(@PathVariable(name="userId")String userId, @PathVariable int pageno){		
 		return reviewService.listMyReview(userId, pageno);
 	}
 	
