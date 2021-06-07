@@ -71,6 +71,7 @@ class Header extends React.Component {
     localStorage.setItem("cafeId", value);
     localStorage.setItem("categoryId", 0);
     localStorage.setItem("keyword", 0);
+    
     // window.location.replace('/');
     this.stateRefresh();
   };

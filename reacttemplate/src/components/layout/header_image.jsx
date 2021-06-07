@@ -51,6 +51,7 @@ class HeaderImage extends React.Component {
     localStorage.setItem("cafeId", value);
     localStorage.setItem("categoryId", 0);
     localStorage.setItem("keyword", 0);
+    localStorage.setItem("pageNo", 1);
     // window.location.replace('/');
     this.props.stateRefresh();
   };
