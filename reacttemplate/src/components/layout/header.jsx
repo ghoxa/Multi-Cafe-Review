@@ -29,7 +29,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
-      myLike: [],
+      myLike: 0,
       login: localStorage.getItem("isLogin"),
     };
   }
@@ -40,11 +40,15 @@ class Header extends React.Component {
     const cafeApi = axios.get(
       "https://multicafe-server.xyz/Multi-Cafe-Review/api/cafe"
     );
-    Promise.all([cafeApi])
-      .then(([res]) => {
+    const myLikeUrl = axios.get(
+      `https://multicafe-server.xyz/Multi-Cafe-Review/api/user/${userId}/menu/like/1`
+    );
+    Promise.all([cafeApi, myLikeUrl])
+      .then(([res, res2]) => {
         this.setState({
           Cafe: res.data,
           isLoaded: true,
+          myLike: res2.data
         });
         // console.log(this.state.Cafe);
       })
@@ -67,6 +71,7 @@ class Header extends React.Component {
     localStorage.setItem("cafeId", value);
     localStorage.setItem("categoryId", 0);
     localStorage.setItem("keyword", 0);
+    
     // window.location.replace('/');
     this.stateRefresh();
   };
@@ -141,7 +146,7 @@ class Header extends React.Component {
                         </a>
 
                         <span className="badge badge-pill badge-danger notify">
-                          {this.state.myLike.length}
+                          {this.state.myLike.count}
                         </span>
                       </div>
                       <div className="widget-header icontext">

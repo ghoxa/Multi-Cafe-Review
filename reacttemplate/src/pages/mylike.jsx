@@ -22,7 +22,7 @@ class Mylike extends React.Component {
     localStorage.setItem("pageNo", No);
     this.stateRefresh();
   };
-
+f
   stateRefresh = () => {
     this.setState({
       Menu: [],
@@ -44,7 +44,7 @@ class Mylike extends React.Component {
           Menu: res.data,
           isLoaded: true,
         });
-        // console.log(this.state.Menu)
+        //console.log(this.state.Menu)
       })
       .catch((err) => {
         console.log(err.response);
