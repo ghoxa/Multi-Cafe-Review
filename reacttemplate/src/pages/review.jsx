@@ -24,7 +24,8 @@ class ReviewPage extends Component {
       selectMenu: [],
       similarMenuByKeyWord: [],
       isLoaded: false,
-      login: localStorage.getItem("isLogin"),
+      login: localStorage.getItem('isLogin'),
+      admin: localStorage.getItem('admin')
     };
     this.onlikeChanged.bind(this);
     this.reviewlikeChanged.bind(this);
@@ -171,13 +172,15 @@ class ReviewPage extends Component {
     let ReviewLikeCheckUrl = "";
     let menuReivewUrl = "";
 
-    this.state.login
-      ? (selectMenuCheckUrl = axios.get(
-          `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/check/${menuId}/${userId}`
-        ))
-      : (selectMenuCheckUrl = axios.get(
-          `https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/${menuId}`
-        ));
+    if (this.state.login) {
+      if (this.state.admin) {
+        selectMenuCheckUrl = axios.get(`https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/${menuId}`)
+      } else {
+        selectMenuCheckUrl = axios.get(`https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/check/${menuId}/${userId}`)
+      }
+    } else {
+      selectMenuCheckUrl = axios.get(`https://multicafe-server.xyz/Multi-Cafe-Review/api/menu/${menuId}`)
+    }
 
     const reviewId = localStorage.getItem("reviewId");
 
@@ -741,5 +744,4 @@ class ReviewPage extends Component {
     }
   }
 }
-
 export default ReviewPage;

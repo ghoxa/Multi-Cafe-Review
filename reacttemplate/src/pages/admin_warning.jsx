@@ -20,13 +20,12 @@ class Admin_Warning extends React.Component {
     localStorage.setItem("reviewId", value);
   };
   componentDidMount() {
-    const warnReviewUrl = axios.get(
-      `https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/review/reports`
-    );
+    const pageno = localStorage.getItem('pageNo');
+    const warnReviewUrl = axios.get(`https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/review/reports/${pageno}`);
     Promise.all([warnReviewUrl])
       .then(([res]) => {
         this.setState({
-          warnReview: res.data,
+          warnReview: res.data.reviewList,
           isLoaded: true,
         });
         console.log(this.state.warnReview);
@@ -34,6 +33,67 @@ class Admin_Warning extends React.Component {
       .catch((err) => {
         console.log(err.response);
       });
+  }
+
+  handleClickPageNo = (No) => () =>{
+    localStorage.setItem("pageNo", No);
+    this.stateRefresh();
+  }
+
+  printPageNav() {
+    const { Menu } = this.state;
+    const pageNo = localStorage.getItem("pageNo");
+
+    let pageList = []
+
+    if (Menu.prev == 0)
+      pageList.push(<li className="page-item disabled">
+        <a className="page-link" href="#">Previous</a>
+      </li>
+      )
+    else {
+      pageList.push(<li className="page-item">
+        <a className="page-link" href="#" onClick={this.handleClickPageNo(Menu.prev)}>
+          Previous</a>
+      </li>
+      )
+    }
+
+    for(let i=Menu.start; i<= Menu.end; i++){
+      if (pageNo == i){
+        pageList.push(
+          <li className="page-item active">
+            <a className="page-link" href="#" onClick={this.handleClickPageNo(i)}>{i}</a>
+          </li>
+        )
+      }
+      else{
+        pageList.push(
+          <li className="page-item">
+            <a className="page-link" href="#" onClick={this.handleClickPageNo(i)}>{i}</a>
+          </li>
+        )
+      }
+    }
+    
+    if (Menu.next == 0)
+      pageList.push(<li className="page-item disabled">
+        <a className="page-link" href="#">
+          Next</a>
+      </li>
+      )
+    else {
+      pageList.push(<li className="page-item">
+        <a className="page-link" href="#" onClick={this.handleClickPageNo(Menu.next)}>
+          Next</a>
+      </li>
+      )
+    }
+    return (
+      <ul className="pagination justify-content-center">
+        {pageList}
+      </ul>
+    )
   }
 
   createListOfReview() {
@@ -75,7 +135,6 @@ class Admin_Warning extends React.Component {
             />
           </td>
           <td>
-            {/* value={this.state.menuReivew[i].acidity} */}
             <ReactStars
               edit={false}
               activeColor="#ffc107"
@@ -101,7 +160,7 @@ class Admin_Warning extends React.Component {
   // 리뷰목록만 새로고침
   stateRefresh = () => {
     this.setState({
-      menuReivew: [],
+      warnReview: [],
       isLoaded: false,
     });
     console.log("stateRefresh함수 실행");
@@ -112,13 +171,12 @@ class Admin_Warning extends React.Component {
       isLoaded: true,
     });
   };
-  // 비동기통신으로 리뷰리스트 받아와서 menuReivew에 저장
+  // 비동기통신으로 리뷰리스트 받아와서 warnReivew에 저장
   callReviewList = async () => {
-    const res = await axios.get(
-      `https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/review/reports`
-    );
+    const pageno = localStorage.getItem('pageNo');
+    const res = await axios.get(`https://multicafe-server.xyz/Multi-Cafe-Review/api/admin/review/reports/${pageno}`);
     this.setState({
-      warnReview: res.data,
+      warnReview: res.data.reviewList
     });
     console.log("callReviewList함수 실행");
   };
