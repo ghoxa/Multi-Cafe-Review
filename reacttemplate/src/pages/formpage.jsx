@@ -7,12 +7,9 @@ import {
   CardHeader,
   Col,
   Form,
-  FormFeedback,
   FormGroup,
-  FormText,
   Input,
   Label,
-  Row,
 } from "reactstrap";
 import axios from "axios";
 import ReactStars from "react-rating-stars-component";
@@ -43,7 +40,7 @@ class FormPage extends React.Component {
           coffee_sour: res.data.coffee_sour,
           isLoaded: true,
         });
-        // console.log(this.state.userInfo)
+        console.log(this.state.coffee_sour)
       })
       .catch((err) => {
         console.log(err);
@@ -56,6 +53,42 @@ class FormPage extends React.Component {
       document.getElementById(id).value = userData;
     } else {
       document.getElementById(id).value = temp;
+    }
+  };
+
+  checkpw = (id) => () => {
+    const regex = /^.*(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+    let temp = document.getElementById(id).value;
+    let userData = prompt("데이터를 수정해 주세요((영어,숫자 포함 6자리 이상)");
+    if (regex.test(userData)) {
+      document.getElementById(id).value = userData;
+    } else {
+      document.getElementById(id).value = temp;
+      alert("입력 형식이 알맞지 않습니다.");
+    }
+  };
+
+  checkEmail = (id) => () => {
+    const regex = /\@/;
+    let temp = document.getElementById(id).value;
+    let userData = prompt("데이터를 수정해 주세요(이메일 형식에 맞게 작성)");
+    if (regex.test(userData)) {
+      document.getElementById(id).value = userData;
+    } else {
+      document.getElementById(id).value = temp;
+      alert("입력 형식이 알맞지 않습니다.");
+    }
+  };
+
+  checkPhoneNum = (id) => () => {
+    const regex = /\d{3}-\d{4}-\d{4}/;
+    let temp = document.getElementById(id).value;
+    let userData = prompt("데이터를 수정해 주세요('-' 함께 입력)");
+    if (regex.test(userData)) {
+      document.getElementById(id).value = userData;
+    } else {
+      document.getElementById(id).value = temp;
+      alert("입력 형식이 알맞지 않습니다.");
     }
   };
 
@@ -196,7 +229,7 @@ class FormPage extends React.Component {
                             id="password"
                             placeholder="password placeholder"
                             value={userInfo.pwd}
-                            onClick={this.modUserVal("password")}
+                            onClick={this.checkpw("password")}
                           />
                         </Col>
                       </FormGroup>
@@ -210,7 +243,7 @@ class FormPage extends React.Component {
                             id="email"
                             placeholder="with a placeholder"
                             value={userInfo.email}
-                            onClick={this.modUserVal("email")}
+                            onClick={this.checkEmail("email")}
                           />
                         </Col>
                       </FormGroup>
@@ -224,7 +257,7 @@ class FormPage extends React.Component {
                             id="phonenumber"
                             placeholder="with a placeholder"
                             value={userInfo.phone}
-                            onClick={this.modUserVal("phonenumber")}
+                            onClick={this.checkPhoneNum("phonenumber")}
                           />
                         </Col>
                       </FormGroup>

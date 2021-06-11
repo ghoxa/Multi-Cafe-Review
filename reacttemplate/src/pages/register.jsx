@@ -17,7 +17,7 @@ class Register extends React.Component {
       sweet: "",
       sour: "",
       bitter: "",
-      acidity: "",
+      coffee_sour: "",
       flag: false,
     };
   }
@@ -73,15 +73,37 @@ class Register extends React.Component {
 
   handleInputAcidity = (rating) => {
     this.setState({
-      acidity: rating,
+      coffee_sour: rating,
     });
   };
 
   // Signup 버튼 클릭시 서버로 데이터 전송
   handleSubmit = (e) => {
-    const { id, pw, email, phone, address, sweet, sour, bitter, acidity } =
-      this.state;
+    const { id, pw, email, phone, address, sweet, sour, bitter, coffee_sour } = this.state;
     e.preventDefault();
+
+    const regex_phone = /\d{3}-\d{4}-\d{4}/;
+    if (!regex_phone.test(phone)) {
+      alert("전화번호 형식이 알맞지 않습니다.('-' 함께 입력)");
+      return;
+    }
+
+    const regex_email = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (!regex_email.test(email)) {
+      alert("이메일 형식이 알맞지 않습니다.(이메일 형식에 맞게 작성)");
+      return;
+    }
+
+    const regex_pw = /^.*(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+    if (!regex_pw.test(pw)) {
+      alert("비밀번호 형식이 알맞지 않습니다.")
+      return;
+    }
+
+    if (pw.length < 6) {
+      alert("비밀번호를 6자리 이상 입력해주세요.")
+      return;
+    }
 
     if (
       id === "" ||
@@ -92,7 +114,7 @@ class Register extends React.Component {
       sweet === "" ||
       sour === "" ||
       bitter === "" ||
-      acidity === ""
+      coffee_sour === ""
     ) {
       alert("모든 입력을 완료해 주세요");
       return;
@@ -113,7 +135,7 @@ class Register extends React.Component {
       sweet: sweet,
       sour: sour,
       bitter: bitter,
-      coffee_sour: acidity,
+      coffee_sour: coffee_sour,
     };
 
     Promise.all([
@@ -174,8 +196,8 @@ class Register extends React.Component {
           </FormGroup>
 
           <FormGroup>
-            <Label for="examplePassword" sm={2}>
-              Password
+            <Label for="examplePassword" sm={4}>
+              Password (영어,숫자 포함 6자리 이상)
             </Label>
             <Col>
               <Input
@@ -193,7 +215,7 @@ class Register extends React.Component {
             </Label>
             <Col>
               <Input
-                type="email"
+                type="text"
                 name="email"
                 placeholder="email 등록"
                 value={this.state.email}
@@ -202,8 +224,8 @@ class Register extends React.Component {
             </Col>
           </FormGroup>
           <FormGroup>
-            <Label for="exampleEmail" sm={2}>
-              Phone Number
+            <Label for="exampleEmail" sm={3}>
+              Phone Number ('-' 입력)
             </Label>
             <Col>
               <Input
