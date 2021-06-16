@@ -16,7 +16,7 @@ if (localStorage.getItem("categoryId") == null) {
   localStorage.setItem("categoryId", 0);
 }
 if (localStorage.getItem("conditionId") == null) {
-  localStorage.setItem("conditionId", "good");
+  localStorage.setItem("conditionId", "");
 }
 if (localStorage.getItem("keyword") == null) {
   localStorage.setItem("keyword", 0);
@@ -61,7 +61,7 @@ class Header extends React.Component {
     // console.log(value);
     localStorage.setItem("cafeId", 0);
     localStorage.setItem("categoryId", 0);
-    localStorage.setItem("conditionId", "good");
+    localStorage.setItem("conditionId", "");
     localStorage.setItem("keyword", 0);
     window.location.replace("/");
   };

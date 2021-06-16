@@ -119,6 +119,16 @@ class Home extends React.Component {
     });
   };
 
+  sortList(){
+    const conditionId = localStorage.getItem("conditionId");
+
+    if (conditionId == "good")  return "좋아요 많은 순"
+    else if (conditionId == "click")  return "조회 많은 순"
+    else if (conditionId == "grade")  return "등급 높은 순"
+    else if (conditionId == "review") return "리뷰 많은 순"
+    else  return "정렬순서"
+  }
+
   printPageNav() {
     const { Menu } = this.state;
     const pageNo = localStorage.getItem("pageNo");
@@ -274,13 +284,13 @@ class Home extends React.Component {
                         class="btn btn-primary dropdown-toggle"
                         data-toggle="dropdown"
                       >
-                        {localStorage.getItem("conditionId")}
+                        {this.sortList()}
                       </button>
                       <div class="dropdown-menu">
-                        <a class="dropdown-item" onClick={this.handleClickCondition("good")}>good</a>
-                        <a class="dropdown-item" onClick={this.handleClickCondition("click")}>click</a>
-                        <a class="dropdown-item" onClick={this.handleClickCondition("grade")}>grade</a>
-                        <a class="dropdown-item" onClick={this.handleClickCondition("review")}>review</a>                        
+                        <a class="dropdown-item" onClick={this.handleClickCondition("good")}>좋아요 많은 순</a>
+                        <a class="dropdown-item" onClick={this.handleClickCondition("click")}>조회 많은 순</a>
+                        <a class="dropdown-item" onClick={this.handleClickCondition("grade")}>등급 높은 순</a>
+                        <a class="dropdown-item" onClick={this.handleClickCondition("review")}>리뷰 많은 순</a>                        
                       </div>
                     </div>
                   </div>

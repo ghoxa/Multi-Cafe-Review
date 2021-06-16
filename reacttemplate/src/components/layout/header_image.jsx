@@ -11,7 +11,7 @@ if (localStorage.getItem("categoryId") == null) {
   localStorage.setItem("categoryId", 0);
 }
 if (localStorage.getItem("conditionId") == null) {
-  localStorage.setItem("conditionId", "good");
+  localStorage.setItem("conditionId", " ");
 }
 if (localStorage.getItem("keyword") == null) {
   localStorage.setItem("keyword", 0);
