@@ -42,7 +42,10 @@ class MyReview extends React.Component {
         console.log(err.response);
       });
   }
-
+  handleClickMenu = (value) => () => {
+    localStorage.setItem("menuId", value);
+    window.location.replace("/review");
+  };
   createListOfReview() {
     const { isLoaded } = this.state;
     if (!isLoaded) {
@@ -60,7 +63,10 @@ class MyReview extends React.Component {
       //console.log(menuId);
       for (let i = 0; i < reviews.length; ++i) {
         list.push(
-          <tr style={{ height: "100px" }}>
+          <tr
+            style={{ height: "100px" }}
+            onClick={this.handleClickMenu(reviews[i]["menuId"])}
+          >
             <td>{reviews[i].cafeName}</td>
             <td>{reviews[i].menuName}</td>
             <td>{reviews[i].userId}</td>
