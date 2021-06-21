@@ -159,12 +159,12 @@
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
 		from (select a.*, rownum rn
 			  from (
-				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
+				select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
 		        from (select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour
 		            from menu
-		            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m, cafe c
+		            where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%') m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id, cafe c
 		        where m.cafe_id = c.cafe_id
-		        order by #{condition} desc
+		        order by ${condition} desc
 				) a
 			) b
 		where #{endPageNum} >= rn and rn >= #{startPageNum}
@@ -174,12 +174,12 @@
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
 		from (select a.*, rownum rn
 			  from (
-				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-						from menu m, cafe c
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName, review
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+						from menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id, cafe c
 						where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId})
 				where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
-				order by #{condition} desc
+				order by ${condition} desc
 				) a
 			) b
 		where #{endPageNum} >= rn and rn >= #{startPageNum}
@@ -189,12 +189,12 @@
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
 		from (select a.*, rownum rn
 			  from (
-				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-						from menu m, cafe c
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName, review
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+						from menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id, cafe c
 						where m.cafe_id = c.cafe_id and m.category_id=#{categoryhId})
 				where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
-				order by #{condition} desc
+				order by ${condition} desc
 				) a
 			) b
 		where #{endPageNum} >= rn and rn >= #{startPageNum}
@@ -204,12 +204,12 @@
 		select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
 		from (select a.*, rownum rn
 			  from (
-				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName
-				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName
-						from menu m, cafe c
+				select menu_id, name, price, description, grade, keyword, image, good, click, hot, ice, category_id, cafe_id, sweet, bitter, sour, cafeName, review
+				from (select m.menu_id, m.name, m.price, m.description, m.grade, m.keyword, m.image, m.good, m.click, m.hot, m.ice, m.category_id, m.cafe_id, m.sweet, m.bitter, m.sour, c.name as cafeName, nvl(r.review, 0) as review
+						from menu m left outer join (select menu_id, count(review_id) as review from review group by menu_id) r on m.menu_id = r.menu_id, cafe c
 						where m.cafe_id = c.cafe_id and m.cafe_id=#{cafeId} and m.category_id=#{categoryId})
 				where replace(name, ' ', '') like '%'||#{keyword}||'%' or replace(description, ' ', '') like '%'||#{keyword}||'%' or replace(keyword, ' ', '') like '%'||#{keyword}||'%'
-				order by #{condition} desc
+				order by ${condition} desc
 				) a
 			) b
 		where #{endPageNum} >= rn and rn >= #{startPageNum}
