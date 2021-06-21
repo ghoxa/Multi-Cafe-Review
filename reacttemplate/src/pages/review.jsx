@@ -736,7 +736,7 @@ class ReviewPage extends Component {
                       <th>리뷰내용</th>
                       <th>단맛</th>
                       <th>쓴맛</th>
-                      <th>신맛</th>
+                      <th>{selectMenuCheck.categoryId == 3000 ? "산미" : "신맛"}</th>
                       <th>평점</th>
                       <th>좋아요</th>
                       <th>신고</th>
