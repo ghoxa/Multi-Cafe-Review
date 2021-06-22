@@ -44,7 +44,7 @@ public class ReviewService {
 	private int BLOCK_SIZE;
 	
 	public Page pageInfo(int count, int pageno) {
-		if (count == 0) return new Page(pageno, 0, 0, 0, 0, 0, 0, 0);
+		if (count == 0) return new Page(pageno, 0, 1, 1, 0, 0, 0, 0);
 		int countOfPage = count / PAGE_SIZE + 1;
 		if (count % PAGE_SIZE == 0) countOfPage--;
 		if (pageno > countOfPage) pageno = countOfPage;
