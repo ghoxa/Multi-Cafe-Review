@@ -717,13 +717,13 @@ class ReviewPage extends Component {
                     </a>
                     <a
                       class="dropdown-item"
-                      onClick={this.handleClickCondition(2)}
+                      onClick={this.handleClickCondition(1)}
                     >
                       좋아요순
                     </a>
                     <a
                       class="dropdown-item"
-                      onClick={this.handleClickCondition(1)}
+                      onClick={this.handleClickCondition(2)}
                     >
                       내 취향순
                     </a>
@@ -736,7 +736,9 @@ class ReviewPage extends Component {
                       <th>리뷰내용</th>
                       <th>단맛</th>
                       <th>쓴맛</th>
-                      <th>{selectMenuCheck.categoryId == 3000 ? "산미" : "신맛"}</th>
+                      <th>
+                        {selectMenuCheck.categoryId == 3000 ? "산미" : "신맛"}
+                      </th>
                       <th>평점</th>
                       <th>좋아요</th>
                       <th>신고</th>
