@@ -66,8 +66,8 @@
         		where menu_id=#{menuId}
         		order by good desc
         	)a
-        where rownum <= #{endPageNum}) b, menu m, cafe c
-		where b.rn >= #{startPageNum} and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
+        ) b, menu m, cafe c
+		where b.rn <= #{endPageNum} and b.rn >= #{startPageNum} and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 
 		]]>
 	</select>
@@ -83,8 +83,8 @@
         		and r.user_id = u1.user_id
         		order by abs(u1.sweet-u2.sweet) asc, abs(u1.bitter-u2.bitter) asc, abs(u1.sour-u2.sour) asc
         	)a
-        where rownum <= #{endPageNum}) b, menu m, cafe c
-		where b.rn >= #{startPageNum} and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
+        ) b, menu m, cafe c
+		where b.rn <= #{endPageNum} and b.rn >= #{startPageNum} and b.menu_id=m.menu_id and m.cafe_id=c.cafe_id
 		]]>
 	</select>
 	
