@@ -623,8 +623,8 @@ class ReviewPage extends Component {
     const reviewConditionId = localStorage.getItem("reviewConditionId");
 
     if (reviewConditionId == 0) return "최신 순";
-    else if (reviewConditionId == 2) return "좋아요 순";
-    else if (reviewConditionId == 1) return "내 취향순";
+    else if (reviewConditionId == 1) return "좋아요 순";
+    else if (reviewConditionId == 2) return "내 취향순";
     else return "정렬순서";
   }
   // writeban = (e) => {
